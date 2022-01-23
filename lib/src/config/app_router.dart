@@ -6,22 +6,23 @@ import 'config.dart';
 
 class AppRoutes {
   static Route? onGenerateRoutes(RouteSettings settings) {
+    String routeSettings = settings.name ?? '';
     switch (settings.name) {
       case RouteKey.splash:
-        return _materialRoute(const SplashScreen());
+        return _materialRoute(routeSettings, const SplashScreen());
       case RouteKey.main:
-        final args = settings.arguments as int;
-        return _materialRoute(MainScreen());
+        return _materialRoute(routeSettings,const MainScreen());
       default:
         return null;
     }
   }
 
   static List<Route> onGenerateInitialRoute() {
-    return [_materialRoute(const SplashScreen())];
+    return [_materialRoute(RouteKey.splash, const SplashScreen())];
   }
 
-  static Route<dynamic> _materialRoute(Widget view) {
-    return MaterialPageRoute<String>(builder: (_) => view);
+  static Route<dynamic> _materialRoute(String routeSettings, Widget view) {
+    return MaterialPageRoute(
+        settings: RouteSettings(name: routeSettings), builder: (_) => view);
   }
 }
