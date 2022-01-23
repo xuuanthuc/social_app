@@ -10,6 +10,15 @@ class AppConfig {
   String get apiEndpoint => 'https://river-eco-hv2wn47voq-as.a.run.app/graphql';
   String get apiGGMapKey => 'AIzaSyCFnQ3D-vZzZlDeQ-ikBIFwWHduVKlgt_s';
 
+  String get cUser => 'users';
+  String get cProfile => 'profile';
+  String get cUserData => 'user_data';
+  String get cBasicProfile => 'basic_profile';
+  String get cConnect => 'connect';
+  String get cMedia => 'media';
+  String get cFollowers => 'followers';
+  String get cFollowing => 'following';
+
   Future<void> configApp() async {
     initDependencies();
     configLoading();
