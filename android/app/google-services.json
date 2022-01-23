@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "641930232253",
+    "firebase_url": "https://hiixuu-aa7cd-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "hiixuu-aa7cd",
+    "storage_bucket": "hiixuu-aa7cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641930232253:android:d9232901d384da2853d2d4",
+        "android_client_info": {
+          "package_name": "hixun.chubby.hii_xuu_social"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641930232253-4bth9c869jvn9jeqljdrsu9upbiq5fi0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs-ii2Rfdg0fJOxm3bJ-mVYTCbem0hBns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641930232253-4bth9c869jvn9jeqljdrsu9upbiq5fi0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
