@@ -24,20 +24,23 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: TranslationKey.appName.tr(),
-      builder: EasyLoading.init(),
-      navigatorObservers: [MyRouteObserver()],
-      navigatorKey: NavigationService.navigationKey,
-      onGenerateRoute: AppRoutes.onGenerateRoutes,
-      onGenerateInitialRoutes: (_) => AppRoutes.onGenerateInitialRoute(),
-      debugShowCheckedModeBanner: false,
-      locale: context.locale,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      theme: MyTheme.lightTheme(),
-      darkTheme: MyTheme.darkTheme(),
-      themeMode: ThemeMode.system,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: MaterialApp(
+        title: TranslationKey.appName.tr(),
+        builder: EasyLoading.init(),
+        navigatorObservers: [MyRouteObserver()],
+        navigatorKey: NavigationService.navigationKey,
+        onGenerateRoute: AppRoutes.onGenerateRoutes,
+        onGenerateInitialRoutes: (_) => AppRoutes.onGenerateInitialRoute(),
+        debugShowCheckedModeBanner: false,
+        locale: context.locale,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        theme: MyTheme.lightTheme(),
+        darkTheme: MyTheme.darkTheme(),
+        themeMode: ThemeMode.system,
+      ),
     );
   }
 }

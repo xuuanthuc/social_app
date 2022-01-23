@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hii_xuu_social/arc/presentation/screens/main/main_screen.dart';
 import 'package:hii_xuu_social/src/config/config.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
 import '../../../../arc/presentation/blocs/splash/splash_bloc.dart';
@@ -39,8 +38,12 @@ class _BodyState extends State<_Body> {
   Widget build(BuildContext context) {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) async {
-        if(state is SplashLoadedState){
-          await Future.delayed(Duration(seconds: 2));
+        if(state is GoToLoginState){
+          await Future.delayed(const Duration(seconds: 2));
+          navService.pushNamed(RouteKey.login);
+        }
+        if(state is GotoHomeState){
+          await Future.delayed(const Duration(seconds: 2));
           navService.pushNamed(RouteKey.main);
         }
       },

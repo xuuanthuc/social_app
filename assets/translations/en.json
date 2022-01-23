@@ -2,5 +2,18 @@
     "begin_json": "",
     "app_name": "RIVERMAKER",
     "hello": "Welcome back",
+    "auth_title": "Best Social App To\nMake New Friends",
+    "auth_description": "Find People With The Same\nInterests As You",
+    "login": "Sign In",
+    "register": "Sign Up",
+    "username": "Username",
+    "password": "Password",
+    "register_username": "Enter your Username",
+    "register_password": "Enter your Password",
+    "confirm_password": "Confirm Password",
+    "not_have_account": "Don't have an Account? ",
+    "forgot_password": "Forgot your Password?",
+    "have_account" : "Already have an Account? ",
+    "tap_exit" : "Nhấn BACK lần nữa để thoát!",
     "end_json": ""
 }

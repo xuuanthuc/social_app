@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/auth/login_screen.dart';
 import '../../arc/presentation/screens/main/main_screen.dart';
 import '../../arc/presentation/screens/splash/splash_screen.dart';
 
@@ -12,6 +13,8 @@ class AppRoutes {
         return _materialRoute(routeSettings, const SplashScreen());
       case RouteKey.main:
         return _materialRoute(routeSettings,const MainScreen());
+      case RouteKey.login:
+        return _materialRoute(routeSettings,const LoginScreen());
       default:
         return null;
     }

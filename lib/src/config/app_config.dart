@@ -35,9 +35,9 @@ class AppConfig {
       ..loadingStyle = EasyLoadingStyle.custom
       ..textColor = MyColors.whiteColor
       ..indicatorSize = 40.0
-      ..radius = 12.0
-      ..backgroundColor = MyColors.secondaryColor.withOpacity(0.2)
-      ..indicatorColor = MyColors.primaryColor
+      ..radius = 12
+      ..backgroundColor = MyColors.primaryColor.withOpacity(1)
+      ..indicatorColor = MyColors.whiteColor
       ..maskColor = MyColors.whiteColor.withOpacity(0.1)
       ..userInteractions = false
       ..dismissOnTap = false;

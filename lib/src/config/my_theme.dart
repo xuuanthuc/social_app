@@ -65,16 +65,16 @@ class MyTheme {
         ),
         headline5: TextStyle(
           fontFamily: fontFamily,
-          fontSize: Dimens.textSize15,
+          fontSize: Dimens.textSize16,
           fontWeight: FontWeight.w600,
           color: MyColors.primaryColor,
         ),
-        // headline6: TextStyle(
-        //   fontFamily: fontFamily,
-        //   fontSize: Dimens.textSize16,
-        //   fontWeight: FontWeight.w700,
-        //   color: MyColors.grayScaleColor,
-        // ),
+        headline6: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize13,
+          fontWeight: FontWeight.w400,
+          color: MyColors.primaryColor,
+        ),
         bodyText1: TextStyle(
           fontFamily: fontFamily,
           fontSize: Dimens.textSize13,
@@ -115,15 +115,21 @@ class MyTheme {
       textTheme: const TextTheme(
         // headline1: TextStyle(
         //   fontFamily: fontFamily,
-        //   fontSize: Dimens.textSize22,
+        //   fontSize: Dimens.textSize18,
         //   fontWeight: FontWeight.w700,
         //   color: MyColors.primaryColor,
         // ),
+        headline2: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize18,
+          fontWeight: FontWeight.w700,
+          color: MyColors.primaryColor,
+        ),
         // bodyText1: TextStyle(
         //   fontFamily: fontFamily,
-        //   fontSize: Dimens.textSize14,
-        //   fontWeight: FontWeight.w400,
-        //   color: MyColors.blackColor,
+        //   fontSize: Dimens.textSize18,
+        //   fontWeight: FontWeight.w700,
+        //   color: MyColors.primaryColor,
         // ),
         // bodyText2: TextStyle(
         //   fontFamily: fontFamily,
@@ -131,12 +137,12 @@ class MyTheme {
         //   fontWeight: FontWeight.w400,
         //   color: MyColors.blackColor,
         // ),
-        // subtitle1: TextStyle(
-        //   fontFamily: fontFamily,
-        //   fontSize: Dimens.textSize12,
-        //   fontWeight: FontWeight.w400,
-        //   color: MyColors.greyTextColor1,
-        // ),
+        subtitle1: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize13,
+          fontWeight: FontWeight.w400,
+          color: MyColors.primaryColor,
+        ),
         // subtitle2: TextStyle(
         //   fontFamily: fontFamily,
         //   fontSize: Dimens.textSize12,
