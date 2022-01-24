@@ -44,7 +44,6 @@ class _BodyState extends State<_Body> {
   @override
   void initState() {
     super.initState();
-    print(StaticVariable.listUserId);
     context.read<MainBloc>().add(InitMainEvent());
   }
 
