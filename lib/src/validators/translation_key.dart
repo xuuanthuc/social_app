@@ -15,4 +15,15 @@ class TranslationKey {
   static const registerPassword = 'register_password';
   static const confirmPassword = 'confirm_password';
   static const tapExit = 'tap_exit';
+  static const updateProfile = 'update_profile';
+  static const setUpProfile = 'set_up_profile';
+  static const updateProfileDescription = 'update_profile_description';
+  static const fullName = 'full_name';
+  static const phone = 'phone';
+  static const email = 'email';
+  static const bio = 'bio';
+  static const save = 'save';
+  static const success = 'success';
+  static const welcome = 'welcome';
+  static const joinNow = 'join_now';
 }

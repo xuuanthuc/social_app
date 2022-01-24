@@ -7,6 +7,7 @@ class MyColors {
 
   static const Color primaryColor = Color.fromRGBO(234, 166, 67, 1);
   static const Color secondaryColor = Color.fromRGBO(228, 99, 71, 1);
+  static const Color primaryColor10 = Color.fromRGBO(253, 246, 236, 1);
 
   static const Color whiteColor = Color.fromRGBO(255, 255, 255, 1);
   static const Color blackColor = Color.fromRGBO(51, 51, 51, 1);

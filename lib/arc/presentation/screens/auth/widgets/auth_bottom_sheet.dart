@@ -111,7 +111,7 @@ class _BodyState extends State<_Body> {
         }
         if (state is RegisterSuccessState) {
           EasyLoading.dismiss();
-          ToastView.show('Register Success');
+          navService.pushNamed(RouteKey.setUpProfile);
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(

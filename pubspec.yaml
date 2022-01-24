@@ -48,6 +48,8 @@ dependencies:
   flutter_easyloading: ^3.0.3
   shared_preferences: ^2.0.9
   flutter_staggered_animations: ^1.0.0
+  image_picker: ^0.8.4+4
+  firebase_storage: ^10.2.5
 
 dev_dependencies:
   flutter_test:

@@ -39,11 +39,11 @@ class _BodyState extends State<_Body> {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) async {
         if(state is GoToLoginState){
-          await Future.delayed(const Duration(seconds: 2));
+          // await Future.delayed(const Duration(seconds: 2));
           navService.pushNamed(RouteKey.login);
         }
         if(state is GotoHomeState){
-          await Future.delayed(const Duration(seconds: 2));
+          // await Future.delayed(const Duration(seconds: 2));
           navService.pushNamed(RouteKey.main);
         }
       },

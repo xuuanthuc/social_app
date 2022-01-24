@@ -10,7 +10,7 @@ part 'splash_event.dart';
 part 'splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   SplashBloc() : super(InitSplashState()) {
     on<InitSplashEvent>(_onInitialSplashEvent);
@@ -21,8 +21,18 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       Emitter<SplashState> emit,
       ) async {
     var userId = await AppPreference().verificationId;
+    List<String> listUserId = [];
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        listUserId.add(doc.id);
+      }
+    });
+    StaticVariable.listUserId = listUserId;
     if(userId != null){
-      await firestore
+      await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(userId)
           .collection(AppConfig.instance.cProfile)

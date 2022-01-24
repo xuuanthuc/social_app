@@ -17,9 +17,31 @@ class LoginSuccessState extends AuthState{}
 
 class RegisterFailedState extends AuthState{
   final String? error;
-  RegisterFailedState(this.error);
+  const RegisterFailedState(this.error);
 }
 
 class RegisterSuccessState extends AuthState{}
 
 class UserExistState extends AuthState{}
+
+class OnChangingState extends AuthState{}
+
+class SubmitUpdateProfileSuccessState extends AuthState{}
+
+class SubmitUpdateProfileFailedState extends AuthState{}
+
+class OnChangedFullNameTextState extends AuthState{
+  final String? text;
+  const OnChangedFullNameTextState(this.text);
+}
+
+class OnChangedBioTextState extends AuthState{
+  final String? text;
+  const OnChangedBioTextState(this.text);
+}
+
+class ImagePickedState extends AuthState{
+  final String? imagePath;
+  final File? imageFile;
+  const ImagePickedState({this.imagePath, this.imageFile});
+}

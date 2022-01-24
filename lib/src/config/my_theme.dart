@@ -17,6 +17,7 @@ class MyTheme {
       primaryColor: MyColors.primaryColor,
       scaffoldBackgroundColor: MyColors.scaffoldBackgroundColorLight,
       shadowColor: Colors.grey.shade200,
+      primaryColorLight: MyColors.primaryColor10,
       colorScheme: const ColorScheme(
         secondary: MyColors.secondaryColor,
         primary: MyColors.primaryColor,
@@ -124,6 +125,18 @@ class MyTheme {
           fontSize: Dimens.textSize18,
           fontWeight: FontWeight.w700,
           color: MyColors.primaryColor,
+        ),
+        headline5: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize16,
+          fontWeight: FontWeight.w600,
+          color: MyColors.blackColor,
+        ),
+        headline6: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize13,
+          fontWeight: FontWeight.w400,
+          color: MyColors.blackColor,
         ),
         // bodyText1: TextStyle(
         //   fontFamily: fontFamily,

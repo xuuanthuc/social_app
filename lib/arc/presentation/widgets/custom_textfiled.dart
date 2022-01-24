@@ -8,13 +8,19 @@ class CustomTextField extends StatefulWidget {
   final bool? isPassword;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final String? Function(String?)? onChanged;
   final TextInputAction? textInputAction;
+  final TextInputType? textInputType;
+  final int? maxLines;
   const CustomTextField({
     Key? key,
     this.hintText,
     this.controller,
     this.isPassword = false,
     this.validator,
+    this.onChanged,
+    this.textInputType,
+    this.maxLines = 1,
     this.textInputAction
   }) : super(key: key);
 
@@ -31,10 +37,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return SizedBox(
       child: TextFormField(
         obscureText: widget.isPassword == true ? hidePass : false,
-        style: theme.primaryTextTheme.headline4,
+        style: theme.textTheme.headline6,
         controller: widget.controller,
         validator: widget.validator,
+        maxLines: widget.maxLines,
         textInputAction: widget.textInputAction,
+        onChanged: widget.onChanged,
+        keyboardType: widget.textInputType,
         decoration: InputDecoration(
           hintText: widget.hintText,
           fillColor: theme.primaryColor.withOpacity(0.1),

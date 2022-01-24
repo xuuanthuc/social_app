@@ -7,6 +7,7 @@ class UserData {
   String? phone;
   String? imageUrl;
   String? userId;
+  String? bio;
   String? createAt;
   String? updateAt;
 
@@ -17,6 +18,7 @@ class UserData {
         this.username,
         this.imageUrl,
         this.createAt,
+        this.bio,
         this.fullName,
         this.password,
         this.updateAt,
@@ -30,6 +32,7 @@ class UserData {
     fullName = json['full_name'];
     password = json['password'];
     createAt = json['create_at'];
+    bio = json['bio'];
     tagName = json['tag_name'];
     imageUrl = json['image_url'];
     updateAt = json['update_at'];
@@ -42,6 +45,7 @@ class UserData {
     json['email'] = email;
     json['username'] = username;
     json['full_name'] = fullName;
+    json['bio'] = bio;
     json['password'] = password;
     json['create_at'] = createAt;
     json['tag_name'] = tagName;

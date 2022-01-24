@@ -15,5 +15,15 @@
     "forgot_password": "Forgot your Password?",
     "have_account" : "Already have an Account? ",
     "tap_exit" : "Nhấn BACK lần nữa để thoát!",
+    "update_profile" : "Update Profile",
+    "set_up_profile" : "Set Up Your Profile",
+    "update_profile_description" : "Let people know more about you \nand see posts from your friends.",
+    "full_name": "Full Name",
+    "phone" : "Phone",
+    "Email": "Email",
+    "bio": "Bio",
+    "success": "Success",
+    "join_now": "Join Now",
+    "welcome": "Welcome to HiiXuu\nYour account has been created",
     "end_json": ""
 }
