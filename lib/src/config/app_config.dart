@@ -16,6 +16,8 @@ class AppConfig {
   String get cBasicProfile => 'basic_profile';
   String get cConnect => 'connect';
   String get cMedia => 'media';
+  String get cPostData => 'post_data';
+  String get cPostContent => 'content';
   String get cFollowers => 'followers';
   String get cFollowing => 'following';
 

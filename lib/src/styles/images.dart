@@ -23,4 +23,5 @@ class MyImages{
   static const icShowPassword = assetSvg + 'ic_eye_show.svg';
   static const icHidePassword = assetSvg + 'ic_eye_hide.svg';
   static const icCamera = assetSvg + 'ic_camera.svg';
+  static const icFilter = assetSvg + 'ic_filter.svg';
 }

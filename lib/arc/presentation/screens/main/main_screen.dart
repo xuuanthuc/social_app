@@ -154,6 +154,7 @@ class _BodyState extends State<_Body> {
                 elevation: 0,
                 showUnselectedLabels: false,
                 type: BottomNavigationBarType.fixed,
+                backgroundColor: Theme.of(context).backgroundColor,
                 onTap: (index) {
                   context.read<MainBloc>().add(OnChangePageEvent(index));
                 },

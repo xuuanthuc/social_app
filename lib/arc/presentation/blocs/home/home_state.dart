@@ -9,4 +9,9 @@ abstract class HomeState extends Equatable {
 
 class InitHomeState extends HomeState{}
 
-class HomeLoadedState extends HomeState{}
+class HomeLoadingState extends HomeState{}
+
+class HomeLoadedState extends HomeState{
+  final List<PostData>? listPost;
+  const HomeLoadedState(this.listPost);
+}

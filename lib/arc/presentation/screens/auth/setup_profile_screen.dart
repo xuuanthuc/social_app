@@ -67,7 +67,7 @@ class _BodyState extends State<_Body> {
           userId: StaticVariable.myData?.userId ?? '',
           bio: _bioController.text,
           createAt: StaticVariable.myData?.createAt ?? '',
-          updateAt: DateTime.now().toIso8601String()));
+          updateAt: DateTime.now().toUtc().toIso8601String()));
     }
   }
 

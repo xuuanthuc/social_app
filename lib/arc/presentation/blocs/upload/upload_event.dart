@@ -9,3 +9,15 @@ abstract class UploadEvent extends Equatable {
 
 class InitUploadEvent extends UploadEvent {}
 
+class OnPickImageEvent extends UploadEvent{}
+
+class OnDeleteImageEvent extends UploadEvent{
+  final int index;
+  const OnDeleteImageEvent(this.index);
+}
+
+class OnSubmitSharePostEvent extends UploadEvent{
+  final String? content;
+  const OnSubmitSharePostEvent(this.content);
+}
+
