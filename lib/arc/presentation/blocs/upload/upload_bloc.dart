@@ -61,38 +61,43 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     emit(LoadingSharePostState());
     String currentAutoPostId = GenerateValue().genRandomString(15);
     var _listImageUrl = await uploadImageToFirebase();
-    var input = PostData(
-      content: event.content ?? '',
-      images: _listImageUrl ?? [],
-      authName: StaticVariable.myData?.fullName,
-      authAvatar: StaticVariable.myData?.imageUrl,
-      userId: StaticVariable.myData?.userId,
-      createAt: DateTime.now().toUtc().toIso8601String(),
-      updateAt: DateTime.now().toUtc().toIso8601String(),
-    );
+    if (event.content == '' && _listImageUrl?.length == 0) {
+      emit(const SharePostFailedState("Content isn't empty"));
+    } else {
+      var input = PostData(
+        content: event.content ?? '',
+        images: _listImageUrl ?? [],
+        authName: StaticVariable.myData?.fullName,
+        authAvatar: StaticVariable.myData?.imageUrl,
+        userId: StaticVariable.myData?.userId,
+        createAt: DateTime.now().toUtc().toIso8601String(),
+        updateAt: DateTime.now().toUtc().toIso8601String(),
+      );
 
-    await fireStore
-        .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
-        .collection(AppConfig.instance.cMedia)
-        .doc(currentAutoPostId)
-        .set({"create_at" : DateTime.now().toUtc().toIso8601String()}, SetOptions(merge: true)).catchError(
-      (error) => LoggerUtils.d("Failed to merge data: $error"),
-    );
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(StaticVariable.myData?.userId)
+          .collection(AppConfig.instance.cMedia)
+          .doc(currentAutoPostId)
+          .set({"create_at": DateTime.now().toUtc().toIso8601String()},
+              SetOptions(merge: true)).catchError(
+        (error) => LoggerUtils.d("Failed to merge data: $error"),
+      );
 
-    await fireStore
-        .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
-        .collection(AppConfig.instance.cMedia)
-        .doc(currentAutoPostId)
-        .collection(AppConfig.instance.cPostData)
-        .doc(AppConfig.instance.cPostContent)
-        .set(input.toJson(), SetOptions(merge: true))
-        .then((value) {
-      return emit(SharePostSuccessState());
-    }).catchError(
-      (error) => emit(SharePostFailedState()),
-    );
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(StaticVariable.myData?.userId)
+          .collection(AppConfig.instance.cMedia)
+          .doc(currentAutoPostId)
+          .collection(AppConfig.instance.cPostData)
+          .doc(AppConfig.instance.cPostContent)
+          .set(input.toJson(), SetOptions(merge: true))
+          .then((value) {
+        return emit(SharePostSuccessState());
+      }).catchError(
+        (error) => emit(const SharePostFailedState('Share Failed')),
+      );
+    }
   }
 
   Future<List<String>?> uploadImageToFirebase() async {

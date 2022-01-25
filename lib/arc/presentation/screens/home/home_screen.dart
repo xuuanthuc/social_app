@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
+import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -49,17 +51,20 @@ class _BodyState extends State<_Body> {
       },
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
+          if (state is HomeLoadingState) {
+            return const LoadingHome();
+          }
           return Scaffold(
             backgroundColor: theme.backgroundColor,
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: theme.backgroundColor,
-            ),
+            appBar: const AppBarDesign(),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  Container(height: 100, color: theme.backgroundColor,),
+                  Container(
+                    height: 100,
+                    color: theme.backgroundColor,
+                  ),
                   Container(
                     color: theme.scaffoldBackgroundColor,
                     child: ListView.builder(

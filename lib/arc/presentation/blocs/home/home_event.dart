@@ -9,3 +9,13 @@ abstract class HomeEvent extends Equatable {
 
 class InitHomeEvent extends HomeEvent {}
 
+class OnLikePostEvent extends HomeEvent{
+  final PostData post;
+  const OnLikePostEvent(this.post);
+}
+
+class OnDisLikePostEvent extends HomeEvent{
+  final PostData post;
+  const OnDisLikePostEvent(this.post);
+}
+

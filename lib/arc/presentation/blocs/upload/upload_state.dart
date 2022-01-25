@@ -25,4 +25,7 @@ class LoadingSharePostState extends UploadState{}
 
 class SharePostSuccessState extends UploadState{}
 
-class SharePostFailedState extends UploadState{}
+class SharePostFailedState extends UploadState{
+  final String error;
+  const SharePostFailedState(this.error);
+}

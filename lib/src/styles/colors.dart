@@ -18,6 +18,7 @@ class MyColors {
 
   static const Color scaffoldBackgroundColorLight = Color.fromRGBO(248, 248, 248, 1);
   static const Color backgroundColorLight = Color.fromRGBO(255, 255, 255, 1);
+  static const Color backgroundColorDark = Color.fromRGBO(0, 0, 0, 1);
 
   static const Color errorColor = Color.fromRGBO(228, 99, 71, 1);
 

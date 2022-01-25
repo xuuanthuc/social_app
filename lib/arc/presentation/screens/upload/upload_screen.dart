@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/custom_button.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
@@ -39,6 +40,7 @@ class _BodyState extends State<_Body> {
   List<File> _listImageFile = [];
   final PageController _pageListImageController = PageController();
   final TextEditingController _contentController = TextEditingController();
+  int _currentIndex = 0;
 
   void sharePost() {
     FocusScope.of(context).requestFocus(FocusNode());
@@ -82,7 +84,7 @@ class _BodyState extends State<_Body> {
         }
         if(state is SharePostFailedState){
           EasyLoading.dismiss();
-          ToastView.show('Failed share post');
+          ToastView.show(state.error);
         }
         if(state is LoadingSharePostState){
           EasyLoading.show();
@@ -92,12 +94,7 @@ class _BodyState extends State<_Body> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: theme.scaffoldBackgroundColor,
-            appBar: AppBar(
-              elevation: 0,
-              automaticallyImplyLeading: false,
-              backgroundColor: theme.backgroundColor,
-              title: Text('HiXu'),
-            ),
+            appBar: const AppBarDesign(),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -150,7 +147,6 @@ class _BodyState extends State<_Body> {
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.ease,
                 );
-                setState(() {});
               },
               child: Container(
                 height: Dimens.size40,
@@ -159,7 +155,7 @@ class _BodyState extends State<_Body> {
                     borderRadius: BorderRadius.circular(11),
                     border: Border.all(
                         width: 1,
-                        color: index.toDouble() == _pageListImageController.page
+                        color: index == _currentIndex
                             ? theme.primaryColor
                             : Colors.white)),
                 child: ClipRRect(
@@ -211,6 +207,11 @@ class _BodyState extends State<_Body> {
               physics: const BouncingScrollPhysics(),
               controller: _pageListImageController,
               scrollDirection: Axis.horizontal,
+              onPageChanged: (index){
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(Dimens.size5),

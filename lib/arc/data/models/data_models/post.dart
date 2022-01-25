@@ -5,7 +5,9 @@ class PostData {
   String? authAvatar;
   String? content;
   String? createAt;
+  String? postId;
   String? updateAt;
+  List<String>? likes;
 
   PostData({
     this.content,
@@ -13,7 +15,9 @@ class PostData {
     this.userId,
     this.authAvatar,
     this.createAt,
+    this.postId,
     this.authName,
+    this.likes,
     this.updateAt,
   });
 

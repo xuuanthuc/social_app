@@ -164,7 +164,7 @@ class _BodyState extends State<_Body> {
               DateTime now = DateTime.now();
               if (currentBackPressTime == null ||
                   now.difference(currentBackPressTime!) >
-                      Duration(seconds: 2)) {
+                      const Duration(seconds: 2)) {
                 currentBackPressTime = now;
                 ToastView.withBottom(TranslationKey.tapExit.tr());
                 return Future.value(false);

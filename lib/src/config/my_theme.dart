@@ -86,6 +86,7 @@ class MyTheme {
           fontFamily: fontFamily,
           fontSize: Dimens.textSize13,
           fontWeight: FontWeight.w400,
+          height: 1.3,
           color: MyColors.blackColor,
         ),
         subtitle1: TextStyle(
@@ -198,7 +199,7 @@ class MyTheme {
 
   static ThemeData darkTheme() {
     return ThemeData(
-      backgroundColor: MyColors.backgroundColorLight,
+      backgroundColor: MyColors.backgroundColorDark,
       primaryColor: MyColors.primaryColor,
       scaffoldBackgroundColor: MyColors.scaffoldBackgroundColorLight,
       shadowColor: Colors.grey.shade200,

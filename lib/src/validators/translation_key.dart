@@ -28,4 +28,5 @@ class TranslationKey {
   static const joinNow = 'join_now';
   static const share = 'share';
   static const descriptionPost = 'description_post';
+  static const seeMore = 'see_more';
 }

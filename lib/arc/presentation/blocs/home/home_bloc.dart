@@ -16,6 +16,47 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc() : super(InitHomeState()) {
     on<InitHomeEvent>(_onInitData);
+    on<OnLikePostEvent>(_onLike);
+    on<OnDisLikePostEvent>(_onDisLike);
+  }
+
+  void _onLike(
+    OnLikePostEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(InitHomeState());
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(StaticVariable.myData?.userId)
+        .collection(AppConfig.instance.cMedia)
+        .doc(event.post.postId)
+        .collection(AppConfig.instance.cPostLikes)
+        .doc(StaticVariable.myData?.userId)
+        .set({}, SetOptions(merge: true)).then((value) {
+      var newPost = event.post;
+      newPost.likes?.add(StaticVariable.myData?.userId ?? '');
+      emit(OnLikedPostState(newPost));
+    });
+  }
+
+  void _onDisLike(
+    OnDisLikePostEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(InitHomeState());
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(StaticVariable.myData?.userId)
+        .collection(AppConfig.instance.cMedia)
+        .doc(event.post.postId)
+        .collection(AppConfig.instance.cPostLikes)
+        .doc(StaticVariable.myData?.userId)
+        .delete()
+        .then((value) {
+      var newPost = event.post;
+      newPost.likes?.remove(StaticVariable.myData?.userId);
+      emit(OnDisLikedPostState(newPost));
+    });
   }
 
   void _onInitData(
@@ -37,6 +78,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     for (var _postId in _listPostId) {
+      PostData post = PostData();
+      List<String> _listLikes = [];
       await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(StaticVariable.myData?.userId)
@@ -50,10 +93,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           var data = documentSnapshot.data();
           LoggerUtils.d(documentSnapshot.data());
           var res = data as Map<String, dynamic>;
-          var post = PostData.fromJson(res);
-          _listPost.add(post);
+          post = PostData.fromJson(res);
         }
       });
+
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(StaticVariable.myData?.userId)
+          .collection(AppConfig.instance.cMedia)
+          .doc(_postId)
+          .collection(AppConfig.instance.cPostLikes)
+          .get()
+          .then(
+        (QuerySnapshot querySnapshot) {
+          for (var doc in querySnapshot.docs) {
+            _listLikes.add(doc.id);
+          }
+        },
+      );
+      post.postId = _postId;
+      post.likes = _listLikes;
+      _listPost.add(post);
     }
     emit(HomeLoadedState(_listPost));
   }
