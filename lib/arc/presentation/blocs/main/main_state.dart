@@ -10,3 +10,8 @@ abstract class MainState extends Equatable {
 class InitMainState extends MainState{}
 
 class MainLoadedState extends MainState{}
+
+class OnChangedPageState extends MainState{
+  final int index;
+  const OnChangedPageState(this.index);
+}

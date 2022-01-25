@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final bool? hasBgColor;
   final double? sizeWidth;
   final double? sizeHeight;
+  final double? borderRadius;
 
   const CustomButton({
     Key? key,
@@ -17,6 +18,7 @@ class CustomButton extends StatelessWidget {
     this.hasBgColor = false,
     this.sizeHeight,
     this.sizeWidth,
+    this.borderRadius,
   }) : super(key: key);
 
   const CustomButton.withBorder({
@@ -27,6 +29,7 @@ class CustomButton extends StatelessWidget {
     this.hasBgColor,
     this.sizeHeight,
     this.sizeWidth,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -40,7 +43,7 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
             color:
                 hasBgColor == true ? theme.primaryColor.withOpacity(0.1) : null,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(borderRadius ?? 15),
             gradient: hasBorder == true
                 ? null
                 : LinearGradient(

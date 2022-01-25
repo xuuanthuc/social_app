@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hii_xuu_social/src/config/config.dart';
-import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
+import '../../../../src/config/config.dart';
+import '../../../../src/utilities/navigation_service.dart';
 import '../../../../arc/presentation/blocs/splash/splash_bloc.dart';
 
 class SplashScreen extends StatelessWidget {

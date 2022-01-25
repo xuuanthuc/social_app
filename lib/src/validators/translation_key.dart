@@ -26,4 +26,6 @@ class TranslationKey {
   static const success = 'success';
   static const welcome = 'welcome';
   static const joinNow = 'join_now';
+  static const share = 'share';
+  static const descriptionPost = 'description_post';
 }

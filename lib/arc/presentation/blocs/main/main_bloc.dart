@@ -10,13 +10,21 @@ class MainBloc extends Bloc<MainEvent, MainState> {
 
   MainBloc() : super(InitMainState()) {
     on<InitMainEvent>(_onInitData);
+    on<OnChangePageEvent>(_onChangePage);
   }
 
   void _onInitData(
     InitMainEvent event,
     Emitter<MainState> emit,
   ) async {
-
     emit(MainLoadedState());
+  }
+
+  void _onChangePage(
+    OnChangePageEvent event,
+    Emitter<MainState> emit,
+  ) async {
+    emit(InitMainState());
+    emit(OnChangedPageState(event.index));
   }
 }

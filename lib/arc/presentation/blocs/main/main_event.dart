@@ -8,3 +8,8 @@ abstract class MainEvent extends Equatable {
 }
 
 class InitMainEvent extends MainEvent {}
+
+class OnChangePageEvent extends MainEvent {
+  final int index;
+  const OnChangePageEvent(this.index);
+}
