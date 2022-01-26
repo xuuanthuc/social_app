@@ -22,6 +22,7 @@ class AppBarDesign extends StatelessWidget implements PreferredSizeWidget {
               child: Image.asset(MyImages.logoText),
             )),
         elevation: 0,
+        automaticallyImplyLeading: false,
         backgroundColor: theme.backgroundColor,
       ),
     );

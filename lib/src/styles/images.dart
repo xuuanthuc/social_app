@@ -20,6 +20,8 @@ class MyImages{
   static const icSearchSelected = assetImage + 'ic_search_selected.png';
   static const icSearchUnSelected = assetImage + 'ic_search_unselected.png';
   static const icCameraSelected = assetImage + 'ic_camera_selected.png';
+  static const icSend = assetImage + 'ic_send.png';
+  static const icSendOutline = assetImage + 'ic_send_outline.png';
 
 
   //svgs

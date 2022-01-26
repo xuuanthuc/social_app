@@ -25,3 +25,22 @@ class OnDisLikedPostState extends HomeState{
   final PostData post;
   const OnDisLikedPostState(this.post);
 }
+
+
+class OnCommentTextChangedState extends HomeState{
+  final String? text;
+  const OnCommentTextChangedState(this.text);
+}
+
+class OnCommentSuccessState extends HomeState{}
+
+class OnCommentFailedState extends HomeState{}
+
+class LoadingListCommentState extends HomeState{}
+
+class LoadListCommentSuccessState extends HomeState{
+  final List<CommentModel>? listComment;
+  const LoadListCommentSuccessState(this.listComment);
+}
+
+class LoadListCommentFailedState extends HomeState{}

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:hii_xuu_social/arc/presentation/screens/splash/splash_screen.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
 import 'package:hii_xuu_social/src/utilities/route_observer.dart';
 import '../src/config/config.dart';

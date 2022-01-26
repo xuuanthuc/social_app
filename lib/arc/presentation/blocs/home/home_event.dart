@@ -19,3 +19,21 @@ class OnDisLikePostEvent extends HomeEvent{
   const OnDisLikePostEvent(this.post);
 }
 
+class OnCommentTextChangedEvent extends HomeEvent{
+  final String? text;
+  const OnCommentTextChangedEvent(this.text);
+}
+
+class OnCommentEvent extends HomeEvent{
+  final String comment;
+  final PostData? post;
+  const OnCommentEvent({
+    required this.comment,
+    required this.post
+  });
+}
+
+class LoadListComment extends HomeEvent{
+  final PostData post;
+  const LoadListComment(this.post);
+}

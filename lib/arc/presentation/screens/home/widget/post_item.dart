@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/widget/comment_sheet.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
@@ -23,6 +25,25 @@ class _PostItemState extends State<PostItem> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
   bool _isSeeMore = false;
+
+  void showCommentSheet() async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      elevation: 0,
+      barrierColor: Colors.black45,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(Dimens.size20),
+          topLeft: Radius.circular(Dimens.size20),
+        ),
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
+      builder: (context) {
+        return CommentSheet(postItem: widget.item);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +100,11 @@ class _PostItemState extends State<PostItem> {
                           style: theme.primaryTextTheme.headline4,
                         ),
                         const SizedBox(width: Dimens.size20),
-                        Padding(
-                          padding: const EdgeInsets.all(Dimens.size5),
-                          child: SvgPicture.asset(MyImages.icComment),
+                        _buildCommentButton(),
+                        const SizedBox(width: Dimens.size5),
+                        Text(
+                          widget.item.comments?.length.toString() ?? '0',
+                          style: theme.primaryTextTheme.headline4,
                         ),
                         const Spacer(),
                         Padding(
@@ -96,6 +119,16 @@ class _PostItemState extends State<PostItem> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildCommentButton() {
+    return GestureDetector(
+      onTap: showCommentSheet,
+      child: Padding(
+        padding: const EdgeInsets.all(Dimens.size5),
+        child: SvgPicture.asset(MyImages.icComment),
       ),
     );
   }
