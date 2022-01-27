@@ -39,6 +39,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         .collection(AppConfig.instance.cMedia)
         .doc(event.post.postId)
         .collection(AppConfig.instance.cPostComment)
+        .orderBy("create_at", descending: true)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {

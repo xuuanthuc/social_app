@@ -6,6 +6,7 @@ import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_comment.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
+import 'package:hii_xuu_social/src/utilities/format.dart';
 import 'package:hii_xuu_social/src/utilities/showtoast.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
@@ -96,7 +97,7 @@ class _BodyState extends State<_Body> {
       },
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if(state is LoadingListCommentState){
+          if (state is LoadingListCommentState) {
             return const LoadingComment();
           }
           return SizedBox(
@@ -123,15 +124,7 @@ class _BodyState extends State<_Body> {
                           controller: scrollController,
                           itemBuilder: (context, index) {
                             final comment = _listComment?[index];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Text(comment?.authName ?? ''),
-                                  Text(comment?.content ?? ''),
-                                ],
-                              ),
-                            );
+                            return _bulidComment(comment);
                           },
                           itemCount: _listComment?.length ?? 0,
                         ),
@@ -161,6 +154,73 @@ class _BodyState extends State<_Body> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _bulidComment(CommentModel? comment) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: Dimens.size20, vertical: Dimens.size15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(13),
+                child: SizedBox(
+                  height: Dimens.size40,
+                  width: Dimens.size40,
+                  child: comment?.authAvatar == ''
+                      ? Image.asset(MyImages.defaultAvt)
+                      : Image.network(comment?.authAvatar ?? ''),
+                ),
+              ),
+              const SizedBox(width: Dimens.size15),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: Dimens.size15, vertical: Dimens.size10),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(15),
+                              bottomLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                            ),
+                            color: Theme.of(context).scaffoldBackgroundColor),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              comment?.authName ?? '',
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
+                            Text(
+                              comment?.content ?? '',
+                              style: Theme.of(context).primaryTextTheme.bodyText2,
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: Dimens.size7),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.size55),
+            child: Text(TimeAgo.timeAgoSinceDate(comment?.updateAt ?? ''),
+                style: Theme.of(context).primaryTextTheme.subtitle1),
+          ),
+        ],
       ),
     );
   }

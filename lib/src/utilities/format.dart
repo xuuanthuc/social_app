@@ -14,21 +14,21 @@ class TimeAgo {
       if (difference.inDays > 8) {
         return '${notificationDate.year}/${notificationDate.month}/${notificationDate.day}';
       } else if ((difference.inDays / 7).floor() >= 1) {
-        return (numericDates) ? '1 week' : 'Last week';
+        return (numericDates) ? '1w' : 'Last week';
       } else if (difference.inDays >= 2) {
-        return '${difference.inDays} days';
+        return '${difference.inDays}d';
       } else if (difference.inDays >= 1) {
-        return (numericDates) ? '1 day' : 'Yesterday';
+        return (numericDates) ? '1d' : 'Yesterday';
       } else if (difference.inHours >= 2) {
-        return '${difference.inHours} hours';
+        return '${difference.inHours}h';
       } else if (difference.inHours >= 1) {
-        return (numericDates) ? '1 hour' : 'An hour ago';
+        return (numericDates) ? '1h' : 'An hour ago';
       } else if (difference.inMinutes >= 2) {
-        return '${difference.inMinutes} minutes';
+        return '${difference.inMinutes}m';
       } else if (difference.inMinutes >= 1) {
-        return (numericDates) ? '1 minute' : 'A minute ago';
+        return (numericDates) ? '1m' : 'A minute ago';
       } else if (difference.inSeconds >= 3) {
-        return '${difference.inSeconds} seconds';
+        return '${difference.inSeconds} s';
       } else {
         return 'Now';
       }
