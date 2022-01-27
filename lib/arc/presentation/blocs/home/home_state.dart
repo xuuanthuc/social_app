@@ -44,3 +44,5 @@ class LoadListCommentSuccessState extends HomeState{
 }
 
 class LoadListCommentFailedState extends HomeState{}
+
+class ReloadingListCommentState extends HomeState{}

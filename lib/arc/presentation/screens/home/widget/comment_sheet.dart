@@ -65,6 +65,12 @@ class _BodyState extends State<_Body> {
   void _onCommentPost() {
     context.read<HomeBloc>().add(OnCommentEvent(
         comment: _commentController.text, post: widget.postItem));
+    StaticVariable.currentComment = CommentModel(
+        content: _commentController.text,
+        authName: StaticVariable.myData?.fullName,
+        authAvatar: StaticVariable.myData?.imageUrl,
+      updateAt: 'Posting...'
+    );
   }
 
   @override
@@ -84,6 +90,7 @@ class _BodyState extends State<_Body> {
           _commentController.clear();
           _canComment = false;
           _focus.unfocus();
+          context.read<HomeBloc>().add(ReloadListComment(widget.postItem));
         }
         if (state is LoadListCommentSuccessState) {
           _listComment = state.listComment;
@@ -93,6 +100,9 @@ class _BodyState extends State<_Body> {
         }
         if (state is OnCommentFailedState) {
           ToastView.show('Something wrong!');
+        }
+        if (state is ReloadingListCommentState) {
+          _listComment?.add(StaticVariable.currentComment!);
         }
       },
       child: BlocBuilder<HomeBloc, HomeState>(
@@ -116,19 +126,20 @@ class _BodyState extends State<_Body> {
                   body: Column(
                     children: [
                       Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: Dimens.size20, bottom: Dimens.size10),
-                        child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          controller: scrollController,
-                          itemBuilder: (context, index) {
-                            final comment = _listComment?[index];
-                            return _bulidComment(comment);
-                          },
-                          itemCount: _listComment?.length ?? 0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: Dimens.size20, bottom: Dimens.size10),
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            controller: scrollController,
+                            itemBuilder: (context, index) {
+                              final comment = _listComment?[index];
+                              return _bulidComment(comment);
+                            },
+                            itemCount: _listComment?.length ?? 0,
+                          ),
                         ),
-                      )),
+                      ),
                       SizedBox(
                         height: Dimens.size50,
                         child: Row(
@@ -185,30 +196,30 @@ class _BodyState extends State<_Body> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Dimens.size15, vertical: Dimens.size10),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                              bottomRight: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                            ),
-                            color: Theme.of(context).scaffoldBackgroundColor),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              comment?.authName ?? '',
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
-                            ),
-                            Text(
-                              comment?.content ?? '',
-                              style: Theme.of(context).primaryTextTheme.bodyText2,
-                            ),
-                          ],
-                        ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimens.size15, vertical: Dimens.size10),
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
+                          color: Theme.of(context).scaffoldBackgroundColor),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            comment?.authName ?? '',
+                            style: Theme.of(context).primaryTextTheme.bodyText1,
+                          ),
+                          Text(
+                            comment?.content ?? '',
+                            style: Theme.of(context).primaryTextTheme.bodyText2,
+                          ),
+                        ],
                       ),
+                    ),
                   ],
                 ),
               )

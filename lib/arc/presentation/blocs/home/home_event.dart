@@ -37,3 +37,8 @@ class LoadListComment extends HomeEvent{
   final PostData post;
   const LoadListComment(this.post);
 }
+
+class ReloadListComment extends HomeEvent{
+  final PostData post;
+  const ReloadListComment(this.post);
+}

@@ -33,7 +33,7 @@ class TimeAgo {
         return 'Now';
       }
     } catch (e) {
-      return '';
+      return dateString;
     }
   }
 

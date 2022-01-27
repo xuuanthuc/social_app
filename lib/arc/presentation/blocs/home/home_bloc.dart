@@ -24,6 +24,49 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<OnCommentTextChangedEvent>(_onTextChange);
     on<OnCommentEvent>(_onComment);
     on<LoadListComment>(_loadComment);
+    on<ReloadListComment>(_reloadComment);
+  }
+
+  void _reloadComment(
+      ReloadListComment event,
+      Emitter<HomeState> emit,
+      ) async {
+    emit(ReloadingListCommentState());
+    List<CommentModel>? _listComment = [];
+    List<String>? _listCommentId = [];
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(StaticVariable.myData?.userId)
+        .collection(AppConfig.instance.cMedia)
+        .doc(event.post.postId)
+        .collection(AppConfig.instance.cPostComment)
+        .orderBy("create_at", descending: false)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        _listCommentId.add(doc.id);
+      }
+    }).catchError((error) => emit(LoadListCommentFailedState()));
+    for (var _commentId in _listCommentId) {
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(StaticVariable.myData?.userId)
+          .collection(AppConfig.instance.cMedia)
+          .doc(event.post.postId)
+          .collection(AppConfig.instance.cPostComment)
+          .doc(_commentId)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          var data = documentSnapshot.data();
+          LoggerUtils.d(documentSnapshot.data());
+          var res = data as Map<String, dynamic>;
+          var _comment = CommentModel.fromJson(res);
+          _listComment.add(_comment);
+        }
+      }).catchError((onError) => emit(LoadListCommentFailedState()));
+    }
+    emit(LoadListCommentSuccessState(_listComment));
   }
 
   void _loadComment(
@@ -39,7 +82,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         .collection(AppConfig.instance.cMedia)
         .doc(event.post.postId)
         .collection(AppConfig.instance.cPostComment)
-        .orderBy("create_at", descending: true)
+        .orderBy("create_at", descending: false)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
