@@ -19,30 +19,11 @@ class LoginSheet extends StatefulWidget {
   const LoginSheet({Key? key, required this.initPage}) : super(key: key);
 
   @override
-  State<LoginSheet> createState() => _LoginSheetState();
+  _LoginSheetState createState() => _LoginSheetState();
 }
 
 class _LoginSheetState extends State<LoginSheet>
     with SingleTickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(),
-      child: _Body(initPage: widget.initPage),
-    );
-  }
-}
-
-class _Body extends StatefulWidget {
-  final int initPage;
-
-  const _Body({Key? key, required this.initPage}) : super(key: key);
-
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<_Body> {
   late PageController _controller;
   final _formKey = GlobalKey<FormState>();
 
@@ -116,7 +97,7 @@ class _BodyState extends State<_Body> {
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          return Container(
+          return SizedBox(
             height: MediaQuery.of(context).size.height * 0.7,
             child: PageView(
               controller: _controller,

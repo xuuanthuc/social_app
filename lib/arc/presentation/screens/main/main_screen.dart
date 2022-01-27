@@ -19,23 +19,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<MainBloc>(
-      create: (context) => MainBloc(),
-      child: const _Body(),
-    );
-  }
-}
-
-class _Body extends StatefulWidget {
-  const _Body({Key? key}) : super(key: key);
-
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<_Body> {
   DateTime? currentBackPressTime;
   int _selectedIndex = 0;
   late PageController _controller;

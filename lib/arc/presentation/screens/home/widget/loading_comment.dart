@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/shimmer_widget.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
@@ -16,7 +14,7 @@ class LoadingComment extends StatefulWidget {
 class _LoadingCommentState extends State<LoadingComment> {
   final FocusNode _focus = FocusNode();
   final TextEditingController _commentController = TextEditingController();
-  bool _canComment = false;
+  final bool _canComment = false;
 
   @override
   void initState() {
@@ -79,7 +77,7 @@ class _LoadingCommentState extends State<LoadingComment> {
                                   height: Dimens.size25,
                                   width: size.width * 0.6,
                                 ),
-                                SizedBox(height: Dimens.size10),
+                                const SizedBox(height: Dimens.size10),
                                 ShimmerWidget.rectangular(
                                   height: Dimens.size25,
                                   width: size.width * 0.4,
@@ -117,71 +115,6 @@ class _LoadingCommentState extends State<LoadingComment> {
         ),
       ),
     );
-
-    //   Scaffold(
-    //   backgroundColor: theme.backgroundColor,
-    //   appBar: const AppBarDesign(),
-    //   body: SingleChildScrollView(
-    //     physics: const BouncingScrollPhysics(),
-    //     child: Column(
-    //       children: [
-    //         Container(
-    //           height: 100,
-    //           color: theme.backgroundColor,
-    //         ),
-    //         Container(
-    //           color: theme.scaffoldBackgroundColor,
-    //           child: ListView.builder(
-    //             physics: const BouncingScrollPhysics(),
-    //             shrinkWrap: true,
-    //             itemBuilder: (context, index) {
-    //               return Container(
-    //                 padding: const EdgeInsets.all(15),
-    //                 margin: const EdgeInsets.symmetric(horizontal: Dimens.size15,vertical: Dimens.size7),
-    //                 height: Dimens.size300,
-    //                 decoration: BoxDecoration(
-    //                     color: theme.backgroundColor,
-    //                     borderRadius: BorderRadius.circular(15)),
-    //                 child: Column(
-    //                   children: [
-    //                     Row(
-    //                       children: [
-    //                         const ShimmerWidget.rectangular(
-    //                           height: Dimens.size40,
-    //                           width: Dimens.size40,
-    //                         ),
-    //                         const SizedBox(width: Dimens.size10),
-    //                         Column(
-    //                           crossAxisAlignment: CrossAxisAlignment.start,
-    //                           children: const [
-    //                             ShimmerWidget.rectangular(
-    //                               height: Dimens.size15,
-    //                               width: Dimens.size100,
-    //                             ),
-    //                             SizedBox(height: Dimens.size10),
-    //                             ShimmerWidget.rectangular(
-    //                               height: Dimens.size15,
-    //                               width: Dimens.size80,
-    //                             ),
-    //                           ],
-    //                         )
-    //                       ],
-    //                     ),
-    //                     const SizedBox(height: Dimens.size20),
-    //                     const ShimmerWidget.rectangular(
-    //                       height: 200,
-    //                     ),
-    //                   ],
-    //                 ),
-    //               );
-    //             },
-    //             itemCount: 5,
-    //           ),
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   Container _buildAvatarWidget(ThemeData theme) {

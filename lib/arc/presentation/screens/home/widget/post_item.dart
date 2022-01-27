@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/comment_sheet.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/full_image.dart';
-import 'package:hii_xuu_social/src/config/config.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
@@ -61,77 +59,74 @@ class _PostItemState extends State<PostItem> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocProvider<HomeBloc>(
-      create: (context) => HomeBloc(),
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          if (state is OnDisLikedPostState) {
-            widget.item = state.post;
-          }
-          if (state is OnLikedPostState) {
-            widget.item = state.post;
-          }
-        },
-        child: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.size10, vertical: Dimens.size7),
-              child: Container(
-                padding: const EdgeInsets.all(Dimens.size5),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: theme.backgroundColor),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildInfoUser(theme),
-                    const SizedBox(height: Dimens.size10),
-                    widget.item.images!.isNotEmpty
-                        ? _buildListImage(context)
-                        : _buildEmptyWidget(),
-                    widget.item.images!.length > 1
-                        ? _buildSmallSlideImage(context, theme)
-                        : _buildEmptyWidget(),
-                    widget.item.content == ''
-                        ? _buildEmptyWidget()
-                        : Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: Dimens.size10),
-                            child: widget.item.content!.length > 150
-                                ? _buildLongContent(context, theme)
-                                : _buildShortContent(theme),
-                          ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _buildFavoriteButton(),
-                        const SizedBox(width: Dimens.size5),
-                        Text(
-                          widget.item.likes?.length.toString() ?? '0',
-                          style: theme.primaryTextTheme.headline4,
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is OnDisLikedPostState) {
+          widget.item = state.post;
+        }
+        if (state is OnLikedPostState) {
+          widget.item = state.post;
+        }
+      },
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: Dimens.size10, vertical: Dimens.size7),
+            child: Container(
+              padding: const EdgeInsets.all(Dimens.size5),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: theme.backgroundColor),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildInfoUser(theme),
+                  const SizedBox(height: Dimens.size10),
+                  widget.item.images!.isNotEmpty
+                      ? _buildListImage(context)
+                      : _buildEmptyWidget(),
+                  widget.item.images!.length > 1
+                      ? _buildSmallSlideImage(context, theme)
+                      : _buildEmptyWidget(),
+                  widget.item.content == ''
+                      ? _buildEmptyWidget()
+                      : Padding(
+                          padding:
+                              const EdgeInsets.only(bottom: Dimens.size10),
+                          child: widget.item.content!.length > 150
+                              ? _buildLongContent(context, theme)
+                              : _buildShortContent(theme),
                         ),
-                        const SizedBox(width: Dimens.size20),
-                        _buildCommentButton(),
-                        const SizedBox(width: Dimens.size5),
-                        Text(
-                          _currentComment,
-                          style: theme.primaryTextTheme.headline4,
-                        ),
-                        const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.all(Dimens.size10),
-                          child: SvgPicture.asset(MyImages.icUnSaved),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _buildFavoriteButton(),
+                      const SizedBox(width: Dimens.size5),
+                      Text(
+                        widget.item.likes?.length.toString() ?? '0',
+                        style: theme.primaryTextTheme.headline4,
+                      ),
+                      const SizedBox(width: Dimens.size20),
+                      _buildCommentButton(),
+                      const SizedBox(width: Dimens.size5),
+                      Text(
+                        _currentComment,
+                        style: theme.primaryTextTheme.headline4,
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.all(Dimens.size10),
+                        child: SvgPicture.asset(MyImages.icUnSaved),
+                      ),
+                    ],
+                  )
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -273,6 +268,13 @@ class _PostItemState extends State<PostItem> {
                           image: widget.item.images?[index] ?? '',
                           countCmt: _currentComment,
                           comment: showCommentSheet,
+                          like: widget.item.likes!.contains(StaticVariable.myData?.userId)
+                              ? () {
+                            context.read<HomeBloc>().add(OnDisLikePostEvent(widget.item));
+                          }
+                              : () {
+                            context.read<HomeBloc>().add(OnLikePostEvent(widget.item));
+                          },
                         ),
                       ),
                     );

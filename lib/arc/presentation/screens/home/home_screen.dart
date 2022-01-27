@@ -16,23 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<HomeBloc>(
-      create: (context) => HomeBloc(),
-      child: const _Body(),
-    );
-  }
-}
-
-class _Body extends StatefulWidget {
-  const _Body({Key? key}) : super(key: key);
-
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<_Body> {
   List<PostData> _listPost = [];
   final RefreshController _refreshController = RefreshController();
 

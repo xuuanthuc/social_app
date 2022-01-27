@@ -26,23 +26,6 @@ class SetUpProfileScreen extends StatefulWidget {
 }
 
 class _SetUpProfileScreenState extends State<SetUpProfileScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(),
-      child: const _Body(),
-    );
-  }
-}
-
-class _Body extends StatefulWidget {
-  const _Body({Key? key}) : super(key: key);
-
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<_Body> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();

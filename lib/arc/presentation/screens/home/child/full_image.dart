@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
-import 'package:hii_xuu_social/src/styles/images.dart';
 
 class FullImageScreen extends StatelessWidget {
   final String image;
   final VoidCallback comment;
+  final VoidCallback like;
   final String countCmt;
 
   const FullImageScreen(
       {Key? key,
       required this.image,
       required this.comment,
+      required this.like,
       required this.countCmt})
       : super(key: key);
 
@@ -26,9 +25,12 @@ class FullImageScreen extends StatelessWidget {
       body: Stack(
         children: [
           Center(
-            child: Image.network(
-              image,
-              fit: BoxFit.cover,
+            child: GestureDetector(
+              onTap: like,
+              child: Image.network(
+                image,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Positioned(

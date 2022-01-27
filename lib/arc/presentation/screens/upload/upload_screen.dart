@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/custom_button.dart';
 import 'package:hii_xuu_social/src/config/config.dart';
@@ -22,23 +23,6 @@ class UploadScreen extends StatefulWidget {
 }
 
 class _UploadScreenState extends State<UploadScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<UploadBloc>(
-      create: (context) => UploadBloc(),
-      child: const _Body(),
-    );
-  }
-}
-
-class _Body extends StatefulWidget {
-  const _Body({Key? key}) : super(key: key);
-
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<_Body> {
   List<File> _listImageFile = [];
   final PageController _pageListImageController = PageController();
   final TextEditingController _contentController = TextEditingController();
@@ -46,14 +30,16 @@ class _BodyState extends State<_Body> {
 
   void sharePost() {
     FocusScope.of(context).requestFocus(FocusNode());
-    context.read<UploadBloc>().add(OnSubmitSharePostEvent(_contentController.text));
+    context
+        .read<UploadBloc>()
+        .add(OnSubmitSharePostEvent(_contentController.text));
   }
 
   void pickImage() {
     context.read<UploadBloc>().add(OnPickImageEvent());
   }
 
-  void onDeleteImage(int index){
+  void onDeleteImage(int index) {
     context.read<UploadBloc>().add(OnDeleteImageEvent(index));
   }
 
@@ -79,17 +65,19 @@ class _BodyState extends State<_Body> {
         if (state is ImagePickedState) {
           _listImageFile = state.listImageFiles ?? [];
         }
-        if(state is OnDeleteImageState){
+        if (state is OnDeleteImageState) {
           _listImageFile = state.listImageFiles ?? [];
         }
-        if(state is SharePostSuccessState){
+        if (state is SharePostSuccessState) {
           EasyLoading.dismiss();
+          ToastView.withBottom('Uploaded success!');
+          context.read<MainBloc>().add(const OnChangePageEvent(0));
         }
-        if(state is SharePostFailedState){
+        if (state is SharePostFailedState) {
           EasyLoading.dismiss();
           ToastView.show(state.error);
         }
-        if(state is LoadingSharePostState){
+        if (state is LoadingSharePostState) {
           EasyLoading.show();
         }
       },
@@ -210,7 +198,7 @@ class _BodyState extends State<_Body> {
               physics: const BouncingScrollPhysics(),
               controller: _pageListImageController,
               scrollDirection: Axis.horizontal,
-              onPageChanged: (index){
+              onPageChanged: (index) {
                 setState(() {
                   _currentIndex = index;
                 });
@@ -228,8 +216,9 @@ class _BodyState extends State<_Body> {
                               : size.width - Dimens.size30,
                           width: size.width - Dimens.size30,
                           child: GestureDetector(
-                            onTap: (){
-                              navService.pushNamed(RouteKey.fullImageFile, args: _listImageFile[index]);
+                            onTap: () {
+                              navService.pushNamed(RouteKey.fullImageFile,
+                                  args: _listImageFile[index]);
                             },
                             child: Image.file(
                               _listImageFile[index],
