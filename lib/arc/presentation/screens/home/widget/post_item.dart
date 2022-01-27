@@ -4,10 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
-import 'package:hii_xuu_social/arc/presentation/screens/home/widget/comment_sheet.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/child/comment_sheet.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/child/full_image.dart';
+import 'package:hii_xuu_social/src/config/config.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
+import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -25,6 +28,7 @@ class _PostItemState extends State<PostItem> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
   bool _isSeeMore = false;
+  String _currentComment = '0';
 
   void showCommentSheet() async {
     await showModalBottomSheet(
@@ -43,6 +47,15 @@ class _PostItemState extends State<PostItem> {
         return CommentSheet(postItem: widget.item);
       },
     );
+    setState(() {
+      _currentComment = StaticVariable.listComment?.length.toString() ?? '0';
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _currentComment = widget.item.comments?.length.toString() ?? '0';
   }
 
   @override
@@ -63,9 +76,9 @@ class _PostItemState extends State<PostItem> {
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.size15, vertical: Dimens.size7),
+                  horizontal: Dimens.size10, vertical: Dimens.size7),
               child: Container(
-                padding: const EdgeInsets.all(Dimens.size10),
+                padding: const EdgeInsets.all(Dimens.size5),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: theme.backgroundColor),
@@ -103,12 +116,12 @@ class _PostItemState extends State<PostItem> {
                         _buildCommentButton(),
                         const SizedBox(width: Dimens.size5),
                         Text(
-                          widget.item.comments?.length.toString() ?? '0',
+                          _currentComment,
                           style: theme.primaryTextTheme.headline4,
                         ),
                         const Spacer(),
                         Padding(
-                          padding: const EdgeInsets.all(Dimens.size5),
+                          padding: const EdgeInsets.all(Dimens.size10),
                           child: SvgPicture.asset(MyImages.icUnSaved),
                         ),
                       ],
@@ -145,7 +158,7 @@ class _PostItemState extends State<PostItem> {
       child: Container(
         color: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.all(Dimens.size5),
+          padding: const EdgeInsets.all(Dimens.size10),
           child: SvgPicture.asset(
               widget.item.likes!.contains(StaticVariable.myData?.userId)
                   ? MyImages.icLiked
@@ -159,7 +172,7 @@ class _PostItemState extends State<PostItem> {
 
   Widget _buildShortContent(ThemeData theme) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Dimens.size5),
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.size10),
       child: Text(
         widget.item.content ?? '',
         style: theme.textTheme.bodyText2,
@@ -175,7 +188,7 @@ class _PostItemState extends State<PostItem> {
         });
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Dimens.size5),
+        padding: const EdgeInsets.symmetric(horizontal: Dimens.size10),
         child: Column(
           children: [
             AnimatedSize(
@@ -239,7 +252,7 @@ class _PostItemState extends State<PostItem> {
     return Padding(
       padding: const EdgeInsets.only(bottom: Dimens.size5),
       child: SizedBox(
-        height: MediaQuery.of(context).size.width * 0.6,
+        height: MediaQuery.of(context).size.width * 0.7,
         child: PageView.builder(
             controller: _pageController,
             onPageChanged: (index) {
@@ -251,11 +264,25 @@ class _PostItemState extends State<PostItem> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(Dimens.size5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.network(
-                    widget.item.images?[index] ?? '',
-                    fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: () {
+                    // navService.pushNamed(RouteKey.fullImage, args: widget.item.images?[index]);
+                    navService.push(
+                      MaterialPageRoute(
+                        builder: (context) => FullImageScreen(
+                          image: widget.item.images?[index] ?? '',
+                          countCmt: _currentComment,
+                          comment: showCommentSheet,
+                        ),
+                      ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.network(
+                      widget.item.images?[index] ?? '',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               );

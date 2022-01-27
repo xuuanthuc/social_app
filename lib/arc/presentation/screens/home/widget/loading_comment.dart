@@ -64,7 +64,7 @@ class _LoadingCommentState extends State<LoadingComment> {
                     controller: scrollController,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimens.size20, vertical: Dimens.size15),
+                        padding: const EdgeInsets.symmetric(horizontal: Dimens.size15, vertical: Dimens.size15),
                         child: Row(
                           children: [
                             const ShimmerWidget.rectangular(

@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/custom_button.dart';
+import 'package:hii_xuu_social/src/config/config.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
+import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
 import 'package:hii_xuu_social/src/utilities/showtoast.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
@@ -67,6 +69,7 @@ class _BodyState extends State<_Body> {
     super.initState();
     pickImage();
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -224,9 +227,14 @@ class _BodyState extends State<_Body> {
                               ? 0
                               : size.width - Dimens.size30,
                           width: size.width - Dimens.size30,
-                          child: Image.file(
-                            _listImageFile[index],
-                            fit: BoxFit.cover,
+                          child: GestureDetector(
+                            onTap: (){
+                              navService.pushNamed(RouteKey.fullImageFile, args: _listImageFile[index]);
+                            },
+                            child: Image.file(
+                              _listImageFile[index],
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         Positioned(

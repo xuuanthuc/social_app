@@ -27,8 +27,8 @@ class LoadingHome extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return Container(
-                    padding: const EdgeInsets.all(15),
-                    margin: const EdgeInsets.symmetric(horizontal: Dimens.size15,vertical: Dimens.size7),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(horizontal: Dimens.size8,vertical: Dimens.size7),
                     height: Dimens.size300,
                     decoration: BoxDecoration(
                         color: theme.backgroundColor,

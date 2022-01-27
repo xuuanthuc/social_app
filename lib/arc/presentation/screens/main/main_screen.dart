@@ -66,9 +66,9 @@ class _BodyState extends State<_Body> {
     return BlocListener<MainBloc, MainState>(
       listener: (context, state) {
         if (state is OnChangedPageState) {
-          _controller.animateToPage(state.index,
-              duration: const Duration(milliseconds: 200), curve: Curves.ease);
-          // _controller.jumpToPage(state.index);
+          // _controller.animateToPage(state.index,
+          //     duration: const Duration(milliseconds: 200), curve: Curves.ease);
+          _controller.jumpToPage(state.index);
         }
       },
       child: BlocBuilder<MainBloc, MainState>(
@@ -76,6 +76,7 @@ class _BodyState extends State<_Body> {
           return WillPopScope(
             child: Scaffold(
               body: PageView(
+                physics: const BouncingScrollPhysics(),
                 controller: _controller,
                 children: [
                   const HomeScreen(),

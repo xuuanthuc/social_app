@@ -5,6 +5,8 @@ import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
+import 'package:hii_xuu_social/src/validators/static_variable.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,11 +34,21 @@ class _Body extends StatefulWidget {
 
 class _BodyState extends State<_Body> {
   List<PostData> _listPost = [];
+  final RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
     super.initState();
+    if(StaticVariable.listPost != null){
+      _listPost = StaticVariable.listPost ?? [];
+    } else {
+      context.read<HomeBloc>().add(InitHomeEvent());
+    }
+  }
+
+  void _onRefresh() async{
     context.read<HomeBloc>().add(InitHomeEvent());
+    _refreshController.refreshCompleted();
   }
 
   @override
@@ -57,26 +69,34 @@ class _BodyState extends State<_Body> {
           return Scaffold(
             backgroundColor: theme.backgroundColor,
             appBar: const AppBarDesign(),
-            body: SingleChildScrollView(
+            body: SmartRefresher(
+              controller: _refreshController,
+              enablePullDown: true,
+              enablePullUp: false,
+              onRefresh: _onRefresh,
               physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Container(
-                    height: 100,
-                    color: theme.backgroundColor,
-                  ),
-                  Container(
-                    color: theme.scaffoldBackgroundColor,
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return PostItem(item: _listPost[index]);
-                      },
-                      itemCount: _listPost.length,
+              header: const WaterDropMaterialHeader(),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 100,
+                      color: theme.backgroundColor,
                     ),
-                  )
-                ],
+                    Container(
+                      color: theme.scaffoldBackgroundColor,
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return PostItem(item: _listPost[index]);
+                        },
+                        itemCount: _listPost.length,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );

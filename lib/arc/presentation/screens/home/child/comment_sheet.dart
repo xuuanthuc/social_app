@@ -11,9 +11,9 @@ import 'package:hii_xuu_social/src/utilities/showtoast.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
 class CommentSheet extends StatefulWidget {
-  PostData postItem;
+  final PostData postItem;
 
-  CommentSheet({Key? key, required this.postItem}) : super(key: key);
+  const CommentSheet({Key? key, required this.postItem}) : super(key: key);
 
   @override
   State<CommentSheet> createState() => _CommentSheetState();
@@ -30,9 +30,9 @@ class _CommentSheetState extends State<CommentSheet> {
 }
 
 class _Body extends StatefulWidget {
-  PostData postItem;
+  final PostData postItem;
 
-  _Body({Key? key, required this.postItem}) : super(key: key);
+  const _Body({Key? key, required this.postItem}) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
@@ -43,6 +43,7 @@ class _BodyState extends State<_Body> {
   final TextEditingController _commentController = TextEditingController();
   bool _canComment = false;
   List<CommentModel>? _listComment = [];
+  bool _autoFocus = false;
 
   @override
   void initState() {
@@ -62,15 +63,18 @@ class _BodyState extends State<_Body> {
     debugPrint("Focus: ${_focus.hasFocus.toString()}");
   }
 
-  void _onCommentPost() {
+  void _onCommentPost(ScrollController _scrollController) async {
+    await _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.ease);
     context.read<HomeBloc>().add(OnCommentEvent(
         comment: _commentController.text, post: widget.postItem));
-    StaticVariable.currentComment = CommentModel(
+    StaticVariable.comment = CommentModel(
         content: _commentController.text,
         authName: StaticVariable.myData?.fullName,
         authAvatar: StaticVariable.myData?.imageUrl,
-      updateAt: 'Posting...'
-    );
+        updateAt: 'Posting...');
   }
 
   @override
@@ -94,6 +98,7 @@ class _BodyState extends State<_Body> {
         }
         if (state is LoadListCommentSuccessState) {
           _listComment = state.listComment;
+          _autoFocus = true;
         }
         if (state is LoadListCommentFailedState) {
           ToastView.show('Something wrong!');
@@ -102,7 +107,7 @@ class _BodyState extends State<_Body> {
           ToastView.show('Something wrong!');
         }
         if (state is ReloadingListCommentState) {
-          _listComment?.add(StaticVariable.currentComment!);
+          _listComment?.add(StaticVariable.comment!);
         }
       },
       child: BlocBuilder<HomeBloc, HomeState>(
@@ -118,7 +123,7 @@ class _BodyState extends State<_Body> {
               maxChildSize: 1,
               snap: true,
               expand: true,
-              builder: (context, scrollController) => ClipRRect(
+              builder: (context, _scrollController) => ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Scaffold(
                   backgroundColor: theme.backgroundColor,
@@ -131,7 +136,7 @@ class _BodyState extends State<_Body> {
                               top: Dimens.size20, bottom: Dimens.size10),
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
-                            controller: scrollController,
+                            controller: _scrollController,
                             itemBuilder: (context, index) {
                               final comment = _listComment?[index];
                               return _bulidComment(comment);
@@ -149,7 +154,7 @@ class _BodyState extends State<_Body> {
                             _buildAvatarWidget(theme),
                             const SizedBox(width: Dimens.size10),
                             _buildTextFieldComment(theme),
-                            _buildCommentButton(),
+                            _buildCommentButton(_scrollController),
                             Visibility(
                               visible: !_focus.hasFocus,
                               child: const SizedBox(width: Dimens.size15),
@@ -172,7 +177,7 @@ class _BodyState extends State<_Body> {
   Widget _bulidComment(CommentModel? comment) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-          horizontal: Dimens.size20, vertical: Dimens.size15),
+          horizontal: Dimens.size15, vertical: Dimens.size15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -187,11 +192,17 @@ class _BodyState extends State<_Body> {
                   height: Dimens.size40,
                   width: Dimens.size40,
                   child: comment?.authAvatar == ''
-                      ? Image.asset(MyImages.defaultAvt)
-                      : Image.network(comment?.authAvatar ?? ''),
+                      ? Image.asset(
+                          MyImages.defaultAvt,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          comment?.authAvatar ?? '',
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
-              const SizedBox(width: Dimens.size15),
+              const SizedBox(width: Dimens.size10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,18 +257,26 @@ class _BodyState extends State<_Body> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
         child: StaticVariable.myData?.imageUrl == ''
-            ? Image.asset(MyImages.defaultAvt)
-            : Image.network(StaticVariable.myData?.imageUrl ?? ''),
+            ? Image.asset(
+                MyImages.defaultAvt,
+                fit: BoxFit.cover,
+              )
+            : Image.network(
+                StaticVariable.myData?.imageUrl ?? '',
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }
 
-  Visibility _buildCommentButton() {
+  Visibility _buildCommentButton(ScrollController _scrollController) {
     return Visibility(
       visible: _focus.hasFocus,
       child: InkWell(
         borderRadius: BorderRadius.circular(50),
-        onTap: _canComment == true ? _onCommentPost : () {},
+        onTap: _canComment == true
+            ? () => _onCommentPost(_scrollController)
+            : () {},
         child: Padding(
           padding: const EdgeInsets.all(Dimens.size15),
           child: SizedBox(
@@ -277,6 +296,7 @@ class _BodyState extends State<_Body> {
         height: 40,
         child: TextField(
           focusNode: _focus,
+          autofocus: _autoFocus,
           style: theme.textTheme.headline6,
           controller: _commentController,
           cursorHeight: Dimens.size18,

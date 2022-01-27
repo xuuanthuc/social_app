@@ -14,7 +14,7 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
-  final List<PostData> _listPost = [];
+  List<PostData> _listPost = [];
   String comment = '';
 
   HomeBloc() : super(InitHomeState()) {
@@ -66,6 +66,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       }).catchError((onError) => emit(LoadListCommentFailedState()));
     }
+    StaticVariable.listComment = _listComment;
     emit(LoadListCommentSuccessState(_listComment));
   }
 
@@ -108,6 +109,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       }).catchError((onError) => emit(LoadListCommentFailedState()));
     }
+    StaticVariable.listComment = _listComment;
     emit(LoadListCommentSuccessState(_listComment));
   }
 
@@ -194,6 +196,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(HomeLoadingState());
     List<String> _listPostId = [];
+    _listPost = [];
     await fireStore
         .collection(AppConfig.instance.cUser)
         .doc(StaticVariable.myData?.userId)
@@ -210,7 +213,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       PostData post = PostData();
       List<String> _listLikes = [];
       List<String> _listComment = [];
-
       await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(StaticVariable.myData?.userId)
@@ -264,6 +266,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       post.likes = _listLikes;
       _listPost.add(post);
     }
+    StaticVariable.listPost = _listPost;
     emit(HomeLoadedState(_listPost));
   }
 }
