@@ -103,7 +103,6 @@ class _PostItemState extends State<PostItem> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _buildFavoriteButton(),
-                      const SizedBox(width: Dimens.size5),
                       Text(
                         widget.item.likes?.length.toString() ?? '0',
                         style: theme.primaryTextTheme.headline4,
@@ -267,14 +266,9 @@ class _PostItemState extends State<PostItem> {
                         builder: (context) => FullImageScreen(
                           image: widget.item.images?[index] ?? '',
                           countCmt: _currentComment,
+                          countLike: widget.item.likes?.length.toString() ?? '',
                           comment: showCommentSheet,
-                          like: widget.item.likes!.contains(StaticVariable.myData?.userId)
-                              ? () {
-                            context.read<HomeBloc>().add(OnDisLikePostEvent(widget.item));
-                          }
-                              : () {
-                            context.read<HomeBloc>().add(OnLikePostEvent(widget.item));
-                          },
+                          post: widget.item
                         ),
                       ),
                     );
