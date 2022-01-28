@@ -10,14 +10,13 @@ class FullImageFileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        child: Center(
-          child: Image.file(
-            image,
-            fit: BoxFit.cover,
-          ),
+      body: Center(
+        child: Image.file(
+          image,
+          fit: BoxFit.cover,
         ),
       ),
     );

@@ -10,4 +10,5 @@ class StaticVariable{
   static CommentModel? comment;
   static List<CommentModel>? listComment;
   static List<PostData>? listPost;
+  static List<String>? listStory;
 }

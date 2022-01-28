@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/auth/login_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/auth/setup_profile_screen.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/child/add_your_story.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/full_image.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/upload/child/file_image.dart';
 import '../../arc/presentation/screens/main/main_screen.dart';
@@ -20,6 +21,9 @@ class AppRoutes {
         return _materialRoute(routeSettings,const LoginScreen());
       case RouteKey.setUpProfile:
         return _materialRoute(routeSettings,const SetUpProfileScreen());
+      case RouteKey.addStory:
+        var file = settings.arguments as File;
+        return _materialRoute(routeSettings, AddStoryScreen(imageFile: file));
       // case RouteKey.fullImage:
       //   var image = settings.arguments as String;
       //   return _materialRoute(routeSettings, FullImageScreen(image: image));

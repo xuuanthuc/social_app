@@ -5,7 +5,6 @@ import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
-import 'package:hii_xuu_social/src/utilities/showtoast.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -69,6 +68,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
           return Scaffold(
             backgroundColor: Colors.black,
             appBar: AppBar(
+              elevation: 0,
               backgroundColor: Colors.transparent,
             ),
             body: Stack(

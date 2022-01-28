@@ -6,6 +6,7 @@ import 'package:hii_xuu_social/arc/presentation/blocs/animation/animation_bloc.d
 import 'package:hii_xuu_social/arc/presentation/blocs/auth/auth_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/search/search_bloc.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
 import 'package:hii_xuu_social/src/utilities/route_observer.dart';
 import '../src/config/config.dart';
@@ -36,6 +37,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<UploadBloc>(create: (context) => UploadBloc()),
           BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
           BlocProvider<AnimationBloc>(create: (context) => AnimationBloc()),
+          BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
         ],
         child: MaterialApp(
           title: TranslationKey.appName.tr(),

@@ -17,13 +17,16 @@ part 'upload_state.dart';
 
 class UploadBloc extends Bloc<UploadEvent, UploadState> {
   final List<File> _listImageFile = [];
+  File _imageFile = File('');
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   UploadBloc() : super(InitUploadState()) {
     on<InitUploadEvent>(_onInitData);
     on<OnPickImageEvent>(_onPickImage);
+    on<OnPickStoryImageEvent>(_onStoryImagePicked);
     on<OnDeleteImageEvent>(_onDeleteImage);
     on<OnSubmitSharePostEvent>(_onShare);
+    on<OnSubmitUploadStory>(_uploadStory);
   }
 
   void _onInitData(
@@ -31,6 +34,25 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     Emitter<UploadState> emit,
   ) async {
     emit(UploadLoadedState());
+  }
+
+  void _uploadStory(
+      OnSubmitUploadStory event,
+      Emitter<UploadState> emit,
+      ) async {
+    emit(LoadingSharePostState());
+    var _imageUrl = await uploadStoryToFirebase();
+    String currentAutoPostId = GenerateValue().genRandomString(15);
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(StaticVariable.myData?.userId)
+        .collection(AppConfig.instance.cStory)
+        .doc(currentAutoPostId)
+        .set({"create_at": DateTime.now().toUtc().toIso8601String(), "image" : _imageUrl},
+        SetOptions(merge: true)).catchError(
+          (error) => emit(SharePostFailedState('Upload failed!')),
+    );
+    emit(UploadStorySuccessState());
   }
 
   void _onPickImage(
@@ -43,6 +65,16 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       _listImageFile.add(File(_imageXFile.path));
     }
     emit(ImagePickedState(listImageFiles: _listImageFile));
+  }
+
+  void _onStoryImagePicked(
+    OnPickStoryImageEvent event,
+    Emitter<UploadState> emit,
+  ) async {
+    emit(InitUploadState());
+    var _imageXFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    _imageFile = File(_imageXFile?.path ?? '');
+    emit(StoryImagePickedState(imageFiles: _imageFile));
   }
 
   void _onDeleteImage(
@@ -119,6 +151,24 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       return _listImagePath;
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<String>? uploadStoryToFirebase() async {
+    var user = StaticVariable.myData!;
+    try {
+      String downloadUrl = '';
+      var file = _imageFile;
+      FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+      Reference ref = firebaseStorage.ref(
+          'uploads-images/${user.userId}/images/${DateTime.now().microsecondsSinceEpoch}');
+      TaskSnapshot uploadedFile = await ref.putFile(file);
+      if (uploadedFile.state == TaskState.success) {
+        downloadUrl = await ref.getDownloadURL();
+      }
+      return downloadUrl;
+    } catch (e) {
+      return '';
     }
   }
 }

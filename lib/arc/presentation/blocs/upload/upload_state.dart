@@ -16,6 +16,11 @@ class ImagePickedState extends UploadState{
   const ImagePickedState({this.listImageFiles});
 }
 
+class StoryImagePickedState extends UploadState{
+  final File? imageFiles;
+  const StoryImagePickedState({this.imageFiles});
+}
+
 class OnDeleteImageState extends UploadState{
   final List<File>? listImageFiles;
   const OnDeleteImageState({this.listImageFiles});
@@ -29,3 +34,5 @@ class SharePostFailedState extends UploadState{
   final String error;
   const SharePostFailedState(this.error);
 }
+
+class UploadStorySuccessState extends UploadState{}

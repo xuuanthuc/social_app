@@ -11,6 +11,7 @@ class PostData {
   String? updateAt;
   List<String>? likes;
   List<String>? comments;
+  List<String>? stories;
 
   PostData({
     this.content,

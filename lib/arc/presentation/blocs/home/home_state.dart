@@ -13,7 +13,8 @@ class HomeLoadingState extends HomeState{}
 
 class HomeLoadedState extends HomeState{
   final List<PostData>? listPost;
-  const HomeLoadedState(this.listPost);
+  final List<String>? listStory;
+  const HomeLoadedState({this.listPost, this.listStory});
 }
 
 class OnLikedPostState extends HomeState{

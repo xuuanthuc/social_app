@@ -29,4 +29,5 @@ class TranslationKey {
   static const share = 'share';
   static const descriptionPost = 'description_post';
   static const seeMore = 'see_more';
+  static const addStory = 'add_story';
 }

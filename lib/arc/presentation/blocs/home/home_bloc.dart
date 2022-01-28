@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/request_models/post_comment.dart';
 import 'package:hii_xuu_social/src/config/app_config.dart';
+import 'package:hii_xuu_social/src/utilities/format.dart';
 import 'package:hii_xuu_social/src/utilities/generate.dart';
 import 'package:hii_xuu_social/src/utilities/logger.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
@@ -15,6 +16,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   List<PostData> _listPost = [];
+  List<String> _listStory = [];
   String comment = '';
 
   HomeBloc() : super(InitHomeState()) {
@@ -28,15 +30,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _reloadComment(
-      ReloadListComment event,
-      Emitter<HomeState> emit,
-      ) async {
+    ReloadListComment event,
+    Emitter<HomeState> emit,
+  ) async {
     emit(ReloadingListCommentState());
     List<CommentModel>? _listComment = [];
     List<String>? _listCommentId = [];
     await fireStore
         .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
+        .doc(event.post.userId)
         .collection(AppConfig.instance.cMedia)
         .doc(event.post.postId)
         .collection(AppConfig.instance.cPostComment)
@@ -50,7 +52,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     for (var _commentId in _listCommentId) {
       await fireStore
           .collection(AppConfig.instance.cUser)
-          .doc(StaticVariable.myData?.userId)
+          .doc(event.post.userId)
           .collection(AppConfig.instance.cMedia)
           .doc(event.post.postId)
           .collection(AppConfig.instance.cPostComment)
@@ -79,7 +81,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     List<String>? _listCommentId = [];
     await fireStore
         .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
+        .doc(event.post.userId)
         .collection(AppConfig.instance.cMedia)
         .doc(event.post.postId)
         .collection(AppConfig.instance.cPostComment)
@@ -93,7 +95,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     for (var _commentId in _listCommentId) {
       await fireStore
           .collection(AppConfig.instance.cUser)
-          .doc(StaticVariable.myData?.userId)
+          .doc(event.post.userId)
           .collection(AppConfig.instance.cMedia)
           .doc(event.post.postId)
           .collection(AppConfig.instance.cPostComment)
@@ -130,7 +132,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
     await fireStore
         .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
+        .doc(event.post?.userId ?? '')
         .collection(AppConfig.instance.cMedia)
         .doc(event.post?.postId ?? '')
         .collection(AppConfig.instance.cPostComment)
@@ -158,7 +160,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(InitHomeState());
     await fireStore
         .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
+        .doc(event.post.userId)
         .collection(AppConfig.instance.cMedia)
         .doc(event.post.postId)
         .collection(AppConfig.instance.cPostLikes)
@@ -177,7 +179,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(InitHomeState());
     await fireStore
         .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
+        .doc(event.post.userId)
         .collection(AppConfig.instance.cMedia)
         .doc(event.post.postId)
         .collection(AppConfig.instance.cPostLikes)
@@ -196,7 +198,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(HomeLoadingState());
     List<String> _listPostId = [];
+    List<String> _listFollowingUser = [];
+    List<String> _listStoryId = [];
+    List<String> _listStory = [];
     _listPost = [];
+    _listStoryId = [];
+    _listStory = [];
+    //data of me
+    //get list post id;
     await fireStore
         .collection(AppConfig.instance.cUser)
         .doc(StaticVariable.myData?.userId)
@@ -209,10 +218,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
 
+    //init post
     for (var _postId in _listPostId) {
       PostData post = PostData();
       List<String> _listLikes = [];
       List<String> _listComment = [];
+      //get post data each item
       await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(StaticVariable.myData?.userId)
@@ -229,7 +240,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           post = PostData.fromJson(res);
         }
       });
-
+      //get list like;
       await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(StaticVariable.myData?.userId)
@@ -244,7 +255,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           }
         },
       );
-
+      //get list comment id
       await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(StaticVariable.myData?.userId)
@@ -266,7 +277,164 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       post.likes = _listLikes;
       _listPost.add(post);
     }
+    //get list story
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(StaticVariable.myData?.userId)
+        .collection(AppConfig.instance.cStory)
+        .orderBy("create_at", descending: true)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        _listStoryId.add(doc.id);
+      }
+    });
+
+    for (var _story in _listStoryId) {
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(StaticVariable.myData?.userId)
+          .collection(AppConfig.instance.cStory)
+          .doc(_story)
+          .get()
+          .then(
+        (DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            var data = documentSnapshot.data();
+            LoggerUtils.d(documentSnapshot.data());
+            var res = data as Map<String, dynamic>;
+            if (TimeAgo.checkCreateAtTime(res['create_at']) == true) {
+              _listStory.add(res['image']);
+            }
+          }
+        },
+      );
+    }
+    //data use khAC
+    //get list user id dang follow
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(StaticVariable.myData?.userId)
+        .collection(AppConfig.instance.cConnect)
+        .doc(AppConfig.instance.cFollowing)
+        .collection(AppConfig.instance.cListFollowing)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        _listFollowingUser.add(doc.id);
+      }
+    });
+    _listPostId = [];
+    for(var _userId in _listFollowingUser){
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(_userId)
+          .collection(AppConfig.instance.cMedia)
+          .orderBy("create_at", descending: true)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          _listPostId.add(doc.id);
+        }
+      });
+
+      //init post
+      for (var _postId in _listPostId) {
+        PostData post = PostData();
+        List<String> _listLikes = [];
+        List<String> _listComment = [];
+        //get post data each item
+        await fireStore
+            .collection(AppConfig.instance.cUser)
+            .doc(_userId)
+            .collection(AppConfig.instance.cMedia)
+            .doc(_postId)
+            .collection(AppConfig.instance.cPostData)
+            .doc(AppConfig.instance.cPostContent)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            var data = documentSnapshot.data();
+            LoggerUtils.d(documentSnapshot.data());
+            var res = data as Map<String, dynamic>;
+            post = PostData.fromJson(res);
+          }
+        });
+        //get list like;
+        await fireStore
+            .collection(AppConfig.instance.cUser)
+            .doc(_userId)
+            .collection(AppConfig.instance.cMedia)
+            .doc(_postId)
+            .collection(AppConfig.instance.cPostLikes)
+            .get()
+            .then(
+              (QuerySnapshot querySnapshot) {
+            for (var doc in querySnapshot.docs) {
+              _listLikes.add(doc.id);
+            }
+          },
+        );
+        //get list comment id
+        await fireStore
+            .collection(AppConfig.instance.cUser)
+            .doc(_userId)
+            .collection(AppConfig.instance.cMedia)
+            .doc(_postId)
+            .collection(AppConfig.instance.cPostComment)
+            .orderBy("create_at", descending: false)
+            .get()
+            .then(
+              (QuerySnapshot querySnapshot) {
+            for (var doc in querySnapshot.docs) {
+              _listComment.add(doc.id);
+            }
+          },
+        );
+
+        post.comments = _listComment;
+        post.postId = _postId;
+        post.likes = _listLikes;
+        _listPost.add(post);
+      }
+      //get list story
+      // await fireStore
+      //     .collection(AppConfig.instance.cUser)
+      //     .doc(_userId)
+      //     .collection(AppConfig.instance.cStory)
+      //     .orderBy("create_at", descending: true)
+      //     .get()
+      //     .then((QuerySnapshot querySnapshot) {
+      //   for (var doc in querySnapshot.docs) {
+      //     _listStoryId.add(doc.id);
+      //   }
+      // });
+
+      // for (var _story in _listStoryId) {
+      //   await fireStore
+      //       .collection(AppConfig.instance.cUser)
+      //       .doc(_userId)
+      //       .collection(AppConfig.instance.cStory)
+      //       .doc(_story)
+      //       .get()
+      //       .then(
+      //         (DocumentSnapshot documentSnapshot) {
+      //       if (documentSnapshot.exists) {
+      //         var data = documentSnapshot.data();
+      //         LoggerUtils.d(documentSnapshot.data());
+      //         var res = data as Map<String, dynamic>;
+      //         if (TimeAgo.checkCreateAtTime(res['create_at']) == true) {
+      //           _listStory.add(res['image']);
+      //         }
+      //       }
+      //     },
+      //   );
+      // }
+    }
+
+    _listPost.sort((a,b) => (b.updateAt ?? '').compareTo(a.updateAt ?? ''));
     StaticVariable.listPost = _listPost;
-    emit(HomeLoadedState(_listPost));
+    StaticVariable.listStory = _listStory;
+    emit(HomeLoadedState(listPost: _listPost, listStory: _listStory));
   }
 }

@@ -11,6 +11,8 @@ class InitUploadEvent extends UploadEvent {}
 
 class OnPickImageEvent extends UploadEvent{}
 
+class OnPickStoryImageEvent extends UploadEvent{}
+
 class OnDeleteImageEvent extends UploadEvent{
   final int index;
   const OnDeleteImageEvent(this.index);
@@ -19,5 +21,9 @@ class OnDeleteImageEvent extends UploadEvent{
 class OnSubmitSharePostEvent extends UploadEvent{
   final String? content;
   const OnSubmitSharePostEvent(this.content);
+}
+
+class OnSubmitUploadStory extends UploadEvent{
+
 }
 

@@ -57,4 +57,23 @@ class TimeAgo {
       return '';
     }
   }
+
+
+  static bool checkCreateAtTime(String dateString) {
+    try {
+      DateTime notificationDate = DateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'")
+          .parse(dateString, true)
+          .toUtc()
+          .toLocal();
+      final date2 = DateTime.now();
+      final difference = date2.difference(notificationDate);
+      if (difference.inHours <= 24) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
 }
