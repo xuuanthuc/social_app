@@ -23,7 +23,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     OnSearchEvent event,
     Emitter<SearchState> emit,
   ) async {
-    emit(InitState());
+    emit(LoadingSearchState());
     List<String> listUserId = StaticVariable.listUserId ?? [];
     List<String> _listFindId = [];
     _listUser = [];

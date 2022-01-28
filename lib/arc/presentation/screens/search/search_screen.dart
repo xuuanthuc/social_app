@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/search/search_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/search/widget/loading_search.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
-import 'package:provider/src/provider.dart';
+import 'package:hii_xuu_social/src/styles/dimens.dart';
+import 'package:hii_xuu_social/src/styles/images.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -13,8 +15,27 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final FocusNode _focus = FocusNode();
   final TextEditingController _controller = TextEditingController();
   List<UserData> _listUser = [];
+
+  void search() {
+    _focus.unfocus();
+    context.read<SearchBloc>().add(OnSearchEvent(_controller.text));
+  }
+
+  void goToProfile(int index) {
+    // context.read<SearchBloc>().add(
+    //       OnFollowClickedEvent(_listUser[index].userId ?? ''),
+    //     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _focus.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,35 +48,22 @@ class _SearchScreenState extends State<SearchScreen> {
       },
       child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
+          if (state is LoadingSearchState) {
+            return LoadingSearchScreen(controller: _controller);
+          }
           return Scaffold(
             backgroundColor: theme.backgroundColor,
             appBar: const AppBarDesign(),
             body: Column(
               children: [
-                Container(
-                  height: 50,
-                  child: TextField(
-                    controller: _controller,
-                  ),
-                ),
-                GestureDetector(
-                    onTap: () {
-                      context
-                          .read<SearchBloc>()
-                          .add(OnSearchEvent(_controller.text));
-                    },
-                    child: Container(
-                      height: 50,
-                      child: Text('search'),
-                    )),
+                const SizedBox(height: Dimens.size8),
+                _buildSearchField(theme),
+                const SizedBox(height: Dimens.size20),
                 Expanded(
                   child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: (){
-                            context.read<SearchBloc>().add(OnFollowClickedEvent(_listUser[index].userId ?? ''));
-                          },
-                          child: Text(_listUser[index].fullName ?? ''));
+                      return _buildItemUser(context, index, theme);
                     },
                     itemCount: _listUser.length,
                   ),
@@ -64,6 +72,102 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  GestureDetector _buildItemUser(
+      BuildContext context, int index, ThemeData theme) {
+    return GestureDetector(
+      onTap: () => goToProfile(index),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: Dimens.size15, vertical: Dimens.size10),
+        child: Row(
+          children: [
+            _buildAvatarWidget(theme, _listUser[index].imageUrl ?? ''),
+            const SizedBox(
+              width: Dimens.size10,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _listUser[index].fullName ?? '',
+                  style: theme.primaryTextTheme.headline4,
+                ),
+                const SizedBox(height: Dimens.size5),
+                Text(
+                  '@' + (_listUser[index].username ?? ''),
+                  style: theme.primaryTextTheme.subtitle1,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _buildSearchField(ThemeData theme) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.size15),
+      height: 40,
+      child: TextField(
+        focusNode: _focus,
+        style: theme.textTheme.headline6,
+        controller: _controller,
+        cursorHeight: Dimens.size18,
+        onEditingComplete: search,
+        decoration: InputDecoration(
+            hintText: 'Enter full name',
+            hintStyle: theme.primaryTextTheme.subtitle1,
+            prefixIcon: GestureDetector(
+              onTap: search,
+              child: const Icon(Icons.search),
+            ),
+            suffixIcon: GestureDetector(
+              onTap: () {
+                _controller.clear();
+              },
+              child: const Icon(Icons.close),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+                horizontal: Dimens.size20, vertical: Dimens.size4),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide.none,
+            ),
+            filled: true,
+            fillColor: theme.shadowColor.withOpacity(0.7)),
+      ),
+    );
+  }
+
+  Widget _buildAvatarWidget(ThemeData theme, String imageUrl) {
+    return SizedBox(
+      height: Dimens.size50,
+      width: Dimens.size50,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: imageUrl == ''
+            ? Image.asset(
+                MyImages.defaultAvt,
+                fit: BoxFit.cover,
+              )
+            : Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }

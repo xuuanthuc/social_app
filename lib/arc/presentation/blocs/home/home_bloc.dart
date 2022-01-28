@@ -397,39 +397,40 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         post.likes = _listLikes;
         _listPost.add(post);
       }
-      //get list story
-      // await fireStore
-      //     .collection(AppConfig.instance.cUser)
-      //     .doc(_userId)
-      //     .collection(AppConfig.instance.cStory)
-      //     .orderBy("create_at", descending: true)
-      //     .get()
-      //     .then((QuerySnapshot querySnapshot) {
-      //   for (var doc in querySnapshot.docs) {
-      //     _listStoryId.add(doc.id);
-      //   }
-      // });
+      // get list story
+      _listStoryId = [];
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(_userId)
+          .collection(AppConfig.instance.cStory)
+          .orderBy("create_at", descending: true)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          _listStoryId.add(doc.id);
+        }
+      });
 
-      // for (var _story in _listStoryId) {
-      //   await fireStore
-      //       .collection(AppConfig.instance.cUser)
-      //       .doc(_userId)
-      //       .collection(AppConfig.instance.cStory)
-      //       .doc(_story)
-      //       .get()
-      //       .then(
-      //         (DocumentSnapshot documentSnapshot) {
-      //       if (documentSnapshot.exists) {
-      //         var data = documentSnapshot.data();
-      //         LoggerUtils.d(documentSnapshot.data());
-      //         var res = data as Map<String, dynamic>;
-      //         if (TimeAgo.checkCreateAtTime(res['create_at']) == true) {
-      //           _listStory.add(res['image']);
-      //         }
-      //       }
-      //     },
-      //   );
-      // }
+      for (var _story in _listStoryId) {
+        await fireStore
+            .collection(AppConfig.instance.cUser)
+            .doc(_userId)
+            .collection(AppConfig.instance.cStory)
+            .doc(_story)
+            .get()
+            .then(
+              (DocumentSnapshot documentSnapshot) {
+            if (documentSnapshot.exists) {
+              var data = documentSnapshot.data();
+              LoggerUtils.d(documentSnapshot.data());
+              var res = data as Map<String, dynamic>;
+              if (TimeAgo.checkCreateAtTime(res['create_at']) == true) {
+                _listStory.add(res['image']);
+              }
+            }
+          },
+        );
+      }
     }
 
     _listPost.sort((a,b) => (b.updateAt ?? '').compareTo(a.updateAt ?? ''));

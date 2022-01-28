@@ -14,6 +14,6 @@ class SearchSuccessState extends SearchState{
   const SearchSuccessState(this.listUser);
 }
 
-class OnFollowSuccessState extends SearchState{
+class LoadingSearchState extends SearchState{}
 
-}
+class OnFollowSuccessState extends SearchState{}

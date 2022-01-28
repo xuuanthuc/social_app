@@ -127,8 +127,8 @@ class _LoadingCommentState extends State<LoadingComment> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
         child: StaticVariable.myData?.imageUrl == ''
-            ? Image.asset(MyImages.defaultAvt)
-            : Image.network(StaticVariable.myData?.imageUrl ?? ''),
+            ? Image.asset(MyImages.defaultAvt, fit: BoxFit.cover,)
+            : Image.network(StaticVariable.myData?.imageUrl ?? '', fit: BoxFit.cover,),
       ),
     );
   }
