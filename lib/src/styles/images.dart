@@ -22,6 +22,7 @@ class MyImages{
   static const icCameraSelected = assetImage + 'ic_camera_selected.png';
   static const icSend = assetImage + 'ic_send.png';
   static const icSendOutline = assetImage + 'ic_send_outline.png';
+  static const icAdd = assetImage + 'ic_add_story.png';
 
 
   //svgs

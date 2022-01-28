@@ -5,8 +5,17 @@ class Constants{
     Locale('en'),
     Locale('vi'),
   ];
+  static const PageIndex page = PageIndex();
 }
 
+class PageIndex{
+  const PageIndex();
+  int get home => 0;
+  int get chat => 1;
+  int get camera => 2;
+  int get search => 3;
+  int get profile => 4;
+}
 
 class PreferenceKeys {
   static const String xToken = 'X_TOKEN';

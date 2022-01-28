@@ -16,9 +16,33 @@ class LoadingHome extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            Container(
-              height: 100,
-              color: theme.backgroundColor,
+            Padding(
+              padding: const EdgeInsets.all(Dimens.size15),
+              child: Container(
+                height: Dimens.size88,
+                color: theme.backgroundColor,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: const [
+                        ShimmerWidget.rectangular(
+                          height: Dimens.size68,
+                          width: Dimens.size68,
+                        ),
+                        const SizedBox(
+                          height: Dimens.size20,
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: Dimens.size15);
+                  },
+                  itemCount: 5,
+                ),
+              ),
             ),
             Container(
               color: theme.scaffoldBackgroundColor,
@@ -28,7 +52,8 @@ class LoadingHome extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Container(
                     padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(horizontal: Dimens.size8,vertical: Dimens.size7),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: Dimens.size8, vertical: Dimens.size7),
                     height: Dimens.size300,
                     decoration: BoxDecoration(
                         color: theme.backgroundColor,

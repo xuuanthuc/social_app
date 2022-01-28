@@ -27,6 +27,7 @@ class _PostItemState extends State<PostItem> {
   int _currentIndex = 0;
   bool _isSeeMore = false;
   String _currentComment = '0';
+  bool _showFavouriteReact = false;
 
   void showCommentSheet() async {
     await showModalBottomSheet(
@@ -56,11 +57,39 @@ class _PostItemState extends State<PostItem> {
     _currentComment = widget.item.comments?.length.toString() ?? '0';
   }
 
+  void goToFullImage() {
+    navService.push(
+      MaterialPageRoute(
+        builder: (context) => FullImageScreen(
+            image: widget.item.images ?? [],
+            countCmt: _currentComment,
+            countLike: widget.item.likes?.length.toString() ?? '',
+            comment: showCommentSheet,
+            post: widget.item),
+      ),
+    );
+  }
+
+  void unLike() {
+    context.read<HomeBloc>().add(OnDisLikePostEvent(widget.item));
+  }
+
+  void like() async {
+    context.read<HomeBloc>().add(OnLikePostEvent(widget.item));
+    setState(() {
+      _showFavouriteReact = true;
+    });
+    await Future.delayed(Duration(milliseconds: 500));
+    setState(() {
+      _showFavouriteReact = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is OnDisLikedPostState) {
           widget.item = state.post;
         }
@@ -93,8 +122,7 @@ class _PostItemState extends State<PostItem> {
                   widget.item.content == ''
                       ? _buildEmptyWidget()
                       : Padding(
-                          padding:
-                              const EdgeInsets.only(bottom: Dimens.size10),
+                          padding: const EdgeInsets.only(bottom: Dimens.size10),
                           child: widget.item.content!.length > 150
                               ? _buildLongContent(context, theme)
                               : _buildShortContent(theme),
@@ -143,12 +171,8 @@ class _PostItemState extends State<PostItem> {
   GestureDetector _buildFavoriteButton() {
     return GestureDetector(
       onTap: widget.item.likes!.contains(StaticVariable.myData?.userId)
-          ? () {
-              context.read<HomeBloc>().add(OnDisLikePostEvent(widget.item));
-            }
-          : () {
-              context.read<HomeBloc>().add(OnLikePostEvent(widget.item));
-            },
+          ? unLike
+          : like,
       child: Container(
         color: Colors.transparent,
         child: Padding(
@@ -185,17 +209,13 @@ class _PostItemState extends State<PostItem> {
         padding: const EdgeInsets.symmetric(horizontal: Dimens.size10),
         child: Column(
           children: [
-            AnimatedSize(
-              curve: Curves.ease,
-              duration: const Duration(milliseconds: 200),
-              child: SizedBox(
-                height: _isSeeMore == true ? null : Dimens.size35,
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  widget.item.content ?? '',
-                  style: theme.primaryTextTheme.bodyText2,
-                  textAlign: TextAlign.start,
-                ),
+            SizedBox(
+              height: _isSeeMore == true ? null : Dimens.size35,
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                widget.item.content ?? '',
+                style: theme.primaryTextTheme.bodyText2,
+                textAlign: TextAlign.start,
               ),
             ),
             _isSeeMore == false
@@ -242,49 +262,74 @@ class _PostItemState extends State<PostItem> {
     );
   }
 
-  Padding _buildListImage(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: Dimens.size5),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.width * 0.7,
-        child: PageView.builder(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(Dimens.size5),
-                child: GestureDetector(
-                  onTap: () {
-                    // navService.pushNamed(RouteKey.fullImage, args: widget.item.images?[index]);
-                    navService.push(
-                      MaterialPageRoute(
-                        builder: (context) => FullImageScreen(
-                          image: widget.item.images?[index] ?? '',
-                          countCmt: _currentComment,
-                          countLike: widget.item.likes?.length.toString() ?? '',
-                          comment: showCommentSheet,
-                          post: widget.item
-                        ),
+  Widget _buildListImage(BuildContext context) {
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: Dimens.size5),
+          child: widget.item.images?.length == 1
+              ? Padding(
+                  padding: const EdgeInsets.all(Dimens.size5),
+                  child: GestureDetector(
+                    onDoubleTap: widget.item.likes!
+                            .contains(StaticVariable.myData?.userId)
+                        ? unLike
+                        : like,
+                    onTap: goToFullImage,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.network(
+                        widget.item.images?.first ?? '',
+                        fit: BoxFit.cover,
                       ),
-                    );
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.network(
-                      widget.item.images?[index] ?? '',
-                      fit: BoxFit.cover,
                     ),
                   ),
+                )
+              : SizedBox(
+                  height: MediaQuery.of(context).size.width - Dimens.size30,
+                  child: PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                      },
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(Dimens.size5),
+                          child: GestureDetector(
+                            onDoubleTap: widget.item.likes!
+                                    .contains(StaticVariable.myData?.userId)
+                                ? unLike
+                                : like,
+                            onTap: goToFullImage,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                widget.item.images?[index] ?? '',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: widget.item.images?.length ?? 0),
                 ),
-              );
-            },
-            itemCount: widget.item.images?.length ?? 0),
-      ),
+        ),
+        Visibility(
+          visible: _showFavouriteReact,
+          child: Positioned(
+            right: MediaQuery.of(context).size.width * 0.5 - 65,
+            bottom: 50,
+            child: SizedBox(
+              height: Dimens.size100,
+              width: Dimens.size100,
+              child: SvgPicture.asset(MyImages.icLiked),
+            ),
+          ),
+        )
+      ],
     );
   }
 

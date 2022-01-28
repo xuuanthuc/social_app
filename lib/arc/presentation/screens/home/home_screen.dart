@@ -4,7 +4,9 @@ import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/widget/story.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
+import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -63,10 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    Container(
-                      height: 100,
-                      color: theme.backgroundColor,
-                    ),
+                    StoryList(),
                     Container(
                       color: theme.scaffoldBackgroundColor,
                       child: ListView.builder(

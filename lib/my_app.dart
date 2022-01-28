@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/animation/animation_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/auth/auth_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
@@ -19,8 +20,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   void initState() {
     super.initState();
@@ -32,18 +31,11 @@ class _MyAppState extends State<MyApp> {
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<HomeBloc>(
-            create: (context) => HomeBloc(),
-          ),
-          BlocProvider<MainBloc>(
-            create: (context) => MainBloc(),
-          ),
-          BlocProvider<UploadBloc>(
-            create: (context) => UploadBloc(),
-          ),
-          BlocProvider<AuthBloc>(
-            create: (context) => AuthBloc(),
-          ),
+          BlocProvider<HomeBloc>(create: (context) => HomeBloc()),
+          BlocProvider<MainBloc>(create: (context) => MainBloc()),
+          BlocProvider<UploadBloc>(create: (context) => UploadBloc()),
+          BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
+          BlocProvider<AnimationBloc>(create: (context) => AnimationBloc()),
         ],
         child: MaterialApp(
           title: TranslationKey.appName.tr(),

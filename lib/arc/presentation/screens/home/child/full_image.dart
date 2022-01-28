@@ -7,9 +7,11 @@ import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/showtoast.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 class FullImageScreen extends StatefulWidget {
-  final String image;
+  final List<String> image;
   final VoidCallback comment;
   final String countCmt;
   String countLike;
@@ -29,6 +31,7 @@ class FullImageScreen extends StatefulWidget {
 }
 
 class _FullImageScreenState extends State<FullImageScreen> {
+  PageController _controller = PageController();
   bool _liked = false;
 
   @override
@@ -71,9 +74,23 @@ class _FullImageScreenState extends State<FullImageScreen> {
             body: Stack(
               children: [
                 Center(
-                  child: Image.network(
-                    widget.image,
-                    fit: BoxFit.cover,
+                  child: PhotoViewGallery.builder(
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    builder: (BuildContext context, int index) {
+                      return PhotoViewGalleryPageOptions(
+                        imageProvider: NetworkImage(widget.image[index]),
+                        initialScale: PhotoViewComputedScale.contained,
+                      );
+                    },
+                    itemCount: widget.image.length,
+                    loadingBuilder: (context, event) => const Center(
+                      child: SizedBox(
+                        width: 20.0,
+                        height: 20.0,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    pageController: _controller,
                   ),
                 ),
                 Positioned(

@@ -9,6 +9,7 @@ import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
 import 'package:hii_xuu_social/src/utilities/showtoast.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import '../../../../arc/presentation/blocs/upload/upload_bloc.dart';
@@ -71,7 +72,7 @@ class _UploadScreenState extends State<UploadScreen> {
         if (state is SharePostSuccessState) {
           EasyLoading.dismiss();
           ToastView.withBottom('Uploaded success!');
-          context.read<MainBloc>().add(const OnChangePageEvent(0));
+          context.read<MainBloc>().add(OnChangePageEvent(Constants.page.home));
         }
         if (state is SharePostFailedState) {
           EasyLoading.dismiss();

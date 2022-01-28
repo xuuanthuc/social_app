@@ -24,6 +24,7 @@ class Dimens {
   static const double size19 = 19.0;
   static const double size20 = 20.0;
   static const double size22 = 22.0;
+  static const double size23 = 23.0;
   static const double size24 = 24.0;
   static const double size25 = 25.0;
   static const double size26 = 26.0;

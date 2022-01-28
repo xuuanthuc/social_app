@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hixun.chubby.hii_xuu_social">
    <application
-        android:label="hii_xuu_social"
+        android:label="HiiXuu"
         android:name="${applicationName}"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
