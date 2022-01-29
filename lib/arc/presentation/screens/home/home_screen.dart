@@ -6,7 +6,6 @@ import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_home
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/story.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
-import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -24,14 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    if(StaticVariable.listPost != null){
+    if (StaticVariable.listPost != null) {
       _listPost = StaticVariable.listPost ?? [];
     } else {
       context.read<HomeBloc>().add(InitHomeEvent());
     }
   }
 
-  void _onRefresh() async{
+  void _onRefresh() async {
     context.read<HomeBloc>().add(InitHomeEvent());
     _refreshController.refreshCompleted();
   }
@@ -41,7 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final theme = Theme.of(context);
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {
-        if (state is HomeLoadingState) {}
+        if (state is HomeLoadingState) {
+
+        }
         if (state is HomeLoadedState) {
           _listPost = state.listPost ?? [];
         }
@@ -51,36 +52,45 @@ class _HomeScreenState extends State<HomeScreen> {
           if (state is HomeLoadingState) {
             return const LoadingHome();
           }
-          return Scaffold(
-            backgroundColor: theme.backgroundColor,
-            appBar: const AppBarDesign(),
-            body: SmartRefresher(
-              controller: _refreshController,
-              enablePullDown: true,
-              enablePullUp: false,
-              onRefresh: _onRefresh,
-              physics: const BouncingScrollPhysics(),
-              header: const WaterDropMaterialHeader(),
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    StoryList(),
-                    Container(
-                      color: theme.scaffoldBackgroundColor,
-                      child: ListView.builder(
+          return Navigator(
+            onGenerateRoute: (settings) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (materialContext) {
+                  return Scaffold(
+                    backgroundColor: theme.backgroundColor,
+                    appBar: const AppBarDesign(),
+                    body: SmartRefresher(
+                      controller: _refreshController,
+                      enablePullDown: true,
+                      enablePullUp: false,
+                      onRefresh: _onRefresh,
+                      physics: const BouncingScrollPhysics(),
+                      header: const WaterDropMaterialHeader(),
+                      child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return PostItem(item: _listPost[index]);
-                        },
-                        itemCount: _listPost.length,
+                        child: Column(
+                          children: [
+                            const StoryList(),
+                            Container(
+                              color: theme.scaffoldBackgroundColor,
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return PostItem(item: _listPost[index]);
+                                },
+                                itemCount: _listPost.length,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+                    ),
+                  );
+                },
+              );
+            },
           );
         },
       ),

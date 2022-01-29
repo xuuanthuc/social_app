@@ -11,7 +11,4 @@ class OnSearchEvent extends SearchEvent {
   const OnSearchEvent(this.keyword);
 }
 
-class OnFollowClickedEvent extends SearchEvent{
-  final String userId;
-  const OnFollowClickedEvent(this.userId);
-}
+

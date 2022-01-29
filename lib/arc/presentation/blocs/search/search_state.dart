@@ -16,4 +16,3 @@ class SearchSuccessState extends SearchState{
 
 class LoadingSearchState extends SearchState{}
 
-class OnFollowSuccessState extends SearchState{}

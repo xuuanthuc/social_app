@@ -20,6 +20,17 @@ class NavigationService<T, U> {
     return await navigationKey.currentState!.push<T>(route);
   }
 
+  pushContext(BuildContext rootContext,String settings, Widget child) {
+    return Navigator.of(rootContext).push(
+      MaterialPageRoute(
+        settings: RouteSettings(name: settings),
+        builder: (context) {
+          return child;
+        },
+      ),
+    );
+  }
+
   Future<T?> pushReplacementNamed(String routeName, {Object? args}) async {
     assert(navigationKey.currentState != null);
     return await navigationKey.currentState!.pushReplacementNamed<T, U>(

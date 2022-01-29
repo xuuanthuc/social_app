@@ -30,4 +30,12 @@ class TranslationKey {
   static const descriptionPost = 'description_post';
   static const seeMore = 'see_more';
   static const addStory = 'add_story';
+  static const follower = 'follower';
+  static const following = 'following';
+  static const posts = 'posts';
+  static const photos = 'photos';
+  static const editProfile = 'edit_profile';
+  static const follow = 'follow';
+  static const unFollow = 'un_follow';
+  static const message = 'message';
 }

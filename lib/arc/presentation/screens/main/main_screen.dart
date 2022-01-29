@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/profile_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/search/search_screen.dart';
+import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import '../../../../arc/presentation/blocs/main/main_bloc.dart';
 import '../../../../arc/presentation/screens/home/home_screen.dart';
 import '../../../../arc/presentation/screens/upload/upload_screen.dart';

@@ -23,6 +23,9 @@ class MyImages{
   static const icSend = assetImage + 'ic_send.png';
   static const icSendOutline = assetImage + 'ic_send_outline.png';
   static const icAdd = assetImage + 'ic_add_story.png';
+  static const icBack = assetImage + 'ic_back.png';
+  static const icSetting = assetImage + 'ic_setting.png';
+  static const icFlightSelected = assetImage + 'ic_flight_selected.png';
 
 
   //svgs

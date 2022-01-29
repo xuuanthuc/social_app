@@ -39,7 +39,7 @@ class _LoadingCommentState extends State<LoadingComment> {
     final size = MediaQuery.of(context).size;
 
     return SizedBox(
-      height: size.height - Dimens.size50,
+      height: size.height - Dimens.size120,
       child: DraggableScrollableSheet(
         initialChildSize: 1,
         minChildSize: 0.85,

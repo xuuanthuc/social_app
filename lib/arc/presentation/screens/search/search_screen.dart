@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/search/search_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/search/widget/loading_search.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
@@ -22,12 +23,6 @@ class _SearchScreenState extends State<SearchScreen> {
   void search() {
     _focus.unfocus();
     context.read<SearchBloc>().add(OnSearchEvent(_controller.text));
-  }
-
-  void goToProfile(int index) {
-    // context.read<SearchBloc>().add(
-    //       OnFollowClickedEvent(_listUser[index].userId ?? ''),
-    //     );
   }
 
   @override
@@ -51,25 +46,34 @@ class _SearchScreenState extends State<SearchScreen> {
           if (state is LoadingSearchState) {
             return LoadingSearchScreen(controller: _controller);
           }
-          return Scaffold(
-            backgroundColor: theme.backgroundColor,
-            appBar: const AppBarDesign(),
-            body: Column(
-              children: [
-                const SizedBox(height: Dimens.size8),
-                _buildSearchField(theme),
-                const SizedBox(height: Dimens.size20),
-                Expanded(
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return _buildItemUser(context, index, theme);
-                    },
-                    itemCount: _listUser.length,
-                  ),
-                )
-              ],
-            ),
+          return Navigator(
+            onGenerateRoute: (settings) {
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (materialContext) {
+                  return Scaffold(
+                    backgroundColor: theme.backgroundColor,
+                    appBar: const AppBarDesign(),
+                    body: Column(
+                      children: [
+                        const SizedBox(height: Dimens.size8),
+                        _buildSearchField(theme),
+                        const SizedBox(height: Dimens.size20),
+                        Expanded(
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return _buildItemUser(context, index, theme);
+                            },
+                            itemCount: _listUser.length,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           );
         },
       ),
@@ -79,7 +83,15 @@ class _SearchScreenState extends State<SearchScreen> {
   GestureDetector _buildItemUser(
       BuildContext context, int index, ThemeData theme) {
     return GestureDetector(
-      onTap: () => goToProfile(index),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return UserProfile(userId: _listUser[index].userId ?? '');
+            },
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: Dimens.size15, vertical: Dimens.size10),

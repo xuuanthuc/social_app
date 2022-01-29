@@ -16,7 +16,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SearchBloc() : super(InitState()) {
     on<OnSearchEvent>(_onSearch);
-    on<OnFollowClickedEvent>(_onFollow);
   }
 
   void _onSearch(
@@ -63,52 +62,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         }
       });
     }
-    emit(SearchSuccessState(_listUser));
-  }
-
-  void _onFollow(
-    OnFollowClickedEvent event,
-    Emitter<SearchState> emit,
-  ) async {
-    emit(InitState());
-    //update me
-    await fireStore
-        .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
-        .collection(AppConfig.instance.cConnect)
-        .doc(AppConfig.instance.cFollowing)
-        .set({}, SetOptions(merge: true)).catchError(
-      (error) => LoggerUtils.d('Upload failed!'),
-    );
-    await fireStore
-        .collection(AppConfig.instance.cUser)
-        .doc(StaticVariable.myData?.userId)
-        .collection(AppConfig.instance.cConnect)
-        .doc(AppConfig.instance.cFollowing)
-        .collection(AppConfig.instance.cListFollowing)
-        .doc(event.userId)
-        .set({}, SetOptions(merge: true)).catchError(
-      (error) => LoggerUtils.d('Upload failed!'),
-    );
-    //update that user
-    await fireStore
-        .collection(AppConfig.instance.cUser)
-        .doc(event.userId)
-        .collection(AppConfig.instance.cConnect)
-        .doc(AppConfig.instance.cFollowers)
-        .set({}, SetOptions(merge: true)).catchError(
-          (error) => LoggerUtils.d('Upload failed!'),
-    );
-    await fireStore
-        .collection(AppConfig.instance.cUser)
-        .doc(event.userId)
-        .collection(AppConfig.instance.cConnect)
-        .doc(AppConfig.instance.cFollowers)
-        .collection(AppConfig.instance.cListFollowing)
-        .doc(StaticVariable.myData?.userId)
-        .set({}, SetOptions(merge: true)).catchError(
-          (error) => LoggerUtils.d('Upload failed!'),
-    );
     emit(SearchSuccessState(_listUser));
   }
 }

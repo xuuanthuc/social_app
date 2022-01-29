@@ -3,11 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/request_models/post_comment.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_comment.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
 import 'package:hii_xuu_social/src/utilities/showtoast.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
 class CommentSheet extends StatefulWidget {
@@ -77,6 +80,21 @@ class _BodyState extends State<_Body> {
         updateAt: 'Posting...');
   }
 
+  void showUserProfile(String userId) {
+    _focus.unfocus();
+    if (userId == StaticVariable.myData?.userId) {
+      context.read<MainBloc>().add(OnChangePageEvent(Constants.page.profile));
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return UserProfile(userId: userId);
+          },
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -116,7 +134,7 @@ class _BodyState extends State<_Body> {
             return const LoadingComment();
           }
           return SizedBox(
-            height: size.height - Dimens.size50,
+            height: size.height - Dimens.size120,
             child: DraggableScrollableSheet(
               initialChildSize: 1,
               minChildSize: 0.85,
@@ -186,20 +204,23 @@ class _BodyState extends State<_Body> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(13),
-                child: SizedBox(
-                  height: Dimens.size40,
-                  width: Dimens.size40,
-                  child: comment?.authAvatar == ''
-                      ? Image.asset(
-                          MyImages.defaultAvt,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.network(
-                          comment?.authAvatar ?? '',
-                          fit: BoxFit.cover,
-                        ),
+              GestureDetector(
+                onTap: () => showUserProfile(comment?.userId ?? ''),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(13),
+                  child: SizedBox(
+                    height: Dimens.size40,
+                    width: Dimens.size40,
+                    child: comment?.authAvatar == ''
+                        ? Image.asset(
+                            MyImages.defaultAvt,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            comment?.authAvatar ?? '',
+                            fit: BoxFit.cover,
+                          ),
+                  ),
                 ),
               ),
               const SizedBox(width: Dimens.size10),
@@ -220,9 +241,12 @@ class _BodyState extends State<_Body> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            comment?.authName ?? '',
-                            style: Theme.of(context).primaryTextTheme.bodyText1,
+                          GestureDetector(
+                            onTap: () => showUserProfile(comment?.userId ?? ''),
+                            child: Text(
+                              comment?.authName ?? '',
+                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                            ),
                           ),
                           Text(
                             comment?.content ?? '',
@@ -247,24 +271,27 @@ class _BodyState extends State<_Body> {
     );
   }
 
-  Container _buildAvatarWidget(ThemeData theme) {
-    return Container(
-      height: Dimens.size40,
-      decoration: BoxDecoration(
+  Widget _buildAvatarWidget(ThemeData theme) {
+    return GestureDetector(
+      onTap: () => showUserProfile(StaticVariable.myData?.userId ?? ''),
+      child: Container(
+        height: Dimens.size40,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            border: Border.all(width: 1, color: theme.primaryColor)),
+        width: Dimens.size40,
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(50),
-          border: Border.all(width: 1, color: theme.primaryColor)),
-      width: Dimens.size40,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(50),
-        child: StaticVariable.myData?.imageUrl == ''
-            ? Image.asset(
-                MyImages.defaultAvt,
-                fit: BoxFit.cover,
-              )
-            : Image.network(
-                StaticVariable.myData?.imageUrl ?? '',
-                fit: BoxFit.cover,
-              ),
+          child: StaticVariable.myData?.imageUrl == ''
+              ? Image.asset(
+                  MyImages.defaultAvt,
+                  fit: BoxFit.cover,
+                )
+              : Image.network(
+                  StaticVariable.myData?.imageUrl ?? '',
+                  fit: BoxFit.cover,
+                ),
+        ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
+
 class UserData {
   String? fullName;
   String? username;
@@ -10,19 +12,25 @@ class UserData {
   String? bio;
   String? createAt;
   String? updateAt;
+  List<String>? follower;
+  List<String>? following;
+  List<PostData>? posts;
 
-  UserData(
-      {this.userId,
-        this.phone,
-        this.email,
-        this.username,
-        this.imageUrl,
-        this.createAt,
-        this.bio,
-        this.fullName,
-        this.password,
-        this.updateAt,
-        this.tagName});
+  UserData({
+    this.userId,
+    this.phone,
+    this.email,
+    this.username,
+    this.imageUrl,
+    this.createAt,
+    this.bio,
+    this.fullName,
+    this.password,
+    this.updateAt,
+    this.follower,
+    this.following,
+    this.tagName,
+  });
 
   UserData.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];

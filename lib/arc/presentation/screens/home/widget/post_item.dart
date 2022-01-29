@@ -1,14 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/comment_sheet.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/full_image.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dart';
+import 'package:hii_xuu_social/src/config/config.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -51,10 +56,18 @@ class _PostItemState extends State<PostItem> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _currentComment = widget.item.comments?.length.toString() ?? '0';
+  void showUserProfile(String userId) {
+    if (userId == StaticVariable.myData?.userId) {
+      context.read<MainBloc>().add(OnChangePageEvent(Constants.page.profile));
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return UserProfile(userId: userId);
+          },
+        ),
+      );
+    }
   }
 
   void goToFullImage() {
@@ -83,6 +96,12 @@ class _PostItemState extends State<PostItem> {
     setState(() {
       _showFavouriteReact = false;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _currentComment = widget.item.comments?.length.toString() ?? '0';
   }
 
   @override
@@ -278,8 +297,8 @@ class _PostItemState extends State<PostItem> {
                     onTap: goToFullImage,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        widget.item.images?.first ?? '',
+                      child: CachedNetworkImage(
+                        imageUrl: widget.item.images?.first ?? '',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -306,8 +325,8 @@ class _PostItemState extends State<PostItem> {
                             onTap: goToFullImage,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(15),
-                              child: Image.network(
-                                widget.item.images?[index] ?? '',
+                              child: CachedNetworkImage(
+                                imageUrl: widget.item.images?[index] ?? '',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -338,29 +357,35 @@ class _PostItemState extends State<PostItem> {
       padding: const EdgeInsets.all(Dimens.size5),
       child: Row(
         children: [
-          SizedBox(
-            width: Dimens.size40,
-            height: Dimens.size40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: widget.item.authAvatar == ''
-                  ? Image.asset(
-                      MyImages.defaultAvt,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.network(
-                      widget.item.authAvatar ?? '',
-                      fit: BoxFit.cover,
-                    ),
+          GestureDetector(
+            onTap: () => showUserProfile(widget.item.userId ?? ''),
+            child: SizedBox(
+              width: Dimens.size40,
+              height: Dimens.size40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: widget.item.authAvatar == ''
+                    ? Image.asset(
+                        MyImages.defaultAvt,
+                        fit: BoxFit.cover,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: widget.item.authAvatar ?? '',
+                        fit: BoxFit.cover,
+                      ),
+              ),
             ),
           ),
           const SizedBox(width: Dimens.size10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.item.authName ?? '',
-                style: theme.textTheme.headline5,
+              GestureDetector(
+                onTap: () => showUserProfile(widget.item.userId ?? ''),
+                child: Text(
+                  widget.item.authName ?? '',
+                  style: theme.textTheme.headline5,
+                ),
               ),
               Text(
                 TimeAgo.timeAgoSinceDate(widget.item.updateAt ?? ''),

@@ -29,5 +29,13 @@
     "description_post": "What's your mind?",
     "see_more": "See more",
     "add_story": "Add your story",
+    "follower": "Follower",
+    "following": "Following",
+    "posts": "Posts",
+    "photos": "Photos",
+    "edit_profile": "Edit Your Profile",
+    "follow": "Follow",
+    "un_follow": "Unfollow",
+    "message" : "Message",
     "end_json": ""
 }
