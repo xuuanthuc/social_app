@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/loading_profile.dart';
@@ -25,6 +26,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   UserData _user = UserData();
   bool _isFollowing = false;
+  List<PostData> _listPhotos = [];
 
   @override
   void initState() {
@@ -41,16 +43,21 @@ class _UserProfileState extends State<UserProfile> {
           if ((_user.follower ?? []).contains(StaticVariable.myData?.userId)) {
             _isFollowing = true;
           }
+          for (PostData post in state.user.posts ?? []) {
+            if (post.images!.isNotEmpty) {
+              _listPhotos.add(post);
+            }
+          }
         }
-        if(state is OnFollowSuccessState){
+        if (state is OnFollowSuccessState) {
           EasyLoading.dismiss();
           _isFollowing = true;
         }
-        if(state is OnUnFollowSuccessState){
+        if (state is OnUnFollowSuccessState) {
           EasyLoading.dismiss();
           _isFollowing = false;
         }
-        if(state is LoadingClickedFollowState){
+        if (state is LoadingClickedFollowState) {
           EasyLoading.show();
         }
       },
@@ -85,33 +92,54 @@ class _UserProfileState extends State<UserProfile> {
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: AnimationLimiter(
-                child: Padding(
-                  padding: const EdgeInsets.all(Dimens.size30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: AnimationConfiguration.toStaggeredList(
-                      duration: const Duration(milliseconds: 300),
-                      childAnimationBuilder: (widget) => SlideAnimation(
-                        horizontalOffset: 50.0,
-                        child: FadeInAnimation(
-                          child: widget,
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: AnimationConfiguration.toStaggeredList(
+                    duration: const Duration(milliseconds: 300),
+                    childAnimationBuilder: (widget) => SlideAnimation(
+                      horizontalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: widget,
                       ),
-                      children: [
-                        _buildAvatar(theme),
-                        const SizedBox(height: Dimens.size20),
-                        _buildFullName(theme),
-                        const SizedBox(height: Dimens.size16),
-                        _buildBio(size, theme),
-                        const SizedBox(height: Dimens.size16),
-                        _isFollowing == true
-                            ? followingWidget(theme)
-                            : notFollowingWidget(theme),
-                        const SizedBox(height: Dimens.size30),
-                        _buildCellCountFollow(theme)
-
-                      ],
                     ),
+                    children: [
+                      _buildAvatar(theme),
+                      const SizedBox(height: Dimens.size15),
+                      _buildFullName(theme),
+                      const SizedBox(height: Dimens.size8),
+                      _buildBio(size, theme),
+                      const SizedBox(height: Dimens.size16),
+                      _isFollowing == true
+                          ? followingWidget(theme)
+                          : notFollowingWidget(theme),
+                      const SizedBox(height: Dimens.size20),
+                      _buildCellCountFollow(theme),
+                      const SizedBox(height: Dimens.size15),
+                      Padding(
+                        padding: const EdgeInsets.all(Dimens.size15),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 1 / 1,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                            crossAxisCount: 3
+                          ),
+                          itemBuilder: (context, index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                _listPhotos[index].images?.first ?? '',
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                          itemCount: _listPhotos.length,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -127,21 +155,21 @@ class _UserProfileState extends State<UserProfile> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
-          onTap: (){
+          onTap: () {
             context
                 .read<ProfileBloc>()
                 .add(OnUnFollowClickedEvent(widget.userId));
           },
           child: SizedBox(
-              width: Dimens.size50,
-              height: Dimens.size50,
+              width: Dimens.size40,
+              height: Dimens.size40,
               child: Image.asset(MyImages.icSetting)),
         ),
         const SizedBox(
           width: Dimens.size15,
         ),
         Container(
-          height: Dimens.size50,
+          height: Dimens.size40,
           width: Dimens.size150,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
@@ -150,7 +178,7 @@ class _UserProfileState extends State<UserProfile> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.all(Dimens.size13),
+                padding: const EdgeInsets.all(Dimens.size10),
                 child: Image.asset(MyImages.icFlightSelected),
               ),
               Text(
@@ -158,7 +186,7 @@ class _UserProfileState extends State<UserProfile> {
                 style: theme.textTheme.headline2,
               ),
               const SizedBox(
-                width: Dimens.size13,
+                width: Dimens.size10,
               )
             ],
           ),
@@ -179,18 +207,18 @@ class _UserProfileState extends State<UserProfile> {
           },
           label: TranslationKey.follow.tr(),
           sizeWidth: Dimens.size120,
-          sizeHeight: Dimens.size50,
+          sizeHeight: Dimens.size40,
         ),
         const SizedBox(width: Dimens.size15),
         Container(
-          width: Dimens.size50,
-          height: Dimens.size50,
+          width: Dimens.size40,
+          height: Dimens.size40,
           decoration: BoxDecoration(
               color: theme.primaryColorLight,
               border: Border.all(width: 1, color: theme.primaryColor),
               borderRadius: BorderRadius.circular(15)),
           child: Padding(
-            padding: const EdgeInsets.all(Dimens.size13),
+            padding: const EdgeInsets.all(Dimens.size10),
             child: Image.asset(MyImages.icFlightSelected),
           ),
         ),
@@ -198,60 +226,63 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  Row _buildCellCountFollow(ThemeData theme) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Column(
-          children: [
-            Text(
-              _user.follower?.length.toString() ?? '0',
-              style: theme.primaryTextTheme.headline2,
-            ),
-            const SizedBox(height: Dimens.size8),
-            Text(
-              TranslationKey.follower.tr(),
-              style: theme.primaryTextTheme.subtitle1,
-            ),
-          ],
-        ),
-        Container(
-          height: Dimens.size40,
-          color: theme.primaryColor,
-          width: Dimens.size1,
-        ),
-        Column(
-          children: [
-            Text(
-              _user.following?.length.toString() ?? '0',
-              style: theme.primaryTextTheme.headline2,
-            ),
-            const SizedBox(height: Dimens.size8),
-            Text(
-              TranslationKey.following.tr(),
-              style: theme.primaryTextTheme.subtitle1,
-            ),
-          ],
-        ),
-        Container(
-          height: Dimens.size40,
-          color: theme.primaryColor,
-          width: Dimens.size1,
-        ),
-        Column(
-          children: [
-            Text(
-              _user.posts?.length.toString() ?? '0',
-              style: theme.primaryTextTheme.headline2,
-            ),
-            const SizedBox(height: Dimens.size8),
-            Text(
-              TranslationKey.posts.tr(),
-              style: theme.primaryTextTheme.subtitle1,
-            ),
-          ],
-        )
-      ],
+  Widget _buildCellCountFollow(ThemeData theme) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.size10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            children: [
+              Text(
+                _user.follower?.length.toString() ?? '0',
+                style: theme.primaryTextTheme.headline2,
+              ),
+              const SizedBox(height: Dimens.size8),
+              Text(
+                TranslationKey.follower.tr(),
+                style: theme.primaryTextTheme.subtitle1,
+              ),
+            ],
+          ),
+          Container(
+            height: Dimens.size40,
+            color: theme.primaryColor,
+            width: Dimens.size1,
+          ),
+          Column(
+            children: [
+              Text(
+                _user.following?.length.toString() ?? '0',
+                style: theme.primaryTextTheme.headline2,
+              ),
+              const SizedBox(height: Dimens.size8),
+              Text(
+                TranslationKey.following.tr(),
+                style: theme.primaryTextTheme.subtitle1,
+              ),
+            ],
+          ),
+          Container(
+            height: Dimens.size40,
+            color: theme.primaryColor,
+            width: Dimens.size1,
+          ),
+          Column(
+            children: [
+              Text(
+                _user.posts?.length.toString() ?? '0',
+                style: theme.primaryTextTheme.headline2,
+              ),
+              const SizedBox(height: Dimens.size8),
+              Text(
+                TranslationKey.posts.tr(),
+                style: theme.primaryTextTheme.subtitle1,
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 

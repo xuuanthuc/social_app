@@ -33,50 +33,47 @@ class LoadingProfile extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: AnimationLimiter(
-          child: Padding(
-            padding: const EdgeInsets.all(Dimens.size30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 300),
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  horizontalOffset: 50.0,
-                  child: FadeInAnimation(
-                    child: widget,
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: AnimationConfiguration.toStaggeredList(
+              duration: const Duration(milliseconds: 300),
+              childAnimationBuilder: (widget) => SlideAnimation(
+                horizontalOffset: 50.0,
+                child: FadeInAnimation(
+                  child: widget,
                 ),
-                children: [
-                  const ShimmerWidget.rectangular(
-                    height: Dimens.size82,
-                    width: Dimens.size82,
-                  ),
-                  const SizedBox(height: Dimens.size20),
-                  const ShimmerWidget.rectangular(
-                    height: Dimens.size20,
-                    width: Dimens.size120,
-                  ),
-                  const SizedBox(height: Dimens.size16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ShimmerWidget.rectangular(
-                        height: Dimens.size15,
-                        width: MediaQuery.of(context).size.width * 0.5,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: Dimens.size16),
-                  ShimmerWidget.rectangular(
-                    height: Dimens.size50,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                  ),
-                  const SizedBox(height: Dimens.size30),
-                  ShimmerWidget.rectangular(
-                    height: Dimens.size50,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                  )
-                ],
               ),
+              children: [
+                const ShimmerWidget.rectangular(
+                  height: Dimens.size82,
+                  width: Dimens.size82,
+                ),
+                const SizedBox(height: Dimens.size20),
+                const ShimmerWidget.rectangular(
+                  height: Dimens.size20,
+                  width: Dimens.size120,
+                ),
+                const SizedBox(height: Dimens.size8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ShimmerWidget.rectangular(
+                      height: Dimens.size15,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: Dimens.size16),
+                ShimmerWidget.rectangular(
+                  height: Dimens.size50,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                ),
+                const SizedBox(height: Dimens.size20),
+                ShimmerWidget.rectangular(
+                  height: Dimens.size50,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                )
+              ],
             ),
           ),
         ),
