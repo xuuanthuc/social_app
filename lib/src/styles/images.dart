@@ -38,4 +38,5 @@ class MyImages{
   static const icUnLiked = assetSvg + 'ic_unlike.svg';
   static const icSaved = assetSvg + 'ic_saved.svg';
   static const icUnSaved = assetSvg + 'ic_unsaved.svg';
+  static const icStack = assetSvg + 'ic_stack.svg';
 }

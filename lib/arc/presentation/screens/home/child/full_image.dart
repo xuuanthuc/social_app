@@ -30,7 +30,7 @@ class FullImageScreen extends StatefulWidget {
 }
 
 class _FullImageScreenState extends State<FullImageScreen> {
-  PageController _controller = PageController();
+  final PageController _controller = PageController();
   bool _liked = false;
 
   @override
@@ -146,7 +146,10 @@ class _FullImageScreenState extends State<FullImageScreen> {
                           ),
                           const SizedBox(width: Dimens.size20),
                           GestureDetector(
-                            onTap: widget.comment,
+                            onTap:(){
+                              Navigator.of(context).pop();
+                              widget.comment();
+                            },
                             child: Padding(
                               padding: const EdgeInsets.all(Dimens.size5),
                               child: SvgPicture.asset(
@@ -157,7 +160,10 @@ class _FullImageScreenState extends State<FullImageScreen> {
                           ),
                           const SizedBox(width: Dimens.size5),
                           GestureDetector(
-                            onTap: widget.comment,
+                            onTap:(){
+                              Navigator.of(context).pop();
+                              widget.comment();
+                            },
                             child: Text(
                               widget.countCmt,
                               style: theme.primaryTextTheme.button,

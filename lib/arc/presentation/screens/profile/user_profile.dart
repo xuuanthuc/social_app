@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
@@ -10,9 +11,13 @@ import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/loading_p
 import 'package:hii_xuu_social/arc/presentation/widgets/custom_button.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
+import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import 'widget/full_image.dart';
+import 'widget/post_item.dart';
 
 class UserProfile extends StatefulWidget {
   final String userId;
@@ -27,6 +32,7 @@ class _UserProfileState extends State<UserProfile> {
   UserData _user = UserData();
   bool _isFollowing = false;
   List<PostData> _listPhotos = [];
+  int _currentIndexTab = 0;
 
   @override
   void initState() {
@@ -114,31 +120,10 @@ class _UserProfileState extends State<UserProfile> {
                           : notFollowingWidget(theme),
                       const SizedBox(height: Dimens.size20),
                       _buildCellCountFollow(theme),
-                      const SizedBox(height: Dimens.size15),
-                      Padding(
-                        padding: const EdgeInsets.all(Dimens.size15),
-                        child: GridView.builder(
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 1 / 1,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15,
-                            crossAxisCount: 3
-                          ),
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.network(
-                                _listPhotos[index].images?.first ?? '',
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          },
-                          itemCount: _listPhotos.length,
-                        ),
-                      )
+                      _buildTabShowPost(theme),
+                      _currentIndexTab == 0
+                          ? _buildGridImage()
+                          : _buildListPost(),
                     ],
                   ),
                 ),
@@ -146,6 +131,151 @@ class _UserProfileState extends State<UserProfile> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Padding _buildTabShowPost(ThemeData theme) {
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.size15),
+      child: Container(
+        height: Dimens.size50,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15), color: theme.shadowColor),
+        child: Row(
+          children: [
+            _tab(
+                index: 0,
+                controller: _currentIndexTab,
+                label: TranslationKey.photos.tr(),
+                onTap: () {
+                  setState(() {
+                    _currentIndexTab = 0;
+                  });
+                }),
+            _tab(
+                index: 1,
+                controller: _currentIndexTab,
+                label: TranslationKey.posts.tr(),
+                onTap: () {
+                  setState(() {
+                    _currentIndexTab = 1;
+                  });
+                }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _tab(
+      {required int index,
+      required int controller,
+      String? label,
+      required VoidCallback onTap}) {
+    final theme = Theme.of(context);
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            height: Dimens.size50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              gradient: index == controller
+                  ? LinearGradient(
+                      colors: [
+                        theme.primaryColor,
+                        theme.colorScheme.secondary,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    )
+                  : null,
+            ),
+            child: Center(
+              child: Text(
+                label ?? '',
+                style: index == controller
+                    ? theme.primaryTextTheme.button
+                    : theme.primaryTextTheme.headline4,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding _buildGridImage() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: Dimens.size20, vertical: Dimens.size5),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 1 / 1,
+            crossAxisSpacing: 15,
+            mainAxisSpacing: 15,
+            crossAxisCount: 3),
+        itemBuilder: (context, index) {
+          return Stack(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: GestureDetector(
+                    onTap: () {
+                      navService.push(
+                        MaterialPageRoute(
+                          builder: (context) => FullImageScreen(
+                              image: _listPhotos[index].images ?? []),
+                        ),
+                      );
+                    },
+                    child: Image.network(
+                      _listPhotos[index].images?.first ?? '',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              (_listPhotos[index].images ?? []).length > 1
+                  ? Positioned(
+                      top: Dimens.size10,
+                      right: Dimens.size10,
+                      child: SvgPicture.asset(MyImages.icStack))
+                  : Container()
+            ],
+          );
+        },
+        itemCount: _listPhotos.length,
+      ),
+    );
+  }
+
+  Widget _buildListPost() {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: Dimens.size10, vertical: Dimens.size5),
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (context, index) {
+            return ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: PostItem(
+                  item: _user.posts![index],
+                ));
+          },
+          itemCount: _user.posts?.length,
+        ),
       ),
     );
   }
