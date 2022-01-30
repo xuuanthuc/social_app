@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/animation/animation_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/auth/auth_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/chat/chat_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<AnimationBloc>(create: (context) => AnimationBloc()),
           BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
           BlocProvider<ProfileBloc>(create: (context) => ProfileBloc()),
+          BlocProvider<ChatBloc>(create: (context) => ChatBloc()),
         ],
         child: MaterialApp(
           title: TranslationKey.appName.tr(),

@@ -101,15 +101,15 @@ class _StoryListState extends State<StoryList> {
                                       width: Dimens.size68,
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                            width: 2,
+                                            width: 1,
                                             color: theme.primaryColor),
-                                        borderRadius: BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(22),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(1),
+                                        padding: const EdgeInsets.all(3),
                                         child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                              BorderRadius.circular(17),
                                           child: Image.network(
                                             _listStory?[index] ?? '',
                                             fit: BoxFit.cover,
@@ -185,7 +185,7 @@ class _StoryListState extends State<StoryList> {
             width: _smallIcon == true ? 0 : Dimens.size68,
             decoration: BoxDecoration(
                 color: theme.primaryColorLight,
-                borderRadius: BorderRadius.circular(15)),
+                borderRadius: BorderRadius.circular(22)),
             child: Padding(
               padding: const EdgeInsets.all(Dimens.size23),
               child: Image.asset(MyImages.icAdd),

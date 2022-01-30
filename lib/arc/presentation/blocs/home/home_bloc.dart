@@ -358,7 +358,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             LoggerUtils.d(documentSnapshot.data());
             var res = data as Map<String, dynamic>;
             post = PostData.fromJson(res);
-          }
+          } else {}
         });
         //get list like;
         await fireStore

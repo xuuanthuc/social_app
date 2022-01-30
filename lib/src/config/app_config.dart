@@ -24,6 +24,8 @@ class AppConfig {
   String get cFollowers => 'followers';
   String get cFollowing => 'following';
   String get cListFollowing => 'list_following';
+  String get cChat => 'chat';
+  String get cListChat => 'list_chat';
 
   Future<void> configApp() async {
     initDependencies();

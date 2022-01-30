@@ -101,6 +101,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(LoadingLoginState());
     List<String> listUserId = StaticVariable.listUserId ?? [];
     for (var userId in listUserId) {
+      List<String> _listFollowing = [];
+      List<String> _listFollower = [];
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(userId)
+          .collection(AppConfig.instance.cConnect)
+          .doc(AppConfig.instance.cFollowing)
+          .collection(AppConfig.instance.cListFollowing)
+          .get()
+          .then((QuerySnapshot querySnapshot){
+        for(var doc in querySnapshot.docs){
+          _listFollowing.add(doc.id);
+        }
+      });
+
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(userId)
+          .collection(AppConfig.instance.cConnect)
+          .doc(AppConfig.instance.cFollowers)
+          .collection(AppConfig.instance.cListFollowing)
+          .get()
+          .then((QuerySnapshot querySnapshot){
+        for(var doc in querySnapshot.docs){
+          _listFollower.add(doc.id);
+        }
+      });
+
       await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(userId)
@@ -114,6 +142,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           user = UserData.fromJson(res);
           if (user.username == event.username &&
               user.password == event.password) {
+            user.following = _listFollowing;
+            user.follower = _listFollower;
             StaticVariable.myData = user;
             AppPreference().setVerificationID(user.userId);
           } else {}

@@ -11,4 +11,5 @@ class StaticVariable{
   static List<CommentModel>? listComment;
   static List<PostData>? listPost;
   static List<String>? listStory;
+  static List<String>? listChatRoomId;
 }

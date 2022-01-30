@@ -170,7 +170,7 @@ class _SearchScreenState extends State<SearchScreen> {
       height: Dimens.size50,
       width: Dimens.size50,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(18),
         child: imageUrl == ''
             ? Image.asset(
                 MyImages.defaultAvt,

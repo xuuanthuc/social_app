@@ -32,6 +32,34 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     });
     StaticVariable.listUserId = listUserId;
     if(userId != null){
+      List<String> _listFollowing = [];
+      List<String> _listFollower = [];
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(userId)
+          .collection(AppConfig.instance.cConnect)
+          .doc(AppConfig.instance.cFollowing)
+          .collection(AppConfig.instance.cListFollowing)
+          .get()
+          .then((QuerySnapshot querySnapshot){
+        for(var doc in querySnapshot.docs){
+          _listFollowing.add(doc.id);
+        }
+      });
+
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(userId)
+          .collection(AppConfig.instance.cConnect)
+          .doc(AppConfig.instance.cFollowers)
+          .collection(AppConfig.instance.cListFollowing)
+          .get()
+          .then((QuerySnapshot querySnapshot){
+        for(var doc in querySnapshot.docs){
+          _listFollower.add(doc.id);
+        }
+      });
+
       await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(userId)
@@ -44,6 +72,8 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
           LoggerUtils.d(documentSnapshot.data());
           var res = data as Map<String, dynamic>;
           var user = UserData.fromJson(res);
+          user.following = _listFollowing;
+          user.follower = _listFollower;
           StaticVariable.myData = user;
           emit(GotoHomeState());
         } else {

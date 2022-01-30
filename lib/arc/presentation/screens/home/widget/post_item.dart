@@ -132,17 +132,17 @@ class _PostItemState extends State<PostItem> {
                 children: [
                   _buildInfoUser(theme),
                   const SizedBox(height: Dimens.size10),
-                  widget.item.images!.isNotEmpty
+                  (widget.item.images ?? []).isNotEmpty
                       ? _buildListImage(context)
                       : _buildEmptyWidget(),
-                  widget.item.images!.length > 1
+                  (widget.item.images ?? []).length > 1
                       ? _buildSmallSlideImage(context, theme)
                       : _buildEmptyWidget(),
                   widget.item.content == ''
                       ? _buildEmptyWidget()
                       : Padding(
                           padding: const EdgeInsets.only(bottom: Dimens.size10),
-                          child: widget.item.content!.length > 150
+                          child: (widget.item.content ?? '').length > 150
                               ? _buildLongContent(context, theme)
                               : _buildShortContent(theme),
                         ),

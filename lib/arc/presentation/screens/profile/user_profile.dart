@@ -31,7 +31,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   UserData _user = UserData();
   bool _isFollowing = false;
-  List<PostData> _listPhotos = [];
+  final List<PostData> _listPhotos = [];
   int _currentIndexTab = 0;
 
   @override
@@ -436,15 +436,15 @@ class _UserProfileState extends State<UserProfile> {
 
   Widget _buildAvatar(ThemeData theme) {
     return Container(
-      padding: const EdgeInsets.all(Dimens.size2),
+      padding: const EdgeInsets.all(Dimens.size3),
       decoration: BoxDecoration(
-          border: Border.all(width: 2, color: theme.primaryColor),
-          borderRadius: BorderRadius.circular(16)),
+          border: Border.all(width: 1, color: theme.primaryColor),
+          borderRadius: BorderRadius.circular(28)),
       child: SizedBox(
         width: Dimens.size80,
         height: Dimens.size80,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(13),
+          borderRadius: BorderRadius.circular(25),
           child: _user.imageUrl == ''
               ? Image.asset(
                   MyImages.defaultAvt,

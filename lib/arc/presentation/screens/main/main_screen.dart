@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/chat/chat_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/profile_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/search/search_screen.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
@@ -64,12 +65,10 @@ class _MainScreenState extends State<MainScreen> {
               body: PageView(
                 physics: const BouncingScrollPhysics(),
                 controller: _controller,
-                children: [
-                  const HomeScreen(),
-                  Container(
-                    color: Colors.grey,
-                  ),
-                  const UploadScreen(),
+                children: const [
+                  HomeScreen(),
+                  ChatScreen(),
+                  UploadScreen(),
                   SearchScreen(),
                   ProfileScreen()
                 ],

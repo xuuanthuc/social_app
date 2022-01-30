@@ -78,7 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 physics: const BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
-                                  return PostItem(item: _listPost[index]);
+                                  if((_listPost[index].images ?? []).isEmpty && (_listPost[index].content ?? '').isEmpty){
+                                    return Container();
+                                  } else {
+                                    return PostItem(item: _listPost[index]);
+                                  }
                                 },
                                 itemCount: _listPost.length,
                               ),
