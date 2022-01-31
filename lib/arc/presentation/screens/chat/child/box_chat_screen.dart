@@ -3,9 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/chat.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/chat/widget/bottom_chat.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/chat/widget/item_chat.dart';
 import 'package:hii_xuu_social/src/config/app_config.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
+import 'package:hii_xuu_social/src/utilities/format.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
 class BoxChatScreen extends StatefulWidget {
@@ -22,11 +24,14 @@ class BoxChatScreen extends StatefulWidget {
 }
 
 class _BoxChatScreenState extends State<BoxChatScreen> {
+  bool _showTime = false;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: _buildAppBar(context, theme),
+      backgroundColor: theme.backgroundColor,
       body: Column(
         children: [
           Expanded(
@@ -42,20 +47,24 @@ class _BoxChatScreenState extends State<BoxChatScreen> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> chatSnapshot) {
                 if (chatSnapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Center(
+                    child: Container(),
                   );
                 }
                 return ListView(
+                  physics: const BouncingScrollPhysics(),
                   children:
                       chatSnapshot.data!.docs.map((DocumentSnapshot document) {
                     Map<String, dynamic> data =
                         document.data()! as Map<String, dynamic>;
                     var _chat = ChatData.fromJson(data);
-                    if(_chat.userId != StaticVariable.myData?.userId){
-                      return _itemOtherChat(_chat);
+                    if (_chat.userId != StaticVariable.myData?.userId) {
+                      return ItemOtherChat(
+                        chat: _chat,
+                        imageUser: widget.imageUser ?? '',
+                      );
                     } else {
-                      return _itemMyChat(_chat);
+                      return ItemMyChat(chat: _chat);
                     }
                   }).toList(),
                 );
@@ -63,7 +72,7 @@ class _BoxChatScreenState extends State<BoxChatScreen> {
             ),
           ),
           BottomChatField(userId: widget.userId),
-          const SizedBox(height: Dimens.size10),
+          const SizedBox(height: Dimens.size5),
         ],
       ),
     );
@@ -119,31 +128,6 @@ class _BoxChatScreenState extends State<BoxChatScreen> {
                 fit: BoxFit.cover,
               ),
       ),
-    );
-  }
-
-  Widget _itemOtherChat(ChatData _chat) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(child: Text(_chat.message ?? '')),
-      ],
-    );
-  }
-
-  Widget _itemMyChat(ChatData _chat) {
-    final size = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: Container(
-            color: Colors.orange,
-            child: Text(_chat.message ?? '', textAlign: TextAlign.end,),
-          ),
-        ),
-      ],
     );
   }
 }

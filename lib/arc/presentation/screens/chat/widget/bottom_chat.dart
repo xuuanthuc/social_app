@@ -19,6 +19,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
   final FocusNode _focus = FocusNode();
   final TextEditingController _chatController = TextEditingController();
   bool _canSendMess = false;
+  bool _isSending = false;
 
   @override
   void initState() {
@@ -44,19 +45,32 @@ class _BottomChatFieldState extends State<BottomChatField> {
           }
         }
         if (state is SendMessageSuccessState) {
+          _focus.unfocus();
           _chatController.clear();
           _canSendMess = false;
-          _focus.unfocus();
+          _isSending = false;
+        }
+        if(state is SendingChatState){
+          _isSending = true;
         }
       },
       child: BlocBuilder<ChatBloc, ChatState>(
         builder: (context, state) {
           final theme = Theme.of(context);
-          return Row(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const SizedBox(width: Dimens.size15),
-              _buildTextFieldChat(theme),
-              _buildCommentButton(),
+              _itemMyChat(),
+              Padding(
+                padding: const EdgeInsets.only(top: Dimens.size3),
+                child: Row(
+                  children: [
+                    const SizedBox(width: Dimens.size15),
+                    _buildTextFieldChat(theme),
+                    _buildCommentButton(),
+                  ],
+                ),
+              ),
             ],
           );
         },
@@ -120,6 +134,50 @@ class _BottomChatFieldState extends State<BottomChatField> {
             fillColor: theme.shadowColor,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _itemMyChat() {
+    final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    return Visibility(
+      visible: _isSending,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: Dimens.size80, top: Dimens.size12, right: Dimens.size12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: theme.primaryColor.withOpacity(0.8),
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Dimens.size15, vertical: Dimens.size10),
+                  child: RichText(
+                    text: TextSpan(
+                        children: [
+                          TextSpan(text: _chatController.text,
+                            style: theme.primaryTextTheme.bodyText2,),
+                          TextSpan(text: '   sending...',
+                              style: theme.textTheme.caption)
+                        ]
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

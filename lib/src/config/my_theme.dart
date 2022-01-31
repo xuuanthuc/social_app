@@ -114,7 +114,7 @@ class MyTheme {
           color: MyColors.whiteColor,
         ),
       ),
-      textTheme: const TextTheme(
+      textTheme: TextTheme(
         // headline1: TextStyle(
         //   fontFamily: fontFamily,
         //   fontSize: Dimens.textSize18,
@@ -157,12 +157,25 @@ class MyTheme {
           fontWeight: FontWeight.w400,
           color: MyColors.primaryColor,
         ),
+        bodyText2: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize13,
+          fontWeight: FontWeight.w400,
+          height: 1.3,
+          color: MyColors.whiteColor,
+        ),
         // subtitle2: TextStyle(
         //   fontFamily: fontFamily,
         //   fontSize: Dimens.textSize12,
         //   fontWeight: FontWeight.w400,
         //   color: MyColors.primaryColor,
         // ),
+        subtitle2: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize10,
+          fontWeight: FontWeight.w400,
+          color: MyColors.greyTextColor1,
+        ),
         // headline2: TextStyle(
         //   fontFamily: fontFamily,
         //   fontSize: Dimens.textSize14,
@@ -193,6 +206,12 @@ class MyTheme {
         //   fontWeight: FontWeight.w400,
         //   color: MyColors.whiteColor,
         // ),
+        caption: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize10,
+          fontWeight: FontWeight.w400,
+          color: MyColors.whiteColor.withOpacity(0.8),
+        ),
       ),
     );
   }

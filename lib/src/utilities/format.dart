@@ -76,4 +76,26 @@ class TimeAgo {
       return false;
     }
   }
+
+  static String getTime(String datetime) {
+    var time = '';
+    try {
+      time = DateFormat("HH:mm")
+          .format(DateTime.parse(datetime).toUtc().toLocal());
+      return time;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static String getDate(String datetime) {
+    var time = '';
+    try {
+      time = DateFormat("MMMM dd")
+          .format(DateTime.parse(datetime).toUtc().toLocal());
+      return time;
+    } catch (e) {
+      return '';
+    }
+  }
 }
