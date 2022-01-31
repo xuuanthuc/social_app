@@ -24,7 +24,7 @@ class BoxChatScreen extends StatefulWidget {
 }
 
 class _BoxChatScreenState extends State<BoxChatScreen> {
-  bool _showTime = false;
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _BoxChatScreenState extends State<BoxChatScreen> {
                   .collection(AppConfig.instance.cChat)
                   .doc(AppConfig.instance.cListChat)
                   .collection(widget.userId)
-                  .orderBy('create_at', descending: false)
+                  .orderBy('create_at', descending: true)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> chatSnapshot) {
@@ -52,6 +52,8 @@ class _BoxChatScreenState extends State<BoxChatScreen> {
                   );
                 }
                 return ListView(
+                  reverse: true,
+                  controller: _controller,
                   physics: const BouncingScrollPhysics(),
                   children:
                       chatSnapshot.data!.docs.map((DocumentSnapshot document) {

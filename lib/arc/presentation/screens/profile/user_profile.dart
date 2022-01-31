@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/chat/child/box_chat_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/loading_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/custom_button.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
@@ -38,6 +39,106 @@ class _UserProfileState extends State<UserProfile> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(InitProfileUserEvent(widget.userId));
+  }
+
+  void goToBoxChat(UserData user) {
+    navService.push(
+      MaterialPageRoute(
+        builder: (context) => BoxChatScreen(
+          userId: user.userId ?? '',
+          username: user.fullName ?? '',
+          imageUser: user.imageUrl,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showSettingDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      barrierColor: Colors.black12,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.size20),
+          child: AlertDialog(
+            elevation: 0,
+            insetPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsets.zero,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: Dimens.size30),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: SizedBox(
+                    height: Dimens.size80,
+                    width: Dimens.size80,
+                    child: _user.imageUrl == ''
+                        ? Image.asset(MyImages.defaultAvt)
+                        : Image.network(
+                            _user.imageUrl ?? '',
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+                const SizedBox(height: Dimens.size20),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: Dimens.size20),
+                  child: Text(
+                    'Unfollow ${_user.fullName}?',
+                    style: Theme.of(context).textTheme.headline5,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: Dimens.size10),
+                const Divider(),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context
+                        .read<ProfileBloc>()
+                        .add(OnUnFollowClickedEvent(widget.userId));
+                  },
+                  child: SizedBox(
+                    height: Dimens.size30,
+                    child: Center(
+                      child: Text(
+                        'Unfollow',
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .headline5
+                            ?.copyWith(
+                                color: Theme.of(context).colorScheme.secondary),
+                      ),
+                    ),
+                  ),
+                ),
+                const Divider(),
+                GestureDetector(
+                  child: SizedBox(
+                    height: Dimens.size30,
+                    child: Center(
+                      child: Text(
+                        'Cancel',
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const SizedBox(height: Dimens.size10),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -286,9 +387,7 @@ class _UserProfileState extends State<UserProfile> {
       children: [
         GestureDetector(
           onTap: () {
-            context
-                .read<ProfileBloc>()
-                .add(OnUnFollowClickedEvent(widget.userId));
+            _showSettingDialog();
           },
           child: SizedBox(
               width: Dimens.size40,
@@ -298,27 +397,30 @@ class _UserProfileState extends State<UserProfile> {
         const SizedBox(
           width: Dimens.size15,
         ),
-        Container(
-          height: Dimens.size40,
-          width: Dimens.size150,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(width: 1, color: theme.primaryColor)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(Dimens.size10),
-                child: Image.asset(MyImages.icFlightSelected),
-              ),
-              Text(
-                TranslationKey.message.tr(),
-                style: theme.textTheme.headline2,
-              ),
-              const SizedBox(
-                width: Dimens.size10,
-              )
-            ],
+        GestureDetector(
+          onTap: () => goToBoxChat(_user),
+          child: Container(
+            height: Dimens.size40,
+            width: Dimens.size150,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(width: 1, color: theme.primaryColor)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(Dimens.size10),
+                  child: Image.asset(MyImages.icFlightSelected),
+                ),
+                Text(
+                  TranslationKey.message.tr(),
+                  style: theme.textTheme.headline2,
+                ),
+                const SizedBox(
+                  width: Dimens.size10,
+                )
+              ],
+            ),
           ),
         )
       ],
@@ -340,16 +442,19 @@ class _UserProfileState extends State<UserProfile> {
           sizeHeight: Dimens.size40,
         ),
         const SizedBox(width: Dimens.size15),
-        Container(
-          width: Dimens.size40,
-          height: Dimens.size40,
-          decoration: BoxDecoration(
-              color: theme.primaryColorLight,
-              border: Border.all(width: 1, color: theme.primaryColor),
-              borderRadius: BorderRadius.circular(15)),
-          child: Padding(
-            padding: const EdgeInsets.all(Dimens.size10),
-            child: Image.asset(MyImages.icFlightSelected),
+        GestureDetector(
+          onTap: () => goToBoxChat(_user),
+          child: Container(
+            width: Dimens.size40,
+            height: Dimens.size40,
+            decoration: BoxDecoration(
+                color: theme.primaryColorLight,
+                border: Border.all(width: 1, color: theme.primaryColor),
+                borderRadius: BorderRadius.circular(15)),
+            child: Padding(
+              padding: const EdgeInsets.all(Dimens.size10),
+              child: Image.asset(MyImages.icFlightSelected),
+            ),
           ),
         ),
       ],
