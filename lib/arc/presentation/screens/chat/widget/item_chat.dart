@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/chat.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
@@ -105,6 +106,16 @@ class ItemOtherChat extends StatefulWidget {
 class _ItemOtherChatState extends State<ItemOtherChat> {
   bool _showTime = false;
 
+  void showUserProfile(String userId) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return UserProfile(userId: userId);
+          },
+        ),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -175,21 +186,24 @@ class _ItemOtherChatState extends State<ItemOtherChat> {
     );
   }
 
-  SizedBox _buildImageUser(String imageUser) {
-    return SizedBox(
-      width: Dimens.size30,
-      height: Dimens.size30,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: imageUser == ''
-            ? Image.asset(
-                MyImages.defaultAvt,
-                fit: BoxFit.cover,
-              )
-            : CachedNetworkImage(
-                imageUrl: imageUser,
-                fit: BoxFit.cover,
-              ),
+  Widget _buildImageUser(String imageUser) {
+    return GestureDetector(
+      onTap: () => showUserProfile(widget.chat.userId ?? ''),
+      child: SizedBox(
+        width: Dimens.size30,
+        height: Dimens.size30,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: imageUser == ''
+              ? Image.asset(
+                  MyImages.defaultAvt,
+                  fit: BoxFit.cover,
+                )
+              : CachedNetworkImage(
+                  imageUrl: imageUser,
+                  fit: BoxFit.cover,
+                ),
+        ),
       ),
     );
   }
