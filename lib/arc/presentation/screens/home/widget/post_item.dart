@@ -8,7 +8,6 @@ import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/comment_sheet.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/full_image.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dart';
-import 'package:hii_xuu_social/src/config/config.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
@@ -162,10 +161,10 @@ class _PostItemState extends State<PostItem> {
                         style: theme.primaryTextTheme.headline4,
                       ),
                       const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.all(Dimens.size10),
-                        child: SvgPicture.asset(MyImages.icUnSaved),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(Dimens.size10),
+                      //   child: SvgPicture.asset(MyImages.icUnSaved),
+                      // ),
                     ],
                   )
                 ],
@@ -212,7 +211,7 @@ class _PostItemState extends State<PostItem> {
       padding: const EdgeInsets.symmetric(horizontal: Dimens.size10),
       child: Text(
         widget.item.content ?? '',
-        style: theme.textTheme.bodyText2,
+        style: theme.primaryTextTheme.bodyText2,
       ),
     );
   }

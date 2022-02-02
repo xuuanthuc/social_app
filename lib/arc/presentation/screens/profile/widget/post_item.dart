@@ -95,7 +95,7 @@ class _PostItemState extends State<PostItem> {
       padding: const EdgeInsets.symmetric(horizontal: Dimens.size10),
       child: Text(
         widget.item.content ?? '',
-        style: theme.textTheme.bodyText2,
+        style: theme.primaryTextTheme.bodyText2,
       ),
     );
   }

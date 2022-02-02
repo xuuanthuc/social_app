@@ -117,11 +117,11 @@ class _StoryListState extends State<StoryList> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: Dimens.size20),
+                                    const SizedBox(height: Dimens.size5),
                                     // SizedBox(
                                     //     height: Dimens.size15,
                                     //     child: Text(
-                                    //       'user',
+                                    //       _listStory?[index].,
                                     //       style:
                                     //           theme.primaryTextTheme.bodyText2,
                                     //     ))

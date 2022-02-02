@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/shimmer_widget.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
-
+import 'package:hii_xuu_social/src/styles/images.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class LoadingHome extends StatelessWidget {
   const LoadingHome({Key? key}) : super(key: key);
 
@@ -11,7 +14,24 @@ class LoadingHome extends StatelessWidget {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.backgroundColor,
-      appBar: const AppBarDesign(),
+      appBar: AppBarDesign(
+        hasAction1: false,
+        hasLeading: true,
+        hasAction2: true,
+        centerTitle: true,
+        imgAction1: MyImages.icCameraSelected,
+        imgAction2: MyImages.icSend,
+        imgLeading: MyImages.icCameraSelected,
+        onTapLeading: () {
+          context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
+        },
+        onTapAction1: () {
+          context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
+        },
+        onTapAction2: () {
+          context.read<MainBloc>().add(OnChangePageEvent(Constants.page.chat));
+        },
+      ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

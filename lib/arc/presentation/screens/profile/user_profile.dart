@@ -65,6 +65,7 @@ class _UserProfileState extends State<UserProfile> {
             elevation: 0,
             insetPadding: EdgeInsets.zero,
             contentPadding: EdgeInsets.zero,
+            backgroundColor: Theme.of(context).backgroundColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             content: Column(

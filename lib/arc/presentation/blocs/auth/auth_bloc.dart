@@ -63,6 +63,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(LoadingLoginState());
     var avatar = await uploadImageToFirebase();
+    if(avatar == ''){
+      avatar = event.imageUrl;
+    }
     var input = UserData(
       fullName: event.fullName,
       username: event.username,

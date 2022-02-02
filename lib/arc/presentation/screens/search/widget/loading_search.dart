@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/shimmer_widget.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
+import 'package:hii_xuu_social/src/styles/images.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoadingSearchScreen extends StatefulWidget {
   final TextEditingController? controller;
@@ -26,7 +30,20 @@ class _LoadingSearchScreenState extends State<LoadingSearchScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.backgroundColor,
-      appBar: const AppBarDesign(),
+      appBar: AppBarDesign(
+        hasAction1: false,
+        hasAction2: false,
+        centerTitle: true,
+        title: Text('Search', style: theme.textTheme.headline2),
+        imgAction1: MyImages.icCameraSelected,
+        imgAction2: MyImages.icSend,
+        onTapAction1: () {
+          context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
+        },
+        onTapAction2: () {
+          context.read<MainBloc>().add(OnChangePageEvent(Constants.page.chat));
+        },
+      ),
       body: Column(
         children: [
           const SizedBox(height: Dimens.size8),

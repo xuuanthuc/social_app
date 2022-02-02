@@ -13,7 +13,7 @@ class ShimmerWidget extends StatelessWidget {
     this.height = Dimens.size10,
     this.shapeBorder = const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(Dimens.size10),
+        Radius.circular(Dimens.size15),
       ),
     ),
   }) : super(key: key);
@@ -28,13 +28,13 @@ class ShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade200,
-      highlightColor: MyColors.whiteColor,
+      baseColor: Theme.of(context).colorScheme.primaryVariant,
+      highlightColor: Theme.of(context).colorScheme.surface,
       child: Container(
         width: width,
         height: height,
         decoration: ShapeDecoration(
-          color: Colors.grey[400],
+          color: Theme.of(context).colorScheme.secondaryVariant,
           shape: shapeBorder,
         ),
       ),

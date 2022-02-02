@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/search/search_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/search/widget/loading_search.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -53,7 +55,20 @@ class _SearchScreenState extends State<SearchScreen> {
                 builder: (materialContext) {
                   return Scaffold(
                     backgroundColor: theme.backgroundColor,
-                    appBar: const AppBarDesign(),
+                    appBar: AppBarDesign(
+                      hasAction1: false,
+                      hasAction2: false,
+                      centerTitle: true,
+                      title: Text('Search', style: theme.textTheme.headline2,),
+                      imgAction1: MyImages.icCameraSelected,
+                      imgAction2: MyImages.icSend,
+                      onTapAction1: () {
+                        context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
+                      },
+                      onTapAction2: () {
+                        context.read<MainBloc>().add(OnChangePageEvent(Constants.page.chat));
+                      },
+                    ),
                     body: Column(
                       children: [
                         const SizedBox(height: Dimens.size8),

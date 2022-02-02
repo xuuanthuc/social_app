@@ -27,14 +27,14 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xffFCF1EE).withOpacity(0.5),
-                const Color(0xffFDF5EE).withOpacity(0.5),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight
-            )
+            // gradient: LinearGradient(
+            //   colors: [
+            //     const Color(0xffFCF1EE).withOpacity(0.5),
+            //     const Color(0xffFDF5EE).withOpacity(0.5),
+            //   ],
+            //   begin: Alignment.topLeft,
+            //   end: Alignment.bottomRight
+            // )
           ),
           child: Padding(
             padding: const EdgeInsets.all(Dimens.size30),

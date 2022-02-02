@@ -86,7 +86,20 @@ class _UploadScreenState extends State<UploadScreen> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: theme.scaffoldBackgroundColor,
-            appBar: const AppBarDesign(),
+            appBar: AppBarDesign(
+              hasAction1: false,
+              hasAction2: false,
+              centerTitle: true,
+              title: Text('New post', style: theme.textTheme.headline2,),
+              imgAction1: MyImages.icCameraSelected,
+              imgAction2: MyImages.icSend,
+              onTapAction1: () {
+                context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
+              },
+              onTapAction2: () {
+                context.read<MainBloc>().add(OnChangePageEvent(Constants.page.chat));
+              },
+            ),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(

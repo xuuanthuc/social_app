@@ -26,6 +26,8 @@ class MyImages{
   static const icBack = assetImage + 'ic_back.png';
   static const icSetting = assetImage + 'ic_setting.png';
   static const icFlightSelected = assetImage + 'ic_flight_selected.png';
+  static const icAddUser = assetImage + 'ic_add_user.png';
+  static const icSettingSelected = assetImage + 'ic_setting_selected.png';
 
 
   //svgs

@@ -8,6 +8,7 @@ class MyColors {
   static const Color primaryColor = Color.fromRGBO(234, 166, 67, 1);
   static const Color secondaryColor = Color.fromRGBO(228, 99, 71, 1);
   static const Color primaryColor10 = Color.fromRGBO(253, 246, 236, 1);
+  static const Color primaryColorDark = Color.fromRGBO(0, 0, 0, 1);
 
   static const Color whiteColor = Color.fromRGBO(255, 255, 255, 1);
   static const Color blackColor = Color.fromRGBO(51, 51, 51, 1);
@@ -17,8 +18,9 @@ class MyColors {
 
 
   static const Color scaffoldBackgroundColorLight = Color.fromRGBO(248, 248, 248, 1);
+  static const Color scaffoldBackgroundColorDark = Color.fromRGBO(0, 0, 0, 1);
   static const Color backgroundColorLight = Color.fromRGBO(255, 255, 255, 1);
-  static const Color backgroundColorDark = Color.fromRGBO(0, 0, 0, 1);
+  static const Color backgroundColorDark = Color.fromRGBO(15, 3, 35, 1);
 
   static const Color errorColor = Color.fromRGBO(228, 99, 71, 1);
 

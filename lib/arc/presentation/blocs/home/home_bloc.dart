@@ -432,7 +432,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         );
       }
     }
-
     _listPost.sort((a,b) => (b.updateAt ?? '').compareTo(a.updateAt ?? ''));
     StaticVariable.listPost = _listPost;
     StaticVariable.listStory = _listStory;
