@@ -45,7 +45,6 @@ class _BottomChatFieldState extends State<BottomChatField> {
           }
         }
         if (state is SendMessageSuccessState) {
-          _focus.unfocus();
           _chatController.clear();
           _canSendMess = false;
           _isSending = false;
