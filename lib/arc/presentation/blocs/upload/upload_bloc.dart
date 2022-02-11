@@ -102,6 +102,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
         authName: StaticVariable.myData?.fullName,
         authAvatar: StaticVariable.myData?.imageUrl,
         userId: StaticVariable.myData?.userId,
+        postId: currentAutoPostId,
         createAt: DateTime.now().toUtc().toIso8601String(),
         updateAt: DateTime.now().toUtc().toIso8601String(),
       );

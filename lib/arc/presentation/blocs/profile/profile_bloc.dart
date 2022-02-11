@@ -170,8 +170,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .doc(AppConfig.instance.cFollowing)
         .collection(AppConfig.instance.cListFollowing)
         .doc(event.userId)
-        .delete().then((value) => print("User Deleted"))
-        .catchError((error) => print("Failed to delete user: $error"));
+        .delete().then((value) => LoggerUtils.d("User Deleted"))
+        .catchError((error) => LoggerUtils.d("Failed to delete user: $error"));
 
     //update that user
     await fireStore
@@ -181,8 +181,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .doc(AppConfig.instance.cFollowers)
         .collection(AppConfig.instance.cListFollowing)
         .doc(StaticVariable.myData?.userId)
-        .delete() .then((value) => print("User Deleted"))
-        .catchError((error) => print("Failed to delete user: $error"));
+        .delete() .then((value) => LoggerUtils.d("User Deleted"))
+        .catchError((error) => LoggerUtils.d("Failed to delete user: $error"));
     emit(OnUnFollowSuccessState());
   }
 }

@@ -49,6 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state is HomeLoadedState) {
           _listPost = state.listPost ?? [];
         }
+        if(state is DeletePostSuccessState){
+          _listPost.removeWhere((element) => element.postId == state.postId);
+        }
       },
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {

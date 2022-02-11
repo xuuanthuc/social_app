@@ -27,6 +27,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<OnCommentEvent>(_onComment);
     on<LoadListComment>(_loadComment);
     on<ReloadListComment>(_reloadComment);
+    on<DeletePostClickedEvent>(_deletePost);
+    on<DeleteCommentClickedEvent>(_deleteComment);
   }
 
   void _reloadComment(
@@ -70,6 +72,38 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
     StaticVariable.listComment = _listComment;
     emit(LoadListCommentSuccessState(_listComment));
+  }
+
+  void _deletePost(
+      DeletePostClickedEvent event,
+      Emitter<HomeState> emit,
+      ) async {
+    emit(DeletePostLoadingState());
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(event.postData.userId)
+        .collection(AppConfig.instance.cMedia)
+        .doc(event.postData.postId)
+        .delete()
+        .then((value) => LoggerUtils.d('Delete comment success')).catchError((error) => LoggerUtils.d('Delete post failed'));
+    emit(DeletePostSuccessState(event.postData.postId ?? ''));
+  }
+
+  void _deleteComment(
+      DeleteCommentClickedEvent event,
+      Emitter<HomeState> emit,
+      ) async {
+    emit(DeleteCommentLoadingState());
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(event.commentModel.userId)
+        .collection(AppConfig.instance.cMedia)
+        .doc(event.postItem.postId)
+        .collection(AppConfig.instance.cPostComment)
+        .doc(event.commentModel.id)
+        .delete()
+        .then((value) => emit(DeleteCommentSuccessState(event.commentModel.id ?? ''))).catchError((error) => LoggerUtils.d('Delete post failed'));
+
   }
 
   void _loadComment(

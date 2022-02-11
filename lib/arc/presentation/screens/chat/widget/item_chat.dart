@@ -72,7 +72,7 @@ class _ItemMyChatState extends State<ItemMyChat> {
                         text: TextSpan(children: [
                           TextSpan(
                             text: widget.chat.message ?? '',
-                            style: theme.primaryTextTheme.bodyText2,
+                            style: theme.textTheme.bodyText2,
                           ),
                           TextSpan(
                               text:

@@ -91,7 +91,7 @@ class _UserProfileState extends State<UserProfile> {
                       const EdgeInsets.symmetric(horizontal: Dimens.size20),
                   child: Text(
                     'Unfollow ${_user.fullName}?',
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline6,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -111,7 +111,7 @@ class _UserProfileState extends State<UserProfile> {
                         'Unfollow',
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .headline5
+                            .headline6
                             ?.copyWith(
                                 color: Theme.of(context).colorScheme.secondary),
                       ),
@@ -125,7 +125,7 @@ class _UserProfileState extends State<UserProfile> {
                     child: Center(
                       child: Text(
                         'Cancel',
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
                   ),

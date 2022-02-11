@@ -47,3 +47,17 @@ class LoadListCommentSuccessState extends HomeState{
 class LoadListCommentFailedState extends HomeState{}
 
 class ReloadingListCommentState extends HomeState{}
+
+class DeletePostLoadingState extends HomeState{}
+
+class DeletePostSuccessState extends HomeState{
+  final String postId;
+  const DeletePostSuccessState(this.postId);
+}
+
+class DeleteCommentLoadingState extends HomeState{}
+
+class DeleteCommentSuccessState extends HomeState{
+  final String commentId;
+  const DeleteCommentSuccessState(this.commentId);
+}

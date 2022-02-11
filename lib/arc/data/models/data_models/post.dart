@@ -40,6 +40,7 @@ class PostData {
     createAt = json['create_at'];
     authAvatar = json['auth_avatar'];
     updateAt = json['update_at'];
+    postId = json['post_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +52,7 @@ class PostData {
     json['auth_avatar'] = authAvatar;
     json['create_at'] = createAt;
     json['update_at'] = updateAt;
+    json['post_id'] = postId;
     return json;
   }
 }

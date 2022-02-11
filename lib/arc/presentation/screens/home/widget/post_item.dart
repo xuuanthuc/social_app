@@ -7,6 +7,7 @@ import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/comment_sheet.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/child/full_image.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/child/menu_dialog.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
@@ -67,6 +68,29 @@ class _PostItemState extends State<PostItem> {
         ),
       );
     }
+  }
+
+
+  Future<void> _showSettingDialog(PostData item) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      barrierColor: Colors.black12,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.size60),
+          child: AlertDialog(
+            elevation: 0,
+            insetPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: Theme.of(context).backgroundColor,
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            content: MenuDialog(item: item),
+          ),
+        );
+      },
+    );
   }
 
   void goToFullImage() {
@@ -392,6 +416,17 @@ class _PostItemState extends State<PostItem> {
               ),
             ],
           ),
+          const Spacer(),
+          InkWell(
+            onTap: () => _showSettingDialog(widget.item),
+            child: Container(
+              color: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(MyImages.icMenu),
+              ),
+            ),
+          )
         ],
       ),
     );

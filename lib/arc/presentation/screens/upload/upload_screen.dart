@@ -72,6 +72,7 @@ class _UploadScreenState extends State<UploadScreen> {
         if (state is SharePostSuccessState) {
           EasyLoading.dismiss();
           ToastView.withBottom('Uploaded success!');
+          StaticVariable.listPost = null;
           context.read<MainBloc>().add(OnChangePageEvent(Constants.page.home));
         }
         if (state is SharePostFailedState) {

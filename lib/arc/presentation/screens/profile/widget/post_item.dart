@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dart';
@@ -13,6 +14,7 @@ import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../home/child/menu_dialog.dart';
 import 'full_image.dart';
 
 class PostItem extends StatefulWidget {
@@ -51,6 +53,30 @@ class _PostItemState extends State<PostItem> {
       ),
     );
   }
+
+
+  Future<void> _showSettingPostDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      barrierColor: Colors.black12,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.size60),
+          child: AlertDialog(
+            elevation: 0,
+            insetPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: Theme.of(context).backgroundColor,
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            content: MenuDialog(item: widget.item),
+          ),
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -238,6 +264,17 @@ class _PostItemState extends State<PostItem> {
               ),
             ],
           ),
+          const Spacer(),
+          InkWell(
+            onTap: _showSettingPostDialog,
+            child: Container(
+              color: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(MyImages.icMenu),
+              ),
+            ),
+          )
         ],
       ),
     );

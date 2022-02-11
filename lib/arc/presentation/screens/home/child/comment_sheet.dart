@@ -13,35 +13,18 @@ import 'package:hii_xuu_social/src/utilities/showtoast.dart';
 import 'package:hii_xuu_social/src/validators/constants.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
+import 'comment_setting_dialog.dart';
+
 class CommentSheet extends StatefulWidget {
   final PostData postItem;
 
   const CommentSheet({Key? key, required this.postItem}) : super(key: key);
 
   @override
-  State<CommentSheet> createState() => _CommentSheetState();
-}
-
-class _CommentSheetState extends State<CommentSheet> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<HomeBloc>(
-      create: (context) => HomeBloc(),
-      child: _Body(postItem: widget.postItem),
-    );
-  }
-}
-
-class _Body extends StatefulWidget {
-  final PostData postItem;
-
-  const _Body({Key? key, required this.postItem}) : super(key: key);
-
-  @override
   _BodyState createState() => _BodyState();
 }
 
-class _BodyState extends State<_Body> {
+class _BodyState extends State<CommentSheet> {
   final FocusNode _focus = FocusNode();
   final TextEditingController _commentController = TextEditingController();
   bool _canComment = false;
@@ -78,6 +61,30 @@ class _BodyState extends State<_Body> {
         authName: StaticVariable.myData?.fullName,
         authAvatar: StaticVariable.myData?.imageUrl,
         updateAt: 'Posting...');
+  }
+
+  Future<void> _showCommentSetting(CommentModel comment) async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      barrierColor: Colors.black12,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.size60),
+          child: AlertDialog(
+              elevation: 0,
+              insetPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
+              backgroundColor: Theme.of(context).backgroundColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              content: CommentSettingSheet(
+                postItem: widget.postItem,
+                commentModel: comment,
+              )),
+        );
+      },
+    );
   }
 
   void showUserProfile(String userId) {
@@ -127,6 +134,9 @@ class _BodyState extends State<_Body> {
         if (state is ReloadingListCommentState) {
           _listComment?.add(StaticVariable.comment!);
         }
+        if(state is DeleteCommentSuccessState){
+          _listComment?.removeWhere((element) => element.id == state.commentId);
+        }
       },
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
@@ -157,7 +167,7 @@ class _BodyState extends State<_Body> {
                             controller: _scrollController,
                             itemBuilder: (context, index) {
                               final comment = _listComment?[index];
-                              return _bulidComment(comment);
+                              return _buildComment(comment);
                             },
                             itemCount: _listComment?.length ?? 0,
                           ),
@@ -192,7 +202,7 @@ class _BodyState extends State<_Body> {
     );
   }
 
-  Widget _bulidComment(CommentModel? comment) {
+  Widget _buildComment(CommentModel? comment) {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: Dimens.size15, vertical: Dimens.size15),
@@ -225,37 +235,46 @@ class _BodyState extends State<_Body> {
               ),
               const SizedBox(width: Dimens.size10),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Dimens.size15, vertical: Dimens.size10),
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(15),
-                            bottomLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                          color: Theme.of(context).scaffoldBackgroundColor),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () => showUserProfile(comment?.userId ?? ''),
-                            child: Text(
-                              comment?.authName ?? '',
-                              style: Theme.of(context).primaryTextTheme.bodyText1,
+                child: GestureDetector(
+                  onLongPress: comment?.userId == StaticVariable.myData?.userId
+                      ? () => _showCommentSetting(comment!)
+                      : () {},
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: Dimens.size15, vertical: Dimens.size10),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(15),
+                              bottomLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
                             ),
-                          ),
-                          Text(
-                            comment?.content ?? '',
-                            style: Theme.of(context).primaryTextTheme.bodyText2,
-                          ),
-                        ],
+                            color: Theme.of(context).scaffoldBackgroundColor),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () =>
+                                  showUserProfile(comment?.userId ?? ''),
+                              child: Text(
+                                comment?.authName ?? '',
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .bodyText1,
+                              ),
+                            ),
+                            Text(
+                              comment?.content ?? '',
+                              style:
+                                  Theme.of(context).primaryTextTheme.bodyText2,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],

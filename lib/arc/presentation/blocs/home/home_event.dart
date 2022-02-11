@@ -42,3 +42,14 @@ class ReloadListComment extends HomeEvent{
   final PostData post;
   const ReloadListComment(this.post);
 }
+
+class DeletePostClickedEvent extends HomeEvent{
+  final PostData postData;
+  const DeletePostClickedEvent(this.postData);
+}
+
+class DeleteCommentClickedEvent extends HomeEvent{
+  final CommentModel commentModel;
+  final PostData postItem;
+  const DeleteCommentClickedEvent(this.commentModel, this.postItem);
+}

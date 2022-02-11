@@ -41,4 +41,5 @@ class MyImages{
   static const icSaved = assetSvg + 'ic_saved.svg';
   static const icUnSaved = assetSvg + 'ic_unsaved.svg';
   static const icStack = assetSvg + 'ic_stack.svg';
+  static const icMenu = assetSvg + 'ic_menu.svg';
 }

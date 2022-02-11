@@ -5,9 +5,9 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
-import 'package:hii_xuu_social/arc/presentation/screens/chat/child/box_chat_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/edit_my_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/full_image.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/loading_my_profile.dart';
@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const EdgeInsets.symmetric(horizontal: Dimens.size20),
                   child: Text(
                     'Are you sure you want to logout?',
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline6,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         'Logout',
                         style: Theme.of(context)
                             .primaryTextTheme
-                            .headline5
+                            .headline6
                             ?.copyWith(
                                 color: Theme.of(context).colorScheme.secondary),
                       ),
@@ -125,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Center(
                       child: Text(
                         'Cancel',
-                        style: Theme.of(context).textTheme.headline5,
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
                   ),
@@ -144,90 +144,114 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ProfileBloc, ProfileState>(
-      listener: (context, state) {
-        if (state is InitProfileSuccessState) {
-          _user = state.user;
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ProfileBloc, ProfileState>(
+          listener: (context, state) {
+            if (state is InitProfileSuccessState) {
+              _user = state.user;
 
-          for (PostData post in state.user.posts ?? []) {
-            if (post.images!.isNotEmpty) {
-              _listPhotos.add(post);
+              for (PostData post in state.user.posts ?? []) {
+                if (post.images!.isNotEmpty) {
+                  _listPhotos.add(post);
+                }
+              }
             }
-          }
-        }
-      },
-      child: BlocBuilder<ProfileBloc, ProfileState>(
+          },
+        ),
+        BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is DeletePostSuccessState) {
+              _listPhotos
+                  .removeWhere((element) => element.postId == state.postId);
+              _user.posts?.removeWhere((element) => element.postId == state.postId);
+            }
+          },
+        ),
+      ],
+      child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if (state is LoadingInitProfileState) {
-            return const LoadingProfile();
-          }
-          final theme = Theme.of(context);
-          final size = MediaQuery.of(context).size;
-          return Scaffold(
-            backgroundColor: theme.backgroundColor,
-            appBar: AppBarDesign(
-              hasAction1: false,
-              hasAction2: true,
-              hasLeading: true,
-              imgAction1: MyImages.icAddUser,
-              imgAction2: MyImages.icSettingSelected,
-              imgLeading: MyImages.icAddUser,
-              centerTitle: true,
-              title: Text(StaticVariable.myData?.fullName ?? '', style: theme.textTheme.headline2,),
-              onTapAction1: () {
-                context.read<MainBloc>().add(OnChangePageEvent(Constants.page.search));
-              },
-              onTapAction2: () {
-                _showSettingDialog();
-              },
-              onTapLeading: (){
-                context.read<MainBloc>().add(OnChangePageEvent(Constants.page.search));
-              },
-            ),
-            body: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: AnimationLimiter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: AnimationConfiguration.toStaggeredList(
-                    duration: const Duration(milliseconds: 300),
-                    childAnimationBuilder: (widget) => SlideAnimation(
-                      horizontalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: widget,
-                      ),
-                    ),
-                    children: [
-                      const SizedBox(height: Dimens.size25),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+          return BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              if (state is LoadingInitProfileState) {
+                return const LoadingProfile();
+              }
+              final theme = Theme.of(context);
+              final size = MediaQuery.of(context).size;
+              return Scaffold(
+                backgroundColor: theme.backgroundColor,
+                appBar: AppBarDesign(
+                  hasAction1: false,
+                  hasAction2: true,
+                  hasLeading: true,
+                  imgAction1: MyImages.icAddUser,
+                  imgAction2: MyImages.icSettingSelected,
+                  imgLeading: MyImages.icAddUser,
+                  centerTitle: true,
+                  title: Text(
+                    StaticVariable.myData?.fullName ?? '',
+                    style: theme.textTheme.headline2,
+                  ),
+                  onTapAction1: () {
+                    context
+                        .read<MainBloc>()
+                        .add(OnChangePageEvent(Constants.page.search));
+                  },
+                  onTapAction2: () {
+                    _showSettingDialog();
+                  },
+                  onTapLeading: () {
+                    context
+                        .read<MainBloc>()
+                        .add(OnChangePageEvent(Constants.page.search));
+                  },
+                ),
+                body: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: AnimationLimiter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: AnimationConfiguration.toStaggeredList(
+                        duration: const Duration(milliseconds: 300),
+                        childAnimationBuilder: (widget) => SlideAnimation(
+                          horizontalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: widget,
+                          ),
+                        ),
                         children: [
-                          const SizedBox(width: Dimens.size20),
-                          _buildAvatar(theme),
-                          const SizedBox(width: Dimens.size15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          const SizedBox(height: Dimens.size25),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              _buildFullName(theme),
-                              const SizedBox(height: Dimens.size12),
-                              followingWidget(theme),
+                              const SizedBox(width: Dimens.size20),
+                              _buildAvatar(theme),
+                              const SizedBox(width: Dimens.size15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildFullName(theme),
+                                  const SizedBox(height: Dimens.size12),
+                                  followingWidget(theme),
+                                ],
+                              )
                             ],
-                          )
+                          ),
+                          const SizedBox(height: Dimens.size15),
+                          _buildBio(size, theme),
+                          const SizedBox(height: Dimens.size20),
+                          _buildCellCountFollow(theme),
+                          _buildTabShowPost(theme),
+                          _currentIndexTab == 0
+                              ? _buildGridImage()
+                              : _buildListPost(),
                         ],
                       ),
-                      const SizedBox(height: Dimens.size15),
-                      _buildBio(size, theme),
-                      const SizedBox(height: Dimens.size20),
-                      _buildCellCountFollow(theme),
-                      _buildTabShowPost(theme),
-                      _currentIndexTab == 0
-                          ? _buildGridImage()
-                          : _buildListPost(),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           );
         },
       ),
