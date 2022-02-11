@@ -55,7 +55,7 @@ class _AppBarDesignState extends State<AppBarDesign> {
               ),
             ),
         elevation: 0.5,
-        shadowColor: Colors.orange,
+        shadowColor: Colors.lightBlue,
         automaticallyImplyLeading: widget.hasLeading ?? false,
         leading: widget.hasLeading == true
             ? InkWell(
