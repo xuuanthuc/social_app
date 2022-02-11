@@ -100,7 +100,7 @@ class _MenuDialogState extends State<MenuDialog> {
             ),
           ),
         ),
-        const Divider(),
+        const SizedBox(height: Dimens.size10),
       ],
     );
   }
