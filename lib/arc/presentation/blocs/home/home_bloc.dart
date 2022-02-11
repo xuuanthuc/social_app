@@ -96,7 +96,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(DeleteCommentLoadingState());
     await fireStore
         .collection(AppConfig.instance.cUser)
-        .doc(event.commentModel.userId)
+        .doc(event.postItem.userId)
         .collection(AppConfig.instance.cMedia)
         .doc(event.postItem.postId)
         .collection(AppConfig.instance.cPostComment)

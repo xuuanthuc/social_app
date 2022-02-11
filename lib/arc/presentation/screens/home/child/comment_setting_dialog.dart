@@ -28,7 +28,7 @@ class _CommentSettingSheetState extends State<CommentSettingSheet> {
       children: [
         const SizedBox(height: Dimens.size15),
         widget.commentModel.userId != StaticVariable.myData?.userId
-            ? InkWell(
+            ? GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
             context
@@ -54,7 +54,7 @@ class _CommentSettingSheetState extends State<CommentSettingSheet> {
             ),
           ),
         )
-            : InkWell(
+            : GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
             context
@@ -82,7 +82,7 @@ class _CommentSettingSheetState extends State<CommentSettingSheet> {
           ),
         ),
         const Divider(),
-        InkWell(
+        GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },

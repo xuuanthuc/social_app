@@ -60,7 +60,7 @@ class _UserProfileState extends State<UserProfile> {
       barrierColor: Colors.black12,
       builder: (BuildContext context) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimens.size20),
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.size50),
           child: AlertDialog(
             elevation: 0,
             insetPadding: EdgeInsets.zero,
@@ -104,8 +104,10 @@ class _UserProfileState extends State<UserProfile> {
                         .read<ProfileBloc>()
                         .add(OnUnFollowClickedEvent(widget.userId));
                   },
-                  child: SizedBox(
+                  child: Container(
+                    color: Colors.transparent,
                     height: Dimens.size30,
+                    width: MediaQuery.of(context).size.width,
                     child: Center(
                       child: Text(
                         'Unfollow',
@@ -120,8 +122,10 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 const Divider(),
                 GestureDetector(
-                  child: SizedBox(
+                  child: Container(
+                    color: Colors.transparent,
                     height: Dimens.size30,
+                    width: MediaQuery.of(context).size.width,
                     child: Center(
                       child: Text(
                         'Cancel',

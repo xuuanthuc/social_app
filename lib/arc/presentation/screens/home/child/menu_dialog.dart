@@ -24,7 +24,7 @@ class _MenuDialogState extends State<MenuDialog> {
       children: [
         const SizedBox(height: Dimens.size15),
         widget.item.userId != StaticVariable.myData?.userId
-            ? InkWell(
+            ? GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
                   context
@@ -44,7 +44,7 @@ class _MenuDialogState extends State<MenuDialog> {
                   ),
                 ),
               )
-            : InkWell(
+            : GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
                   context
@@ -65,7 +65,7 @@ class _MenuDialogState extends State<MenuDialog> {
                 ),
               ),
         const Divider(),
-        InkWell(
+        GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },
@@ -83,7 +83,7 @@ class _MenuDialogState extends State<MenuDialog> {
           ),
         ),
         const Divider(),
-        InkWell(
+        GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },
