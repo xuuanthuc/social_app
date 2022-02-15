@@ -94,6 +94,10 @@ class _LoginSheetState extends State<LoginSheet>
           EasyLoading.dismiss();
           navService.pushNamed(RouteKey.setUpProfile);
         }
+        if(state is GoToSetupProfileState){
+          EasyLoading.dismiss();
+          navService.pushNamed(RouteKey.setUpProfile);
+        }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {

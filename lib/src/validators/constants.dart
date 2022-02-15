@@ -6,7 +6,7 @@ class Constants{
     Locale('vi'),
   ];
   static const PageIndex page = PageIndex();
-  static const String fullNameDefault = 'MyPet User';
+  static const String fullNameDefault = 'Cutepet User';
 }
 
 class PageIndex{

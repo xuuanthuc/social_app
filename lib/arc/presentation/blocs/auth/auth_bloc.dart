@@ -154,7 +154,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       });
     }
     if (StaticVariable.myData != null) {
-      emit(LoginSuccessState());
+      if(StaticVariable.myData?.fullName == ''){
+        AppPreference().setVerificationID(null);
+        emit(GoToSetupProfileState());
+      } else {
+        emit(LoginSuccessState());
+      }
     } else {
       emit(LoginFailedState());
     }
