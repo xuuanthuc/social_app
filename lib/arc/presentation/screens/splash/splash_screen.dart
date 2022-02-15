@@ -40,9 +40,13 @@ class _BodyState extends State<_Body> {
       listener: (context, state) async {
         if (state is GoToLoginState) {
           // await Future.delayed(const Duration(seconds: 2));
+          print('login');
+
           navService.pushNamed(RouteKey.login);
         }
         if (state is GotoHomeState) {
+          print('main');
+
           navService.pushNamed(RouteKey.main);
         }
       },
