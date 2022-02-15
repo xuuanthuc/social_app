@@ -4,7 +4,8 @@ import 'package:hii_xuu_social/arc/presentation/widgets/shimmer_widget.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
-
+import 'package:hii_xuu_social/src/validators/translation_key.dart';
+import 'package:easy_localization/easy_localization.dart';
 class LoadingChatScreen extends StatefulWidget {
   const LoadingChatScreen({Key? key}) : super(key: key);
 
@@ -34,7 +35,7 @@ class _ChatScreenState extends State<LoadingChatScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Message',
+                    TranslationKey.message.tr(),
                     style: theme.primaryTextTheme.headline1,
                   ),
                 ],
@@ -49,7 +50,7 @@ class _ChatScreenState extends State<LoadingChatScreen> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Dimens.size10, vertical: Dimens.size12),
+                      padding: const EdgeInsets.symmetric(horizontal: Dimens.size20, vertical: Dimens.size12),
                       child: Column(
                         children: const [
                           ShimmerWidget.rectangular(
@@ -71,7 +72,7 @@ class _ChatScreenState extends State<LoadingChatScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Recent chats',
+                    TranslationKey.recentChat.tr(),
                     style: theme.primaryTextTheme.headline2,
                   ),
                   _buildMyAvatar(theme),

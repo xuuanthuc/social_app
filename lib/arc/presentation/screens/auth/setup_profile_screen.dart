@@ -167,7 +167,7 @@ class _SetUpProfileScreenState extends State<SetUpProfileScreen> {
                                         width: Dimens.size110,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(18),
+                                                BorderRadius.circular(29),
                                             border: Border.all(
                                                 width: 3,
                                                 color: theme.primaryColor)),
@@ -176,7 +176,7 @@ class _SetUpProfileScreenState extends State<SetUpProfileScreen> {
                                               Dimens.size2),
                                           child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(15),
+                                                  BorderRadius.circular(25),
                                               child: _image != ''
                                                   ? Image.network(_image ?? '', fit: BoxFit.cover,)
                                                   : _imageFile != null

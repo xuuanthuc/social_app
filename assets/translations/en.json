@@ -37,5 +37,6 @@
     "follow": "Follow",
     "un_follow": "Unfollow",
     "message" : "Message",
+    "recent_chat": "Recent chats",
     "end_json": ""
 }

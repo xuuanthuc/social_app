@@ -234,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  _buildFullName(theme),
+                                  _buildUserName(theme),
                                   const SizedBox(height: Dimens.size12),
                                   followingWidget(theme),
                                 ],
@@ -242,6 +242,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                           const SizedBox(height: Dimens.size15),
+                          _buildFullName(theme),
+                          const SizedBox(height: Dimens.size5),
                           _buildBio(size, theme),
                           const SizedBox(height: Dimens.size20),
                           _buildCellCountFollow(theme),
@@ -514,10 +516,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Text _buildFullName(ThemeData theme) {
+  Widget _buildFullName(ThemeData theme) {
+    final size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.size20),
+      child: SizedBox(
+        width: size.width,
+        child: Text(
+          _user.fullName ?? Constants.fullNameDefault,
+          style: theme.textTheme.headline5,
+          textAlign: TextAlign.start,
+        ),
+      ),
+    );
+  }
+
+  Text _buildUserName(ThemeData theme) {
     return Text(
-      _user.fullName ?? Constants.fullNameDefault,
-      style: theme.primaryTextTheme.headline2,
+      '@' + (_user.username ?? Constants.fullNameDefault),
+      style: theme.primaryTextTheme.headline3,
     );
   }
 
@@ -546,11 +563,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-
-//
-// onTap: () {
-// StaticVariable.listPost = null;
-// StaticVariable.myData = null;
-// AppPreference().setVerificationID(null);
-// navService.pushNamed(RouteKey.login);
-// },

@@ -9,8 +9,9 @@ import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
+import '../../../../src/validators/translation_key.dart';
 import 'child/box_chat_screen.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
@@ -69,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Message',
+                          TranslationKey.message.tr(),
                           style: theme.primaryTextTheme.headline1,
                         ),
                       ],
@@ -97,7 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Recent chats',
+                          TranslationKey.recentChat.tr(),
                           style: theme.primaryTextTheme.headline2,
                         ),
                         _buildMyAvatar(theme),
@@ -147,9 +148,14 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             _buildAvatar(theme, _listSuggetUser[index]),
             const SizedBox(height: Dimens.size5),
-            Text(
-              _listSuggetUser[index].fullName ?? '',
-              style: theme.primaryTextTheme.bodyText1,
+            SizedBox(
+              width: Dimens.size80,
+              child: Text(
+                _listSuggetUser[index].fullName ?? '',
+                style: theme.primaryTextTheme.bodyText1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),

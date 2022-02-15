@@ -38,4 +38,5 @@ class TranslationKey {
   static const follow = 'follow';
   static const unFollow = 'un_follow';
   static const message = 'message';
+  static const recentChat = 'recent_chat';
 }
