@@ -193,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   imgLeading: MyImages.icAddUser,
                   centerTitle: true,
                   title: Text(
-                    StaticVariable.myData?.fullName ?? '',
+                    StaticVariable.myData?.fullName ?? Constants.fullNameDefault,
                     style: theme.textTheme.headline2,
                   ),
                   onTapAction1: () {
@@ -516,7 +516,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Text _buildFullName(ThemeData theme) {
     return Text(
-      _user.fullName ?? '',
+      _user.fullName ?? Constants.fullNameDefault,
       style: theme.primaryTextTheme.headline2,
     );
   }

@@ -13,6 +13,7 @@ import 'package:hii_xuu_social/arc/presentation/widgets/custom_button.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -539,7 +540,7 @@ class _UserProfileState extends State<UserProfile> {
 
   Text _buildFullName(ThemeData theme) {
     return Text(
-      _user.fullName ?? '',
+      _user.fullName ?? Constants.fullNameDefault,
       style: theme.primaryTextTheme.headline2,
     );
   }
