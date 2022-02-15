@@ -30,6 +30,8 @@ class SubmitUpdateProfileSuccessState extends AuthState{}
 
 class SubmitUpdateProfileFailedState extends AuthState{}
 
+class GoToSetupProfileState extends AuthState{}
+
 class OnChangedFullNameTextState extends AuthState{
   final String? text;
   const OnChangedFullNameTextState(this.text);
