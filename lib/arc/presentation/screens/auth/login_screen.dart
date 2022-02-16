@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: Dimens.size20),
                   Padding(
-                    padding: const EdgeInsets.all(Dimens.size15),
+                    padding: const EdgeInsets.symmetric(vertical: Dimens.size15, horizontal: Dimens.size30),
                     child: Image.asset(MyImages.authImg),
                   ),
                   const SizedBox(height: Dimens.size50),
