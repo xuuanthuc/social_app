@@ -228,9 +228,7 @@ class _UserProfileState extends State<UserProfile> {
                       const SizedBox(height: Dimens.size20),
                       _buildCellCountFollow(theme),
                       _buildTabShowPost(theme),
-                      _currentIndexTab == 0
-                          ? _buildGridImage()
-                          : _buildListPost(),
+                      switchTypeListPost(_currentIndexTab),
                     ],
                   ),
                 ),
@@ -240,6 +238,26 @@ class _UserProfileState extends State<UserProfile> {
         },
       ),
     );
+  }
+
+  Widget switchTypeListPost(int index) {
+    Widget newWidget = Container();
+    switch (index) {
+      case 0:
+        newWidget = (_user.posts ?? []).isEmpty
+            ? Container()
+            : _buildGridImage();
+        break;
+      case 1:
+        newWidget = (_user.posts ?? []).isEmpty
+            ? Container()
+            : _buildListPost();
+        break;
+      case 2:
+        newWidget = Container();
+        break;
+    }
+    return newWidget;
   }
 
   Padding _buildTabShowPost(ThemeData theme) {

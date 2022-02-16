@@ -168,7 +168,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (state is DeletePostSuccessState) {
               _listPhotos
                   .removeWhere((element) => element.postId == state.postId);
-              _user.posts?.removeWhere((element) => element.postId == state.postId);
+              _user.posts
+                  ?.removeWhere((element) => element.postId == state.postId);
             }
           },
         ),
@@ -193,7 +194,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   imgLeading: MyImages.icAddUser,
                   centerTitle: true,
                   title: Text(
-                    StaticVariable.myData?.fullName ?? Constants.fullNameDefault,
+                    StaticVariable.myData?.fullName ??
+                        Constants.fullNameDefault,
                     style: theme.textTheme.headline2,
                   ),
                   onTapAction1: () {
@@ -248,9 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const SizedBox(height: Dimens.size20),
                           _buildCellCountFollow(theme),
                           _buildTabShowPost(theme),
-                          _currentIndexTab == 0
-                              ? _buildGridImage()
-                              : _buildListPost(),
+                          switchTypeListPost(_currentIndexTab),
                         ],
                       ),
                     ),
@@ -262,6 +262,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
       ),
     );
+  }
+
+  Widget switchTypeListPost(int index) {
+    Widget newWidget = Container();
+    switch (index) {
+      case 0:
+        newWidget = (_user.posts ?? []).isEmpty
+            ? Container()
+            : _buildGridImage();
+        break;
+      case 1:
+        newWidget = (_user.posts ?? []).isEmpty
+            ? Container()
+            : _buildListPost();
+        break;
+      case 2:
+        newWidget = Container();
+        break;
+    }
+    return newWidget;
   }
 
   Padding _buildTabShowPost(ThemeData theme) {
@@ -289,6 +309,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () {
                   setState(() {
                     _currentIndexTab = 1;
+                  });
+                }),
+            _tab(
+                index: 2,
+                controller: _currentIndexTab,
+                label: TranslationKey.save.tr(),
+                onTap: () {
+                  setState(() {
+                    _currentIndexTab = 2;
                   });
                 }),
           ],
@@ -338,7 +367,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Padding _buildGridImage() {
+  Widget _buildGridImage() {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: Dimens.size20, vertical: Dimens.size5),
@@ -389,23 +418,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildListPost() {
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: Dimens.size5),
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            return ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: PostItem(
-                  item: _user.posts![index],
-                ));
-          },
-          itemCount: _user.posts?.length,
-        ),
-      ),
-    );
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: Dimens.size5),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: PostItem(
+                        item: _user.posts![index],
+                      ));
+                },
+                itemCount: _user.posts?.length,
+              ),
+            ),
+          );
   }
 
   Row followingWidget(ThemeData theme) {
