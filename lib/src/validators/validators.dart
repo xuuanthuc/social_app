@@ -38,10 +38,13 @@ class TextFieldValidator {
   }
 
   static String? usernameValidator(String? string) {
-    // if (!Validator.isUsername(string ?? '')) {
-    //   return 'Tên người dùng không hợp lệ';
-    // }
-    // return null;
+    if (!Validator.isUsername(string ?? '')) {
+      return 'Tên người dùng không hợp lệ';
+    }
+    return null;
+  }
+
+  static String? fullnameValidator(String? string) {
     if (string != null && string.length >= 3) {
       return null;
     }

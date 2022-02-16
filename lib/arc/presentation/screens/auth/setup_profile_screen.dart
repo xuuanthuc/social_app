@@ -243,7 +243,7 @@ class _SetUpProfileScreenState extends State<SetUpProfileScreen> {
                             CustomTextField(
                               textInputAction: TextInputAction.next,
                               controller: _fullNameController,
-                              validator: TextFieldValidator.usernameValidator,
+                              validator: TextFieldValidator.fullnameValidator,
                               onChanged: (value) {
                                 context.read<AuthBloc>().add(
                                     OnChangedFullNameTextEvent(

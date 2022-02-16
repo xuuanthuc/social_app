@@ -257,7 +257,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           CustomTextField(
                             textInputAction: TextInputAction.next,
                             controller: _fullNameController,
-                            validator: TextFieldValidator.usernameValidator,
+                            validator: TextFieldValidator.fullnameValidator,
                             onChanged: (value) {
                               context.read<AuthBloc>().add(
                                   OnChangedFullNameTextEvent(
