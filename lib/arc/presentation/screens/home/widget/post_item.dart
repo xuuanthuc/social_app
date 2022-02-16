@@ -40,13 +40,8 @@ class _PostItemState extends State<PostItem> {
       isScrollControlled: true,
       elevation: 0,
       barrierColor: Colors.black45,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(Dimens.size20),
-          topLeft: Radius.circular(Dimens.size20),
-        ),
-      ),
-      backgroundColor: Theme.of(context).backgroundColor,
+
+      backgroundColor: Colors.transparent,
       builder: (context) {
         return CommentSheet(postItem: widget.item);
       },

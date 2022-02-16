@@ -38,80 +38,87 @@ class _LoadingCommentState extends State<LoadingComment> {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
-    return SizedBox(
-      height: size.height - Dimens.size120,
-      child: DraggableScrollableSheet(
-        initialChildSize: 1,
-        minChildSize: 0.85,
-        maxChildSize: 1,
-        snap: true,
-        expand: true,
-        builder: (context, scrollController) => ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Scaffold(
-            backgroundColor: theme.backgroundColor,
-            resizeToAvoidBottomInset: true,
-            body: Column(
-              children: [
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: Dimens.size20, bottom: Dimens.size10),
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    controller: scrollController,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimens.size15, vertical: Dimens.size15),
-                        child: Row(
-                          children: [
-                            const ShimmerWidget.rectangular(
-                              height: Dimens.size60,
-                              width: Dimens.size60,
-                            ),
-                            const SizedBox(width: Dimens.size10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ShimmerWidget.rectangular(
-                                  height: Dimens.size25,
-                                  width: size.width * 0.6,
-                                ),
-                                const SizedBox(height: Dimens.size10),
-                                ShimmerWidget.rectangular(
-                                  height: Dimens.size25,
-                                  width: size.width * 0.4,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: 5,
+    return DraggableScrollableSheet(
+      initialChildSize: 1,
+      minChildSize: 0.85,
+      maxChildSize: 1,
+      snap: true,
+      expand: true,
+      builder: (context, scrollController) => Scaffold(
+        backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: true,
+        body: Column(
+          children: [
+            Container(height: 50, color: Colors.transparent,),
+            Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: theme.backgroundColor,
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(Dimens.size20),
+                      topLeft: Radius.circular(Dimens.size20),
+                    ),
                   ),
-                )),
-                SizedBox(
-                  height: Dimens.size50,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: Dimens.size15),
-                      _buildAvatarWidget(theme),
-                      const SizedBox(width: Dimens.size10),
-                      _buildTextFieldComment(theme),
-                      _buildCommentButton(),
-                      Visibility(
-                        visible: !_focus.hasFocus,
-                        child: const SizedBox(width: Dimens.size15),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: Dimens.size12),
-              ],
+                  child: Padding(
+              padding: const EdgeInsets.only(
+                    top: Dimens.size20, bottom: Dimens.size10),
+              child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  controller: scrollController,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: Dimens.size15, vertical: Dimens.size15),
+                      child: Row(
+                        children: [
+                          const ShimmerWidget.rectangular(
+                            height: Dimens.size60,
+                            width: Dimens.size60,
+                          ),
+                          const SizedBox(width: Dimens.size10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ShimmerWidget.rectangular(
+                                height: Dimens.size25,
+                                width: size.width * 0.6,
+                              ),
+                              const SizedBox(height: Dimens.size10),
+                              ShimmerWidget.rectangular(
+                                height: Dimens.size25,
+                                width: size.width * 0.4,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: 5,
+              ),
             ),
-          ),
+                )),
+            Container(
+              color: theme.backgroundColor,
+              height: Dimens.size55,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: Dimens.size10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(width: Dimens.size15),
+                    _buildAvatarWidget(theme),
+                    const SizedBox(width: Dimens.size10),
+                    _buildTextFieldComment(theme),
+                    _buildCommentButton(),
+                    Visibility(
+                      visible: !_focus.hasFocus,
+                      child: const SizedBox(width: Dimens.size15),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

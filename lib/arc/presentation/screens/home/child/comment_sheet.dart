@@ -143,57 +143,63 @@ class _BodyState extends State<CommentSheet> {
           if (state is LoadingListCommentState) {
             return const LoadingComment();
           }
-          return SizedBox(
-            height: size.height - Dimens.size120,
-            child: DraggableScrollableSheet(
-              initialChildSize: 1,
-              minChildSize: 0.85,
-              maxChildSize: 1,
-              snap: true,
-              expand: true,
-              builder: (context, _scrollController) => ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Scaffold(
-                  backgroundColor: theme.backgroundColor,
-                  resizeToAvoidBottomInset: true,
-                  body: Column(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: Dimens.size20, bottom: Dimens.size10),
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            controller: _scrollController,
-                            itemBuilder: (context, index) {
-                              final comment = _listComment?[index];
-                              return _buildComment(comment);
-                            },
-                            itemCount: _listComment?.length ?? 0,
-                          ),
+          return DraggableScrollableSheet(
+            initialChildSize: 1,
+            minChildSize: 0.85,
+            maxChildSize: 1,
+            snap: true,
+            expand: true,
+            builder: (context, _scrollController) => Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Column(
+                children: [
+                  Container(height: 50, color: Colors.transparent,),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: theme.backgroundColor,
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(Dimens.size20),
+                          topLeft: Radius.circular(Dimens.size20),
                         ),
                       ),
-                      SizedBox(
-                        height: Dimens.size50,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(width: Dimens.size15),
-                            _buildAvatarWidget(theme),
-                            const SizedBox(width: Dimens.size10),
-                            _buildTextFieldComment(theme),
-                            _buildCommentButton(_scrollController),
-                            Visibility(
-                              visible: !_focus.hasFocus,
-                              child: const SizedBox(width: Dimens.size15),
-                            )
-                          ],
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: Dimens.size20, bottom: Dimens.size10),
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          controller: _scrollController,
+                          itemBuilder: (context, index) {
+                            final comment = _listComment?[index];
+                            return _buildComment(comment);
+                          },
+                          itemCount: _listComment?.length ?? 0,
                         ),
                       ),
-                      const SizedBox(height: Dimens.size12),
-                    ],
+                    ),
                   ),
-                ),
+                  Container(
+                    color: theme.backgroundColor,
+                    height: Dimens.size55,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: Dimens.size10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(width: Dimens.size15),
+                          _buildAvatarWidget(theme),
+                          const SizedBox(width: Dimens.size10),
+                          _buildTextFieldComment(theme),
+                          _buildCommentButton(_scrollController),
+                          Visibility(
+                            visible: !_focus.hasFocus,
+                            child: const SizedBox(width: Dimens.size15),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
