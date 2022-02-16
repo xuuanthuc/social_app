@@ -10,6 +10,8 @@ import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
+import '../../profile/user_profile.dart';
+
 class BoxChatScreen extends StatefulWidget {
   final String userId;
   final String? username;
@@ -25,6 +27,16 @@ class BoxChatScreen extends StatefulWidget {
 
 class _BoxChatScreenState extends State<BoxChatScreen> {
   final ScrollController _controller = ScrollController();
+
+  void showUserProfile(String userId) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return UserProfile(userId: userId);
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,15 +113,18 @@ class _BoxChatScreenState extends State<BoxChatScreen> {
         ),
       ),
       centerTitle: false,
-      title: Row(
-        children: [
-          _buildImageUser(widget.imageUser ?? ''),
-          const SizedBox(width: Dimens.size12),
-          Text(
-            widget.username ?? '',
-            style: theme.textTheme.headline5,
-          ),
-        ],
+      title: GestureDetector(
+        onTap: () => showUserProfile(widget.userId),
+        child: Row(
+          children: [
+            _buildImageUser(widget.imageUser ?? ''),
+            const SizedBox(width: Dimens.size12),
+            Text(
+              widget.username ?? '',
+              style: theme.textTheme.headline5,
+            ),
+          ],
+        ),
       ),
     );
   }
