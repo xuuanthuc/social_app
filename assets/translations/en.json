@@ -1,6 +1,6 @@
 {
     "begin_json": "",
-    "app_name": "RIVERMAKER",
+    "app_name": "KiuPet",
     "hello": "Welcome back",
     "auth_title": "Best Social App To\nMake New Friends",
     "auth_description": "Find People With The Same\nInterests As You",
@@ -38,5 +38,8 @@
     "un_follow": "Unfollow",
     "message" : "Message",
     "recent_chat": "Recent chats",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel",
     "end_json": ""
 }

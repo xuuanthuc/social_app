@@ -23,6 +23,8 @@ class TranslationKey {
   static const email = 'email';
   static const bio = 'bio';
   static const save = 'save';
+  static const delete = 'delete';
+  static const cancel = 'cancel';
   static const success = 'success';
   static const welcome = 'welcome';
   static const joinNow = 'join_now';

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
+import 'package:hii_xuu_social/src/validators/translation_key.dart';
 
 import '../../../../../src/styles/dimens.dart';
 import '../../../../data/models/data_models/post.dart';
 import '../../../blocs/profile/profile_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class MenuDialog extends StatefulWidget {
   final PostData item;
 
@@ -37,7 +38,7 @@ class _MenuDialogState extends State<MenuDialog> {
                   child: Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(
-                      'Unfollow',
+                      TranslationKey.unFollow.tr(),
                       style: Theme.of(context).primaryTextTheme.headline6,
                       textAlign: TextAlign.center,
                     ),
@@ -57,7 +58,7 @@ class _MenuDialogState extends State<MenuDialog> {
                   child: Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(
-                      'Delete',
+                      TranslationKey.delete.tr(),
                       style: Theme.of(context).primaryTextTheme.headline6,
                       textAlign: TextAlign.center,
                     ),
@@ -75,7 +76,7 @@ class _MenuDialogState extends State<MenuDialog> {
             child: Padding(
               padding: const EdgeInsets.all(5),
               child: Text(
-                'Save',
+                TranslationKey.save.tr(),
                 style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
@@ -93,7 +94,7 @@ class _MenuDialogState extends State<MenuDialog> {
             child: Padding(
               padding: const EdgeInsets.all(5),
               child: Text(
-                'Cancel',
+                TranslationKey.cancel.tr(),
                 style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
