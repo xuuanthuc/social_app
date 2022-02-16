@@ -166,7 +166,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
                     text: TextSpan(
                         children: [
                           TextSpan(text: _chatController.text,
-                            style: theme.primaryTextTheme.bodyText2,),
+                            style: theme.textTheme.bodyText2,),
                           TextSpan(text: '   sending...',
                               style: theme.textTheme.caption)
                         ]
