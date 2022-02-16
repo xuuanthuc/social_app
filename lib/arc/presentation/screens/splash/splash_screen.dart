@@ -39,10 +39,11 @@ class _BodyState extends State<_Body> {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) async {
         if (state is GoToLoginState) {
-          // await Future.delayed(const Duration(seconds: 2));
+          // await Future.delayed(const Duration(seconds: 20));
           navService.pushNamed(RouteKey.login);
         }
         if (state is GotoHomeState) {
+          // await Future.delayed(const Duration(seconds: 20));
           navService.pushNamed(RouteKey.main);
         }
       },
@@ -51,21 +52,19 @@ class _BodyState extends State<_Body> {
           Align(
             alignment: Alignment.center,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.6,
+              width: MediaQuery.of(context).size.width * 0.4,
               child: Image.asset(
                 MyImages.splashText,
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Image.asset(
-                MyImages.splashIcon,
-                fit: BoxFit.cover,
-              ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset(
+              MyImages.splashIcon,
+              fit: BoxFit.fitHeight,
             ),
           ),
         ],
