@@ -8,6 +8,7 @@ import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/chat/child/box_chat_screen.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/loading_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/custom_button.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
@@ -19,7 +20,6 @@ import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'widget/full_image.dart';
-import 'widget/post_item.dart';
 
 class UserProfile extends StatefulWidget {
   final String userId;

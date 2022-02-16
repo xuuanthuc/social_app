@@ -96,7 +96,8 @@ class _PostItemState extends State<PostItem> {
             countCmt: _currentComment,
             countLike: widget.item.likes?.length.toString() ?? '',
             comment: showCommentSheet,
-            post: widget.item),
+            post: widget.item
+        ),
       ),
     );
   }
@@ -207,7 +208,7 @@ class _PostItemState extends State<PostItem> {
 
   GestureDetector _buildFavoriteButton() {
     return GestureDetector(
-      onTap: widget.item.likes!.contains(StaticVariable.myData?.userId)
+      onTap: (widget.item.likes ?? []).contains(StaticVariable.myData?.userId)
           ? unLike
           : like,
       child: Container(
@@ -215,7 +216,7 @@ class _PostItemState extends State<PostItem> {
         child: Padding(
           padding: const EdgeInsets.all(Dimens.size10),
           child: SvgPicture.asset(
-              widget.item.likes!.contains(StaticVariable.myData?.userId)
+              (widget.item.likes ?? []).contains(StaticVariable.myData?.userId)
                   ? MyImages.icLiked
                   : MyImages.icUnLiked),
         ),
@@ -308,7 +309,7 @@ class _PostItemState extends State<PostItem> {
               ? Padding(
                   padding: const EdgeInsets.all(Dimens.size5),
                   child: GestureDetector(
-                    onDoubleTap: widget.item.likes!
+                    onDoubleTap:( widget.item.likes ?? [])
                             .contains(StaticVariable.myData?.userId)
                         ? unLike
                         : like,

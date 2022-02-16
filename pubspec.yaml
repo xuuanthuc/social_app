@@ -51,7 +51,10 @@ dependencies:
   image_picker: ^0.8.4+4
   firebase_storage: ^10.2.5
   pull_to_refresh: ^2.0.0
-  photo_view: ^0.13.0
+  photo_view:
+    git:
+      url: https://github.com/bluefireteam/photo_view
+      ref: 8156907eecfa812b181a5a729d790f6d399f311b
   cached_network_image: ^3.2.0
 
 dev_dependencies:

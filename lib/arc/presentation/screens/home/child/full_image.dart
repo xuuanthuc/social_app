@@ -31,6 +31,7 @@ class FullImageScreen extends StatefulWidget {
 
 class _FullImageScreenState extends State<FullImageScreen> {
   final PageController _controller = PageController();
+  final PhotoViewController _photoViewController = PhotoViewController();
   bool _liked = false;
 
   @override
@@ -39,10 +40,17 @@ class _FullImageScreenState extends State<FullImageScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    _photoViewController.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     setState(() {
-      widget.post.likes!.contains(StaticVariable.myData?.userId)
+     (widget.post.likes ?? []).contains(StaticVariable.myData?.userId)
           ? _liked = true
           : _liked = false;
     });
@@ -78,6 +86,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
                     scrollPhysics: const BouncingScrollPhysics(),
                     builder: (BuildContext context, int index) {
                       return PhotoViewGalleryPageOptions(
+                        controller: _photoViewController,
                         imageProvider: NetworkImage(widget.image[index]),
                         initialScale: PhotoViewComputedScale.contained,
                       );

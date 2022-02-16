@@ -21,9 +21,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   void _onInit(
-      InitProfileUserEvent event,
-      Emitter<ProfileState> emit,
-      ) async {
+    InitProfileUserEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
     emit(LoadingInitProfileState());
     var user = UserData();
     List<String> _listFollowing = [];
@@ -57,7 +57,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         _listPostId.add(doc.id);
       }
     });
-    for(var id in _listPostId){
+    for (var id in _listPostId) {
+      PostData post = PostData();
+      List<String> _listLikes = [];
+      List<String> _listComment = [];
       await fireStore
           .collection(AppConfig.instance.cUser)
           .doc(event.userId)
@@ -71,12 +74,47 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           var data = documentSnapshot.data();
           LoggerUtils.d(documentSnapshot.data());
           var res = data as Map<String, dynamic>;
-           var post = PostData.fromJson(res);
-           _listPost.add(post);
-        }
+          post = PostData.fromJson(res);
+        } else {}
       });
-    }
 
+      //get list like;
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(event.userId)
+          .collection(AppConfig.instance.cMedia)
+          .doc(id)
+          .collection(AppConfig.instance.cPostLikes)
+          .get()
+          .then(
+        (QuerySnapshot querySnapshot) {
+          for (var doc in querySnapshot.docs) {
+            _listLikes.add(doc.id);
+          }
+        },
+      );
+      //get list comment id
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .doc(event.userId)
+          .collection(AppConfig.instance.cMedia)
+          .doc(id)
+          .collection(AppConfig.instance.cPostComment)
+          .orderBy("create_at", descending: false)
+          .get()
+          .then(
+        (QuerySnapshot querySnapshot) {
+          for (var doc in querySnapshot.docs) {
+            _listComment.add(doc.id);
+          }
+        },
+      );
+
+      post.comments = _listComment;
+      post.postId = id;
+      post.likes = _listLikes;
+      _listPost.add(post);
+    }
 
     await fireStore
         .collection(AppConfig.instance.cUser)
@@ -85,8 +123,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .doc(AppConfig.instance.cFollowing)
         .collection(AppConfig.instance.cListFollowing)
         .get()
-    .then((QuerySnapshot querySnapshot){
-      for(var doc in querySnapshot.docs){
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
         _listFollowing.add(doc.id);
       }
     });
@@ -98,8 +136,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .doc(AppConfig.instance.cFollowers)
         .collection(AppConfig.instance.cListFollowing)
         .get()
-        .then((QuerySnapshot querySnapshot){
-      for(var doc in querySnapshot.docs){
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
         _listFollower.add(doc.id);
       }
     });
@@ -110,11 +148,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(InitProfileSuccessState(user));
   }
 
-
   void _onFollow(
-      OnFollowClickedEvent event,
-      Emitter<ProfileState> emit,
-      ) async {
+    OnFollowClickedEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
     emit(LoadingClickedFollowState());
     //update me
     await fireStore
@@ -123,7 +160,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .collection(AppConfig.instance.cConnect)
         .doc(AppConfig.instance.cFollowing)
         .set({}, SetOptions(merge: true)).catchError(
-          (error) => LoggerUtils.d('Upload failed!'),
+      (error) => LoggerUtils.d('Upload failed!'),
     );
     await fireStore
         .collection(AppConfig.instance.cUser)
@@ -133,7 +170,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .collection(AppConfig.instance.cListFollowing)
         .doc(event.userId)
         .set({}, SetOptions(merge: true)).catchError(
-          (error) => LoggerUtils.d('Upload failed!'),
+      (error) => LoggerUtils.d('Upload failed!'),
     );
     //update that user
     await fireStore
@@ -142,7 +179,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .collection(AppConfig.instance.cConnect)
         .doc(AppConfig.instance.cFollowers)
         .set({}, SetOptions(merge: true)).catchError(
-          (error) => LoggerUtils.d('Upload failed!'),
+      (error) => LoggerUtils.d('Upload failed!'),
     );
     await fireStore
         .collection(AppConfig.instance.cUser)
@@ -152,15 +189,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .collection(AppConfig.instance.cListFollowing)
         .doc(StaticVariable.myData?.userId)
         .set({}, SetOptions(merge: true)).catchError(
-          (error) => LoggerUtils.d('Upload failed!'),
+      (error) => LoggerUtils.d('Upload failed!'),
     );
     emit(OnFollowSuccessState());
   }
 
   void _onUnFollow(
-      OnUnFollowClickedEvent event,
-      Emitter<ProfileState> emit,
-      ) async {
+    OnUnFollowClickedEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
     emit(LoadingClickedFollowState());
     //update me
     await fireStore
@@ -170,7 +207,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .doc(AppConfig.instance.cFollowing)
         .collection(AppConfig.instance.cListFollowing)
         .doc(event.userId)
-        .delete().then((value) => LoggerUtils.d("User Deleted"))
+        .delete()
+        .then((value) => LoggerUtils.d("User Deleted"))
         .catchError((error) => LoggerUtils.d("Failed to delete user: $error"));
 
     //update that user
@@ -181,7 +219,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         .doc(AppConfig.instance.cFollowers)
         .collection(AppConfig.instance.cListFollowing)
         .doc(StaticVariable.myData?.userId)
-        .delete() .then((value) => LoggerUtils.d("User Deleted"))
+        .delete()
+        .then((value) => LoggerUtils.d("User Deleted"))
         .catchError((error) => LoggerUtils.d("Failed to delete user: $error"));
     emit(OnUnFollowSuccessState());
   }
