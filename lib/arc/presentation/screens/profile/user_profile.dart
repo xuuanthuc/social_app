@@ -369,8 +369,7 @@ class _UserProfileState extends State<UserProfile> {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: Dimens.size10, vertical: Dimens.size5),
+        padding: const EdgeInsets.symmetric(vertical: Dimens.size5),
         child: ListView.builder(
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
