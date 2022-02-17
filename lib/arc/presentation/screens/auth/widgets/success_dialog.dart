@@ -26,17 +26,20 @@ class SuccessDialog extends StatelessWidget {
           children: [
             const SizedBox(height: Dimens.size30),
             SizedBox(
-                width: Dimens.size110, child: Image.asset(MyImages.icSmile)),
+                width: size.width * 0.5, child: Image.asset(MyImages.icSmile)),
             const SizedBox(height: Dimens.size20),
             Text(
               TranslationKey.success.tr(),
               style: theme.primaryTextTheme.headline2,
             ),
             const SizedBox(height: Dimens.size20),
-            Text(
-              TranslationKey.welcome.tr(),
-              style: theme.primaryTextTheme.subtitle1,
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.size20),
+              child: Text(
+                TranslationKey.welcome.tr(),
+                style: theme.primaryTextTheme.subtitle1,
+                textAlign: TextAlign.center,
+              ),
             ),
             const SizedBox(height: Dimens.size20),
             Padding(
