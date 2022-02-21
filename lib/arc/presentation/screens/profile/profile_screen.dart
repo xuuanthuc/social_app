@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
@@ -52,6 +53,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  Future<void> _showAvatarDialog(String imageUrl) async {
+    return showDialog<void>(
+      context: context,
+      barrierColor: Colors.black12,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.size50),
+          child: AlertDialog(
+            elevation: 0,
+            insetPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: Theme.of(context).backgroundColor,
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            content: _user.imageUrl == ''
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                MyImages.defaultAvt,
+                fit: BoxFit.cover,
+              ),
+            )
+                : ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: CachedNetworkImage(
+                imageUrl: _user.imageUrl ?? '',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 
   Future<void> _showSettingDialog() async {
     return showDialog<void>(
@@ -371,14 +408,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: Dimens.size20, vertical: Dimens.size5),
-      child: GridView.builder(
+      child: MasonryGridView.count(
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 1 / 1,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 15,
-            crossAxisCount: 3),
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        crossAxisCount: 3,
+        // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //     childAspectRatio: 1 / 1,
+        //     crossAxisSpacing: 15,
+        //     mainAxisSpacing: 15,
+        //     crossAxisCount: 3),
         itemBuilder: (context, index) {
           return Stack(
             children: [
@@ -389,15 +429,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: GestureDetector(
                     onTap: () {
                       navService.push(
-                        MaterialPageRoute(
-                          builder: (context) => FullImageScreen(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (_, __, ___) =>  FullImageScreen(
                               image: _listPhotos[index].images ?? []),
                         ),
                       );
                     },
-                    child: Image.network(
-                      _listPhotos[index].images?.first ?? '',
-                      fit: BoxFit.cover,
+                    child: Hero(
+                      tag: _listPhotos[index].images?.first ?? '',
+                      child: Image.network(
+                        _listPhotos[index].images?.first ?? '',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -567,25 +611,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildAvatar(ThemeData theme) {
-    return Container(
-      padding: const EdgeInsets.all(Dimens.size3),
-      decoration: BoxDecoration(
-          border: Border.all(width: 1, color: theme.primaryColor),
-          borderRadius: BorderRadius.circular(28)),
-      child: SizedBox(
-        width: Dimens.size80,
-        height: Dimens.size80,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: _user.imageUrl == ''
-              ? Image.asset(
-                  MyImages.defaultAvt,
-                  fit: BoxFit.cover,
-                )
-              : CachedNetworkImage(
-                  imageUrl: _user.imageUrl ?? '',
-                  fit: BoxFit.cover,
-                ),
+    return GestureDetector(
+      onTap: (){
+        navService.push(
+          PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (_, __, ___) =>  FullImageScreen(
+                image: [_user.imageUrl ?? '']),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(Dimens.size3),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: theme.primaryColor),
+            borderRadius: BorderRadius.circular(28)),
+        child: SizedBox(
+          width: Dimens.size80,
+          height: Dimens.size80,
+          child: Hero(
+            tag: _user.imageUrl ?? '',
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: _user.imageUrl == ''
+                  ? Image.asset(
+                      MyImages.defaultAvt,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(_user.imageUrl ?? '',
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
         ),
       ),
     );

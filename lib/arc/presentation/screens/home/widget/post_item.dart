@@ -90,8 +90,9 @@ class _PostItemState extends State<PostItem> {
 
   void goToFullImage() {
     navService.push(
-      MaterialPageRoute(
-        builder: (context) => FullImageScreen(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (_, __, ___) =>  FullImageScreen(
             image: widget.item.images ?? [],
             countCmt: _currentComment,
             countLike: widget.item.likes?.length.toString() ?? '',
@@ -314,11 +315,13 @@ class _PostItemState extends State<PostItem> {
                         ? unLike
                         : like,
                     onTap: goToFullImage,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(
-                        imageUrl: widget.item.images?.first ?? '',
-                        fit: BoxFit.cover,
+                    child: Hero(
+                      tag: widget.item.images?.first ?? '',
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.network(widget.item.images?.first ?? '',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),

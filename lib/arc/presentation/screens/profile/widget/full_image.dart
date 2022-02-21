@@ -31,23 +31,26 @@ class _FullImageScreenState extends State<FullImageScreen> {
         backgroundColor: Colors.transparent,
       ),
       body: Center(
-        child: PhotoViewGallery.builder(
-          scrollPhysics: const BouncingScrollPhysics(),
-          builder: (BuildContext context, int index) {
-            return PhotoViewGalleryPageOptions(
-              imageProvider: NetworkImage(widget.image[index]),
-              initialScale: PhotoViewComputedScale.contained,
-            );
-          },
-          itemCount: widget.image.length,
-          loadingBuilder: (context, event) => const Center(
-            child: SizedBox(
-              width: 20.0,
-              height: 20.0,
-              child: CircularProgressIndicator(),
+        child: Hero(
+          tag: widget.image.first,
+          child: PhotoViewGallery.builder(
+            scrollPhysics: const BouncingScrollPhysics(),
+            builder: (BuildContext context, int index) {
+              return PhotoViewGalleryPageOptions(
+                imageProvider: NetworkImage(widget.image[index]),
+                initialScale: PhotoViewComputedScale.contained,
+              );
+            },
+            itemCount: widget.image.length,
+            loadingBuilder: (context, event) => const Center(
+              child: SizedBox(
+                width: 20.0,
+                height: 20.0,
+                child: CircularProgressIndicator(),
+              ),
             ),
+            pageController: _controller,
           ),
-          pageController: _controller,
         ),
       ),
     );

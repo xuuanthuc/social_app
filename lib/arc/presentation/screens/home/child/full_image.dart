@@ -61,7 +61,6 @@ class _FullImageScreenState extends State<FullImageScreen> {
     final theme = Theme.of(context);
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {
-        // TODO: implement listener
         if (state is OnDisLikedPostState) {
           _liked = false;
           widget.countLike = state.post.likes?.length.toString() ?? '';
@@ -89,6 +88,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
                         controller: _photoViewController,
                         imageProvider: NetworkImage(widget.image[index]),
                         initialScale: PhotoViewComputedScale.contained,
+                        heroAttributes: PhotoViewHeroAttributes(tag: widget.image.first)
                       );
                     },
                     itemCount: widget.image.length,
@@ -155,8 +155,10 @@ class _FullImageScreenState extends State<FullImageScreen> {
                           ),
                           const SizedBox(width: Dimens.size20),
                           GestureDetector(
-                            onTap:(){
+                            onTap:() async {
                               Navigator.of(context).pop();
+                              print('commemnttnnt');
+                              await Future.delayed(Duration(milliseconds: 200));
                               widget.comment();
                             },
                             child: Padding(
@@ -169,8 +171,10 @@ class _FullImageScreenState extends State<FullImageScreen> {
                           ),
                           const SizedBox(width: Dimens.size5),
                           GestureDetector(
-                            onTap:(){
+                            onTap:() async {
                               Navigator.of(context).pop();
+                              print('commemnttnnt');
+                              await Future.delayed(Duration(milliseconds: 200));
                               widget.comment();
                             },
                             child: Text(
