@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hii_xuu_social/src/styles/colors.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -28,13 +27,13 @@ class ShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Theme.of(context).colorScheme.primaryVariant,
+      baseColor: Theme.of(context).colorScheme.surface,
       highlightColor: Theme.of(context).colorScheme.surface,
       child: Container(
         width: width,
         height: height,
         decoration: ShapeDecoration(
-          color: Theme.of(context).colorScheme.secondaryVariant,
+          color: Theme.of(context).colorScheme.onSurface,
           shape: shapeBorder,
         ),
       ),

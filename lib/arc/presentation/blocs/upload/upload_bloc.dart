@@ -50,7 +50,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
         .doc(currentAutoPostId)
         .set({"create_at": DateTime.now().toUtc().toIso8601String(), "image" : _imageUrl},
         SetOptions(merge: true)).catchError(
-          (error) => emit(SharePostFailedState('Upload failed!')),
+          (error) => emit(const SharePostFailedState('Upload failed!')),
     );
     emit(UploadStorySuccessState());
   }
@@ -93,7 +93,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     emit(LoadingSharePostState());
     String currentAutoPostId = GenerateValue().genRandomString(15);
     var _listImageUrl = await uploadImageToFirebase();
-    if (event.content == '' && _listImageUrl?.length == 0) {
+    if (event.content == '' && (_listImageUrl ?? []).isEmpty) {
       emit(const SharePostFailedState("Content isn't empty"));
     } else {
       var input = PostData(

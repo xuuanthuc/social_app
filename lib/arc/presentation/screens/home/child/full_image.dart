@@ -14,7 +14,7 @@ class FullImageScreen extends StatefulWidget {
   final VoidCallback comment;
   final String countCmt;
   String countLike;
-  PostData post;
+  final PostData post;
 
   FullImageScreen(
       {Key? key,
@@ -157,8 +157,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
                           GestureDetector(
                             onTap:() async {
                               Navigator.of(context).pop();
-                              print('commemnttnnt');
-                              await Future.delayed(Duration(milliseconds: 200));
+                              await Future.delayed(const Duration(milliseconds: 200));
                               widget.comment();
                             },
                             child: Padding(
@@ -173,8 +172,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
                           GestureDetector(
                             onTap:() async {
                               Navigator.of(context).pop();
-                              print('commemnttnnt');
-                              await Future.delayed(Duration(milliseconds: 200));
+                              await Future.delayed(const Duration(milliseconds: 200));
                               widget.comment();
                             },
                             child: Text(

@@ -36,6 +36,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           .then(
         (QuerySnapshot querySnapshot) {
           for (var doc in querySnapshot.docs) {
+            LoggerUtils.d(doc.id);
             if (querySnapshot.size > 0) {
               if (userId != StaticVariable.myData?.userId) {
                 _listFindId.add(userId);

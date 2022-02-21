@@ -104,7 +104,7 @@ class _BodyState extends State<CommentSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {

@@ -138,7 +138,7 @@ class _BottomChatFieldState extends State<BottomChatField> {
   }
 
   Widget _itemMyChat() {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
     return Visibility(
       visible: _isSending,

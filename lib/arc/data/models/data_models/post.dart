@@ -1,5 +1,3 @@
-import 'package:hii_xuu_social/arc/data/models/request_models/post_comment.dart';
-
 class PostData {
   List<String>? images;
   String? userId;

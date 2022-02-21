@@ -18,7 +18,7 @@ void main() async {
       supportedLocales: Constants.languages,
       startLocale: Constants.languages[0],
       fallbackLocale: Constants.languages[0],
-      child: BlocOverrides.runZoned( ()=> MyApp(),
+      child: BlocOverrides.runZoned( ()=> const MyApp(),
         blocObserver: AppBlocObserver(),
       ),
     ),

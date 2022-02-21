@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -53,42 +52,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
-  Future<void> _showAvatarDialog(String imageUrl) async {
-    return showDialog<void>(
-      context: context,
-      barrierColor: Colors.black12,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimens.size50),
-          child: AlertDialog(
-            elevation: 0,
-            insetPadding: EdgeInsets.zero,
-            contentPadding: EdgeInsets.zero,
-            backgroundColor: Theme.of(context).backgroundColor,
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            content: _user.imageUrl == ''
-                ? ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                MyImages.defaultAvt,
-                fit: BoxFit.cover,
-              ),
-            )
-                : ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: CachedNetworkImage(
-                imageUrl: _user.imageUrl ?? '',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
 
   Future<void> _showSettingDialog() async {
     return showDialog<void>(

@@ -16,7 +16,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   List<PostData> _listPost = [];
-  List<String> _listStory = [];
+  // List<String> _listStory = [];
   String comment = '';
 
   HomeBloc() : super(InitHomeState()) {
@@ -173,7 +173,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         .doc(currentAutoPostId)
         .set(input.toJson(), SetOptions(merge: true))
         .then((value) {
-      var newPost = event.post;
+      // var newPost = event.post;
       emit(OnCommentSuccessState());
     }).catchError((error) => emit(OnCommentFailedState()));
   }

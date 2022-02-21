@@ -7,7 +7,6 @@ import 'package:hii_xuu_social/src/config/config.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
-import 'package:provider/src/provider.dart';
 
 class StoryList extends StatefulWidget {
   const StoryList({Key? key}) : super(key: key);
@@ -42,7 +41,7 @@ class _StoryListState extends State<StoryList> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     return MultiBlocListener(
       listeners: [
         BlocListener<AnimationBloc, AnimationState>(

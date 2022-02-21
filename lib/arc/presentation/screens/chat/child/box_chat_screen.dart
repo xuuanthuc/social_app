@@ -7,7 +7,6 @@ import 'package:hii_xuu_social/arc/presentation/screens/chat/widget/item_chat.da
 import 'package:hii_xuu_social/src/config/app_config.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
-import 'package:hii_xuu_social/src/utilities/format.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
 import '../../profile/user_profile.dart';

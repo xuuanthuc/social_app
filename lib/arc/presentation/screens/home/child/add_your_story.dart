@@ -8,7 +8,6 @@ import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/utilities/showtoast.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:provider/src/provider.dart';
 
 class AddStoryScreen extends StatefulWidget {
   final File imageFile;

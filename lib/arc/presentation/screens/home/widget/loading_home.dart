@@ -51,7 +51,7 @@ class LoadingHome extends StatelessWidget {
                           height: Dimens.size68,
                           width: Dimens.size68,
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: Dimens.size20,
                         ),
                       ],
