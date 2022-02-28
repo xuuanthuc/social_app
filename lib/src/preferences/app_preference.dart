@@ -13,7 +13,7 @@ class AppPreference extends BasePreference {
   //
   // Future setToken(String? value) async =>
   //     await setLocal(PreferenceKeys.xToken, value);
-  //
+
   // Future<String?> get seen async => await getLocal(PreferenceKeys.seen);
   //
   // Future setSeen(String value) async =>

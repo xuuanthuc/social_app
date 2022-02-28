@@ -41,5 +41,13 @@
     "save" : "Lưu",
     "delete": "Xoá",
     "cancel": "Huỷ bỏ",
+    "welcome_home" : "Welcome to KiuPet",
+    "des_welcome_home": "When you follow people, you’ll see the photos that they post here. ",
+    "find_people": "Find people",
+    "no_post": "No posts yet",
+    "when" : "When ",
+    "des_no_post" : "When ${user.fullName} posts, you’ll see their photos here.",
+    "des_no_photo" : "When you upload photos,\nyou’ll see it here",
+    "des_no_save" : "When you saved photos,\nyou’ll see it here",
     "end_json": ""
 }

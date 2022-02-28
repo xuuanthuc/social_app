@@ -9,6 +9,7 @@ import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/chat/child/box_chat_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/empty_user_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/loading_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/custom_button.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
@@ -244,12 +245,14 @@ class _UserProfileState extends State<UserProfile> {
     Widget newWidget = Container();
     switch (index) {
       case 0:
-        newWidget =
-            (_user.posts ?? []).isEmpty ? Container() : _buildGridImage();
+        newWidget = (_user.posts ?? []).isEmpty
+            ? EmptyUserProfile(fullName: _user.fullName)
+            : _buildGridImage();
         break;
       case 1:
-        newWidget =
-            (_user.posts ?? []).isEmpty ? Container() : _buildListPost();
+        newWidget = (_user.posts ?? []).isEmpty
+            ? EmptyUserProfile(fullName: _user.fullName)
+            : _buildListPost();
         break;
       case 2:
         newWidget = Container();
@@ -354,7 +357,7 @@ class _UserProfileState extends State<UserProfile> {
                       navService.push(
                         PageRouteBuilder(
                           opaque: false,
-                          pageBuilder: (_, __, ___) =>  FullImageScreen(
+                          pageBuilder: (_, __, ___) => FullImageScreen(
                               image: _listPhotos[index].images ?? []),
                         ),
                       );
@@ -564,12 +567,12 @@ class _UserProfileState extends State<UserProfile> {
 
   Widget _buildAvatar(ThemeData theme) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         navService.push(
           PageRouteBuilder(
             opaque: false,
-            pageBuilder: (_, __, ___) =>  FullImageScreen(
-                image: [_user.imageUrl ?? '']),
+            pageBuilder: (_, __, ___) =>
+                FullImageScreen(image: [_user.imageUrl ?? '']),
           ),
         );
       },
@@ -590,7 +593,8 @@ class _UserProfileState extends State<UserProfile> {
                       MyImages.defaultAvt,
                       fit: BoxFit.cover,
                     )
-                  : Image.network(_user.imageUrl ?? '',
+                  : Image.network(
+                      _user.imageUrl ?? '',
                       fit: BoxFit.cover,
                     ),
             ),

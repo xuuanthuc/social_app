@@ -10,6 +10,7 @@ import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/edit_my_profile.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/empty_my_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/full_image.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/loading_my_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
@@ -269,17 +270,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     switch (index) {
       case 0:
         newWidget = (_user.posts ?? []).isEmpty
-            ? Container()
+            ? const EmptyMyProfile(index: 0)
             : _buildGridImage();
         break;
       case 1:
         newWidget = (_user.posts ?? []).isEmpty
-            ? Container()
+            ? const EmptyMyProfile(index: 0)
             : _buildListPost();
         break;
       case 2:
-        newWidget = Container();
-        break;
+        newWidget = const EmptyMyProfile(index: 1);
+    break;
     }
     return newWidget;
   }

@@ -186,6 +186,12 @@ class MyTheme {
         //   fontWeight: FontWeight.w700,
         //   color: MyColors.blackColor,
         // ),
+        headline4: const TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize16,
+          fontWeight: FontWeight.w600,
+          color: MyColors.greyTextColor2,
+        ),
         // headline4: TextStyle(
         //   fontFamily: fontFamily,
         //   fontSize: Dimens.textSize12,
@@ -389,12 +395,12 @@ class MyTheme {
         //   fontWeight: FontWeight.w700,
         //   color: MyColors.blackColor,
         // ),
-        // headline4: TextStyle(
-        //   fontFamily: fontFamily,
-        //   fontSize: Dimens.textSize12,
-        //   fontWeight: FontWeight.w700,
-        //   color: MyColors.primaryColor,
-        // ),
+        headline4: const TextStyle(
+          fontFamily: fontFamily,
+          fontSize: Dimens.textSize16,
+          fontWeight: FontWeight.w600,
+          color: MyColors.whiteColor,
+        ),
         // headline6: TextStyle(
         //   fontFamily: fontFamily,
         //   fontSize: Dimens.textSize14,

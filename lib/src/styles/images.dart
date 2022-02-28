@@ -28,6 +28,7 @@ class MyImages{
   static const icFlightSelected = assetImage + 'ic_flight_selected.png';
   static const icAddUser = assetImage + 'ic_add_user.png';
   static const icSettingSelected = assetImage + 'ic_setting_selected.png';
+  static const icEmptyHome = assetImage + 'ic_empty_home.png';
 
 
   //svgs
@@ -42,4 +43,5 @@ class MyImages{
   static const icUnSaved = assetSvg + 'ic_unsaved.svg';
   static const icStack = assetSvg + 'ic_stack.svg';
   static const icMenu = assetSvg + 'ic_menu.svg';
+  static const icAnimal = assetSvg + 'ic_animal_logo.svg';
 }

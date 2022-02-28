@@ -41,4 +41,12 @@ class TranslationKey {
   static const unFollow = 'un_follow';
   static const message = 'message';
   static const recentChat = 'recent_chat';
+  static const welcomeHome = 'welcome_home';
+  static const desWelcomeHome = 'des_welcome_home';
+  static const findPeople = 'find_people';
+  static const noPost = 'no_post';
+  static const desNoPost = 'des_no_post';
+  static const desNoPhoto = 'des_no_photo';
+  static const desNoSave = 'des_no_save';
+  static const when = 'when';
 }

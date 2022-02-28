@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/widget/empty_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/story.dart';
@@ -43,13 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final theme = Theme.of(context);
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {
-        if (state is HomeLoadingState) {
-
-        }
+        if (state is HomeLoadingState) {}
         if (state is HomeLoadedState) {
           _listPost = state.listPost ?? [];
         }
-        if(state is DeletePostSuccessState){
+        if (state is DeletePostSuccessState) {
           _listPost.removeWhere((element) => element.postId == state.postId);
         }
       },
@@ -74,13 +73,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       imgAction2: MyImages.icSend,
                       imgLeading: MyImages.icCameraSelected,
                       onTapLeading: () {
-                        context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
+                        context
+                            .read<MainBloc>()
+                            .add(OnChangePageEvent(Constants.page.camera));
                       },
                       onTapAction1: () {
-                        context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
+                        context
+                            .read<MainBloc>()
+                            .add(OnChangePageEvent(Constants.page.camera));
                       },
                       onTapAction2: () {
-                        context.read<MainBloc>().add(OnChangePageEvent(Constants.page.chat));
+                        context
+                            .read<MainBloc>()
+                            .add(OnChangePageEvent(Constants.page.chat));
                       },
                     ),
                     body: SmartRefresher(
@@ -92,26 +97,37 @@ class _HomeScreenState extends State<HomeScreen> {
                       header: const WaterDropMaterialHeader(),
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            const StoryList(),
-                            Container(
-                              color: theme.scaffoldBackgroundColor,
-                              child: ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  if((_listPost[index].images ?? []).isEmpty && (_listPost[index].content ?? '').isEmpty){
-                                    return Container();
-                                  } else {
-                                    return PostItem(item: _listPost[index]);
-                                  }
+                        child: _listPost.isEmpty
+                            ? EmptyHome(
+                                onFindPeople: () {
+                                  context.read<MainBloc>().add(
+                                      OnChangePageEvent(Constants.page.search));
                                 },
-                                itemCount: _listPost.length,
+                              )
+                            : Column(
+                                children: [
+                                  const StoryList(),
+                                  Container(
+                                    color: theme.scaffoldBackgroundColor,
+                                    child: ListView.builder(
+                                      physics: const BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        if ((_listPost[index].images ?? [])
+                                                .isEmpty &&
+                                            (_listPost[index].content ?? '')
+                                                .isEmpty) {
+                                          return Container();
+                                        } else {
+                                          return PostItem(
+                                              item: _listPost[index]);
+                                        }
+                                      },
+                                      itemCount: _listPost.length,
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
                       ),
                     ),
                   );
