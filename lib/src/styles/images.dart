@@ -29,6 +29,12 @@ class MyImages{
   static const icAddUser = assetImage + 'ic_add_user.png';
   static const icSettingSelected = assetImage + 'ic_setting_selected.png';
   static const icEmptyHome = assetImage + 'ic_empty_home.png';
+  static const imgOnBoarding1 = assetImage + 'img_on_broading_1.png';
+  static const imgOnBoarding2 = assetImage + 'img_on_broading_2.png';
+  static const imgOnBoarding3 = assetImage + 'img_on_broading_3.png';
+  static const imgTopOnBoarding1 = assetImage + 'img_top_on_broading_1.png';
+  static const imgTopOnBoarding2 = assetImage + 'img_top_on_broading_2.png';
+  static const imgTopOnBoarding3 = assetImage + 'img_top_on_broading_3.png';
 
 
   //svgs

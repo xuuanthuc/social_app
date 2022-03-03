@@ -46,6 +46,10 @@ class _BodyState extends State<_Body> {
           // await Future.delayed(const Duration(seconds: 20));
           navService.pushNamed(RouteKey.main);
         }
+        if (state is GoToOnBroadState) {
+          await Future.delayed(const Duration(seconds: 2));
+          navService.pushNamed(RouteKey.onBroadScreen);
+        }
       },
       child: Stack(
         children: [

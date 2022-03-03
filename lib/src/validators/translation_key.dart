@@ -49,4 +49,6 @@ class TranslationKey {
   static const desNoPhoto = 'des_no_photo';
   static const desNoSave = 'des_no_save';
   static const when = 'when';
+  static const next = 'next';
+  static const skip = 'skip';
 }

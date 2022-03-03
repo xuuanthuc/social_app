@@ -28,4 +28,5 @@ class PreferenceKeys {
   static const String password = 'PASSWORD';
   static const String remember = 'REMEMBER';
   static const String verificationId = 'VERIFICATIONID';
+  static const String seenOnBroad = 'ONBROADINGSCREENSEEN';
 }

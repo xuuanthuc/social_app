@@ -12,3 +12,5 @@ class InitSplashState extends SplashState{}
 class GotoHomeState extends SplashState{}
 
 class GoToLoginState extends SplashState{}
+
+class GoToOnBroadState extends SplashState{}

@@ -49,5 +49,7 @@
     "des_no_post" : " posts, you’ll see their photos here.",
     "des_no_photo" : "When you upload photos,\nyou’ll see it here",
     "des_no_save" : "When you saved photos,\nyou’ll see it here",
+    "next" : "Next",
+    "skip" : "Skip",
     "end_json": ""
 }

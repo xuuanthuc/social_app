@@ -8,6 +8,11 @@ class AppPreference extends BasePreference {
       await setLocal(PreferenceKeys.verificationId, value);
 
   Future<String?> get verificationId async => await getLocal(PreferenceKeys.verificationId);
+
+  Future setOnBoardingSeen(bool? value) async =>
+      await setBool(PreferenceKeys.seenOnBroad, value);
+
+  Future<bool?> get seenOnBroad async => await getBool(PreferenceKeys.seenOnBroad);
   //
   // Future<String?> get token async => await getLocal(PreferenceKeys.xToken);
   //
