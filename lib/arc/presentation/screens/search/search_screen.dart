@@ -148,7 +148,7 @@ class _SearchScreenState extends State<SearchScreen> {
         cursorHeight: Dimens.size18,
         onEditingComplete: search,
         decoration: InputDecoration(
-            hintText: 'Enter full name',
+            hintText: '@username or full name',
             hintStyle: theme.primaryTextTheme.subtitle1,
             prefixIcon: GestureDetector(
               onTap: search,

@@ -51,4 +51,7 @@ class TranslationKey {
   static const when = 'when';
   static const next = 'next';
   static const skip = 'skip';
+  static const onBroad1 = 'on_broad1';
+  static const onBroad2 = 'on_broad2';
+  static const onBroad3 = 'on_broad3';
 }

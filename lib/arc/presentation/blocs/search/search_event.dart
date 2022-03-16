@@ -11,4 +11,8 @@ class OnSearchEvent extends SearchEvent {
   const OnSearchEvent(this.keyword);
 }
 
+class LoadListUserEvent extends SearchEvent {
+  final List<String> listUserId;
+  const LoadListUserEvent(this.listUserId);
+}
 

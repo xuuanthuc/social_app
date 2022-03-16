@@ -50,14 +50,17 @@ class _OnBroadScreenState extends State<OnBroadScreen> {
               _onBoardingScreen(
                 topImg: MyImages.imgTopOnBoarding1,
                 mainImg: MyImages.imgOnBoarding1,
+                title: TranslationKey.onBroad1.tr(),
               ),
               _onBoardingScreen(
                 topImg: MyImages.imgTopOnBoarding2,
                 mainImg: MyImages.imgOnBoarding2,
+                title: TranslationKey.onBroad2.tr(),
               ),
               _onBoardingScreen(
                 topImg: MyImages.imgTopOnBoarding3,
                 mainImg: MyImages.imgOnBoarding3,
+                title: TranslationKey.onBroad3.tr(),
               ),
             ],
           ),
@@ -161,6 +164,7 @@ class _OnBroadScreenState extends State<OnBroadScreen> {
   Widget _onBoardingScreen({
     required String topImg,
     required String mainImg,
+    required String title,
   }) {
     return Stack(
       children: [
@@ -174,9 +178,19 @@ class _OnBroadScreenState extends State<OnBroadScreen> {
           ),
         ),
         Center(
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: Image.asset(mainImg)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(),
+              const SizedBox(height: Dimens.size80),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: Image.asset(mainImg)),
+              const SizedBox(height: Dimens.size50),
+              Text(title, style: Theme.of(context).primaryTextTheme.headline2,),
+              const Spacer(),
+            ],
+          ),
         ),
       ],
     );

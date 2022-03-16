@@ -8,6 +8,7 @@ import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/chat/child/box_chat_screen.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/home/child/detail_post.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/empty_user_profile.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/widget/loading_profile.dart';
@@ -20,6 +21,7 @@ import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../search/following_follower_list.dart';
 import 'widget/full_image.dart';
 
 class UserProfile extends StatefulWidget {
@@ -34,7 +36,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   UserData _user = UserData();
   bool _isFollowing = false;
-  final List<PostData> _listPhotos = [];
+  List<PostData> _listPhotos = [];
   int _currentIndexTab = 0;
 
   @override
@@ -157,6 +159,7 @@ class _UserProfileState extends State<UserProfile> {
           if ((_user.follower ?? []).contains(StaticVariable.myData?.userId)) {
             _isFollowing = true;
           }
+          _listPhotos = [];
           for (PostData post in state.user.posts ?? []) {
             if (post.images!.isNotEmpty) {
               _listPhotos.add(post);
@@ -357,8 +360,8 @@ class _UserProfileState extends State<UserProfile> {
                       navService.push(
                         PageRouteBuilder(
                           opaque: false,
-                          pageBuilder: (_, __, ___) => FullImageScreen(
-                              image: _listPhotos[index].images ?? []),
+                          pageBuilder: (_, __, ___) => DetailPostScreen(
+                              post: _listPhotos[index]),
                         ),
                       );
                     },
@@ -493,36 +496,64 @@ class _UserProfileState extends State<UserProfile> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Column(
-            children: [
-              Text(
-                _user.follower?.length.toString() ?? '0',
-                style: theme.primaryTextTheme.headline2,
+          GestureDetector(
+            onTap: () {
+              navService.push(
+                MaterialPageRoute(
+                  builder: (context) => ListFollowUserScreen(
+                    listUserId: _user.follower ?? [],
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  Text(
+                    _user.follower?.length.toString() ?? '0',
+                    style: theme.primaryTextTheme.headline2,
+                  ),
+                  const SizedBox(height: Dimens.size8),
+                  Text(
+                    TranslationKey.follower.tr(),
+                    style: theme.primaryTextTheme.subtitle1,
+                  ),
+                ],
               ),
-              const SizedBox(height: Dimens.size8),
-              Text(
-                TranslationKey.follower.tr(),
-                style: theme.primaryTextTheme.subtitle1,
-              ),
-            ],
+            ),
           ),
           Container(
             height: Dimens.size40,
             color: theme.primaryColor,
             width: Dimens.size1,
           ),
-          Column(
-            children: [
-              Text(
-                _user.following?.length.toString() ?? '0',
-                style: theme.primaryTextTheme.headline2,
+          GestureDetector(
+            onTap: () {
+              navService.push(
+                MaterialPageRoute(
+                  builder: (context) => ListFollowUserScreen(
+                    listUserId: _user.following ?? [],
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  Text(
+                    _user.following?.length.toString() ?? '0',
+                    style: theme.primaryTextTheme.headline2,
+                  ),
+                  const SizedBox(height: Dimens.size8),
+                  Text(
+                    TranslationKey.following.tr(),
+                    style: theme.primaryTextTheme.subtitle1,
+                  ),
+                ],
               ),
-              const SizedBox(height: Dimens.size8),
-              Text(
-                TranslationKey.following.tr(),
-                style: theme.primaryTextTheme.subtitle1,
-              ),
-            ],
+            ),
           ),
           Container(
             height: Dimens.size40,

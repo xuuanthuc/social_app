@@ -16,3 +16,11 @@ class SearchSuccessState extends SearchState{
 
 class LoadingSearchState extends SearchState{}
 
+class LoadingListState extends SearchState{}
+
+class LoadListUserFailedState extends SearchState{}
+
+class LoadListUserSuccessState extends SearchState{
+  final List<UserData>? listUser;
+  const LoadListUserSuccessState(this.listUser);
+}

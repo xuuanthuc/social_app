@@ -24,6 +24,9 @@ import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../home/child/detail_post.dart';
+import '../search/following_follower_list.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -280,7 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         break;
       case 2:
         newWidget = const EmptyMyProfile(index: 1);
-    break;
+        break;
     }
     return newWidget;
   }
@@ -395,8 +398,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       navService.push(
                         PageRouteBuilder(
                           opaque: false,
-                          pageBuilder: (_, __, ___) =>  FullImageScreen(
-                              image: _listPhotos[index].images ?? []),
+                          pageBuilder: (_, __, ___) =>
+                              DetailPostScreen(post: _listPhotos[index]),
                         ),
                       );
                     },
@@ -426,23 +429,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildListPost() {
     return Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: Dimens.size5),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: PostItem(
-                        item: _user.posts![index],
-                      ));
-                },
-                itemCount: _user.posts?.length,
-              ),
-            ),
-          );
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: Dimens.size5),
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (context, index) {
+            return ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: PostItem(
+                  item: _user.posts![index],
+                ));
+          },
+          itemCount: _user.posts?.length,
+        ),
+      ),
+    );
   }
 
   Row followingWidget(ThemeData theme) {
@@ -484,36 +487,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Column(
-            children: [
-              Text(
-                _user.follower?.length.toString() ?? '0',
-                style: theme.primaryTextTheme.headline2,
+          GestureDetector(
+            onTap: () {
+               navService.push(
+                MaterialPageRoute(
+                  builder: (context) => ListFollowUserScreen(
+                    listUserId: _user.follower ?? [],
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  Text(
+                    _user.follower?.length.toString() ?? '0',
+                    style: theme.primaryTextTheme.headline2,
+                  ),
+                  const SizedBox(height: Dimens.size8),
+                  Text(
+                    TranslationKey.follower.tr(),
+                    style: theme.primaryTextTheme.subtitle1,
+                  ),
+                ],
               ),
-              const SizedBox(height: Dimens.size8),
-              Text(
-                TranslationKey.follower.tr(),
-                style: theme.primaryTextTheme.subtitle1,
-              ),
-            ],
+            ),
           ),
           Container(
             height: Dimens.size40,
             color: theme.primaryColor,
             width: Dimens.size1,
           ),
-          Column(
-            children: [
-              Text(
-                _user.following?.length.toString() ?? '0',
-                style: theme.primaryTextTheme.headline2,
+          GestureDetector(
+            onTap: () {
+              navService.push(
+                MaterialPageRoute(
+                  builder: (context) => ListFollowUserScreen(
+                    listUserId: _user.following ?? [],
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  Text(
+                    _user.following?.length.toString() ?? '0',
+                    style: theme.primaryTextTheme.headline2,
+                  ),
+                  const SizedBox(height: Dimens.size8),
+                  Text(
+                    TranslationKey.following.tr(),
+                    style: theme.primaryTextTheme.subtitle1,
+                  ),
+                ],
               ),
-              const SizedBox(height: Dimens.size8),
-              Text(
-                TranslationKey.following.tr(),
-                style: theme.primaryTextTheme.subtitle1,
-              ),
-            ],
+            ),
           ),
           Container(
             height: Dimens.size40,
@@ -576,12 +607,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildAvatar(ThemeData theme) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         navService.push(
           PageRouteBuilder(
             opaque: false,
-            pageBuilder: (_, __, ___) =>  FullImageScreen(
-                image: [_user.imageUrl ?? '']),
+            pageBuilder: (_, __, ___) =>
+                FullImageScreen(image: [_user.imageUrl ?? '']),
           ),
         );
       },
@@ -602,7 +633,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       MyImages.defaultAvt,
                       fit: BoxFit.cover,
                     )
-                  : Image.network(_user.imageUrl ?? '',
+                  : Image.network(
+                      _user.imageUrl ?? '',
                       fit: BoxFit.cover,
                     ),
             ),

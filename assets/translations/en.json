@@ -51,5 +51,8 @@
     "des_no_save" : "When you saved photos,\nyou’ll see it here",
     "next" : "Next",
     "skip" : "Skip",
+    "on_broad1": "Welcome to Pet Lover",
+    "on_broad2": "Share your cute pet",
+    "on_broad3": "Connect with pet-owners",
     "end_json": ""
 }
