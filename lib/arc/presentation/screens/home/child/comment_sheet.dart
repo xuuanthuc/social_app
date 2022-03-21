@@ -145,10 +145,10 @@ class _BodyState extends State<CommentSheet> {
           }
           return DraggableScrollableSheet(
             initialChildSize: 1,
-            minChildSize: 0.85,
+            minChildSize: 0.7,
             maxChildSize: 1,
             snap: true,
-            expand: true,
+            expand: false,
             builder: (context, _scrollController) => Scaffold(
               backgroundColor: Colors.transparent,
               body: Column(
