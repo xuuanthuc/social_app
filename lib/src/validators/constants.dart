@@ -29,4 +29,5 @@ class PreferenceKeys {
   static const String remember = 'REMEMBER';
   static const String verificationId = 'VERIFICATIONID';
   static const String seenOnBroad = 'ONBROADINGSCREENSEEN';
+  static const String firebaseToken = 'FIREBASE_TOKEN';
 }

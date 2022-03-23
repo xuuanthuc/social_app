@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/chat/chat_screen.dart';
@@ -32,6 +33,7 @@ class _MainScreenState extends State<MainScreen> {
     _controller = PageController(initialPage: 0);
     _controller.addListener(_handlePageChange);
     context.read<MainBloc>().add(InitMainEvent());
+    _handleMessageOnBackground();
   }
 
   @override
@@ -45,6 +47,22 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _selectedIndex = (_controller.page ?? 0.0).toInt();
     });
+  }
+
+  void _handleMessageOnBackground() {
+    FirebaseMessaging.instance.getInitialMessage().then(
+          (remoteMessage) {
+        // if (remoteMessage != null) {
+        //   String payload = json.encode(remoteMessage.data);
+        //   eventBus.fire(HandleWhenUserClickNotificationEvent(payload));
+        //   if (remoteMessage.data['reasonable_type'] == 'Survey') {
+        //     eventBus.fire(NavigateWhenClickSurveyEvent(payload));
+        //   } else {
+        //     eventBus.fire(NavigateWhenClickNotificationEvent(payload));
+        //   }
+        // }
+      },
+    );
   }
 
   @override

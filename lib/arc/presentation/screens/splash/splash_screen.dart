@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import '../../../../src/config/config.dart';
+import '../../../../src/service/push_notifications_manager.dart';
 import '../../../../src/utilities/navigation_service.dart';
 import '../../../../arc/presentation/blocs/splash/splash_bloc.dart';
 
@@ -31,6 +32,7 @@ class _BodyState extends State<_Body> {
   @override
   void initState() {
     super.initState();
+    PushNotificationsManager().init();
     context.read<SplashBloc>().add(InitSplashEvent());
   }
 

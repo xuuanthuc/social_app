@@ -25,8 +25,6 @@ class ApiProvider {
   var dio = new Dio(BaseOptions(
       connectTimeout: 30000,
       headers: {
-        'country': 'vi',
-        'platform': Platform.isAndroid ? '2' : '1',
         'Accept': '*/*',
       },
       contentType: Headers.jsonContentType));
@@ -56,8 +54,8 @@ class ApiProvider {
       options.headers.addAll({'licorice-token': licoriceToken});
     } else {
       // token = await PrefManager.getAuthToken();
-      token = '';
-      options.headers.addAll({'Authorization': 'Bearer $token'});
+      token = 'key=AAAAlXYGAb0:APA91bGywNBJjh7kd1rwbc2YIZTv0HEBEHdtpETitRuuEDEBvdNSYSLKSkdGi2eW5rS5y-mz25zhL9GBch550Dkqklaes_8QhXRuJ2ZJpSIJDKSmDt0wklj9lFRZk1srD8nHRhQ_Zj1O';
+      options.headers.addAll({'Authorization': '$token'});
     }
     // String userAgent = await FkUserAgent.getPropertyAsync('userAgent');
     // options.headers.addAll({'user-agent': userAgent});

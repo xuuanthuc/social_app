@@ -86,6 +86,16 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         emit(GoToLoginState());
       }
     } else {
+      List<String> listUserId = [];
+      await fireStore
+          .collection(AppConfig.instance.cUser)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          listUserId.add(doc.id);
+        }
+      });
+      StaticVariable.listUserId = listUserId;
       emit(GoToOnBroadState());
     }
   }

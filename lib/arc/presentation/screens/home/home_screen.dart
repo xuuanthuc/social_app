@@ -107,6 +107,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             : Column(
                                 children: [
                                   const StoryList(),
+                                  ElevatedButton(
+                                    onPressed: (){
+                                      context.read<HomeBloc>().add(
+                                          PushNoticeEvent());
+                                    },
+                                    child: Text("push"),
+                                  ),
                                   Container(
                                     color: theme.scaffoldBackgroundColor,
                                     child: ListView.builder(

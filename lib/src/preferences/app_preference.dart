@@ -13,6 +13,11 @@ class AppPreference extends BasePreference {
       await setBool(PreferenceKeys.seenOnBroad, value);
 
   Future<bool?> get seenOnBroad async => await getBool(PreferenceKeys.seenOnBroad);
+
+  Future setFirebaseToken(String? value) async =>
+      await setLocal(PreferenceKeys.firebaseToken, value);
+
+  Future<String?> get firebaseToken async => await getLocal(PreferenceKeys.firebaseToken);
   //
   // Future<String?> get token async => await getLocal(PreferenceKeys.xToken);
   //

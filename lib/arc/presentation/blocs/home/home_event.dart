@@ -53,3 +53,5 @@ class DeleteCommentClickedEvent extends HomeEvent{
   final PostData postItem;
   const DeleteCommentClickedEvent(this.commentModel, this.postItem);
 }
+
+class PushNoticeEvent extends HomeEvent {}
