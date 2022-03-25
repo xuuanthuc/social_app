@@ -18,6 +18,8 @@ import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../blocs/notice/notice_bloc.dart';
+
 class PostItem extends StatefulWidget {
   PostData item;
 
@@ -108,6 +110,11 @@ class _PostItemState extends State<PostItem> {
   }
 
   void like() async {
+    if(widget.item.userId != StaticVariable.myData?.userId) {
+      context.read<NoticeBloc>().add(ReactedPostNoticeEvent(
+          authId: widget.item.userId ?? '',
+          userCommentedId: StaticVariable.myData?.userId ?? ''));
+    }
     context.read<HomeBloc>().add(OnLikePostEvent(widget.item));
     setState(() {
       _showFavouriteReact = true;
@@ -319,7 +326,8 @@ class _PostItemState extends State<PostItem> {
                       tag: widget.item.images?.first ?? '',
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image.network(widget.item.images?.first ?? '',
+                        child: CachedNetworkImage(
+                          imageUrl: widget.item.images?.first ?? '',
                           fit: BoxFit.cover,
                         ),
                       ),

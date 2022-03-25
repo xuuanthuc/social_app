@@ -31,14 +31,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<ReloadListComment>(_reloadComment);
     on<DeletePostClickedEvent>(_deletePost);
     on<DeleteCommentClickedEvent>(_deleteComment);
-    on<PushNoticeEvent>(_pushNotice);
-  }
-
-  void _pushNotice(
-      PushNoticeEvent event,
-      Emitter<HomeState> emit,
-      ) async {
-    _repository.pushNoticeTest();
   }
 
   void _reloadComment(

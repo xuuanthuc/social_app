@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/notice/notice_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/empty_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
@@ -107,13 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             : Column(
                                 children: [
                                   const StoryList(),
-                                  ElevatedButton(
-                                    onPressed: (){
-                                      context.read<HomeBloc>().add(
-                                          PushNoticeEvent());
-                                    },
-                                    child: Text("push"),
-                                  ),
                                   Container(
                                     color: theme.scaffoldBackgroundColor,
                                     child: ListView.builder(

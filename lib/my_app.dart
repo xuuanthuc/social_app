@@ -7,6 +7,7 @@ import 'package:hii_xuu_social/arc/presentation/blocs/auth/auth_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/chat/chat_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/blocs/notice/notice_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/profile/profile_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/search/search_bloc.dart';
 import 'package:hii_xuu_social/src/utilities/navigation_service.dart';
@@ -42,6 +43,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
           BlocProvider<ProfileBloc>(create: (context) => ProfileBloc()),
           BlocProvider<ChatBloc>(create: (context) => ChatBloc()),
+          BlocProvider<NoticeBloc>(create: (context) => NoticeBloc()),
         ],
         child: MaterialApp(
           title: TranslationKey.appName.tr(),

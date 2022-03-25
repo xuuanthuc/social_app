@@ -21,6 +21,7 @@ import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../blocs/notice/notice_bloc.dart';
 import '../search/following_follower_list.dart';
 import 'widget/full_image.dart';
 
@@ -169,6 +170,9 @@ class _UserProfileState extends State<UserProfile> {
         if (state is OnFollowSuccessState) {
           EasyLoading.dismiss();
           _isFollowing = true;
+          context.read<NoticeBloc>().add(FollowedNoticeEvent(
+              authId: widget.userId,
+              userFollowedId: StaticVariable.myData?.userId ?? ''));
         }
         if (state is OnUnFollowSuccessState) {
           EasyLoading.dismiss();

@@ -109,6 +109,7 @@ class PushNotificationsManager {
             channelDescription: 'your_channel_description',
             importance: Importance.max,
             priority: Priority.high,
+            playSound: true,
             color: Color(0xff66BADA),
             ticker: 'ticker');
     const NotificationDetails platformChannelSpecifics = NotificationDetails(

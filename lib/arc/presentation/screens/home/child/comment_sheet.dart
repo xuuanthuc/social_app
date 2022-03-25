@@ -13,6 +13,7 @@ import 'package:hii_xuu_social/src/utilities/showtoast.dart';
 import 'package:hii_xuu_social/src/validators/constants.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
+import '../../../blocs/notice/notice_bloc.dart';
 import 'comment_setting_dialog.dart';
 
 class CommentSheet extends StatefulWidget {
@@ -119,6 +120,11 @@ class _BodyState extends State<CommentSheet> {
           _commentController.clear();
           _canComment = false;
           _focus.unfocus();
+          if(widget.postItem.userId != StaticVariable.myData?.userId) {
+            context.read<NoticeBloc>().add(CommentPostNoticeEvent(
+                authId: widget.postItem.userId ?? '',
+                userCommentedId: StaticVariable.myData?.userId ?? ''));
+          }
           context.read<HomeBloc>().add(ReloadListComment(widget.postItem));
         }
         if (state is LoadListCommentSuccessState) {
@@ -134,7 +140,7 @@ class _BodyState extends State<CommentSheet> {
         if (state is ReloadingListCommentState) {
           _listComment?.add(StaticVariable.comment!);
         }
-        if(state is DeleteCommentSuccessState){
+        if (state is DeleteCommentSuccessState) {
           _listComment?.removeWhere((element) => element.id == state.commentId);
         }
       },
@@ -153,7 +159,10 @@ class _BodyState extends State<CommentSheet> {
               backgroundColor: Colors.transparent,
               body: Column(
                 children: [
-                  Container(height: 50, color: Colors.transparent,),
+                  Container(
+                    height: 50,
+                    color: Colors.transparent,
+                  ),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(

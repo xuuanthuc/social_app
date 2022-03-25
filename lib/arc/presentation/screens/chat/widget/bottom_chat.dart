@@ -4,6 +4,9 @@ import 'package:hii_xuu_social/arc/presentation/blocs/chat/chat_bloc.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 
+import '../../../../../src/validators/static_variable.dart';
+import '../../../blocs/notice/notice_bloc.dart';
+
 class BottomChatField extends StatefulWidget {
   final String userId;
 
@@ -45,6 +48,10 @@ class _BottomChatFieldState extends State<BottomChatField> {
           }
         }
         if (state is SendMessageSuccessState) {
+          context.read<NoticeBloc>().add(ChatMessageNoticeEvent(
+              userSendMsgId: StaticVariable.myData?.userId ?? '',
+              message: _chatController.text,
+              userReceiverNoticeId: widget.userId));
           _chatController.clear();
           _canSendMess = false;
           _isSending = false;

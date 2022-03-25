@@ -13,6 +13,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -38,11 +39,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onPickImageEvent(
-      OnPickImageEvent event,
+    OnPickImageEvent event,
     Emitter<AuthState> emit,
   ) async {
     emit(OnChangingState());
-    var _imageXFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    var _imageXFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     var file = File(_imageXFile!.path);
     var _imagePath = '';
     _imageFile = file;
@@ -63,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(LoadingLoginState());
     var avatar = await uploadImageToFirebase();
-    if(avatar == ''){
+    if (avatar == '') {
       avatar = event.imageUrl;
     }
     var input = UserData(
@@ -113,8 +115,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           .doc(AppConfig.instance.cFollowing)
           .collection(AppConfig.instance.cListFollowing)
           .get()
-          .then((QuerySnapshot querySnapshot){
-        for(var doc in querySnapshot.docs){
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
           _listFollowing.add(doc.id);
         }
       });
@@ -126,8 +128,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           .doc(AppConfig.instance.cFollowers)
           .collection(AppConfig.instance.cListFollowing)
           .get()
-          .then((QuerySnapshot querySnapshot){
-        for(var doc in querySnapshot.docs){
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
           _listFollower.add(doc.id);
         }
       });
@@ -138,7 +140,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           .collection(AppConfig.instance.cProfile)
           .doc(AppConfig.instance.cBasicProfile)
           .get()
-          .then((DocumentSnapshot documentSnapshot) {
+          .then((DocumentSnapshot documentSnapshot) async {
         if (documentSnapshot.exists) {
           var data = documentSnapshot.data();
           var res = data as Map<String, dynamic>;
@@ -149,12 +151,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             user.follower = _listFollower;
             StaticVariable.myData = user;
             AppPreference().setVerificationID(user.userId);
+            var firebaseToken = await AppPreference().firebaseToken;
+            await fireStore
+                .collection(AppConfig.instance.cUser)
+                .doc(user.userId)
+                .collection(AppConfig.instance.cProfile)
+                .doc(AppConfig.instance.cBasicProfile)
+                .set(
+              {"firebase_token": firebaseToken},
+              SetOptions(merge: true),
+            ).then((value) {});
           } else {}
         }
       });
     }
     if (StaticVariable.myData != null) {
-      if(StaticVariable.myData?.fullName == ''){
+      if (StaticVariable.myData?.fullName == '') {
         AppPreference().setVerificationID(null);
         emit(GoToSetupProfileState());
       } else {
