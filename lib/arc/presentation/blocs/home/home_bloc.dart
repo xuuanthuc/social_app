@@ -194,6 +194,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(InitHomeState());
+    var newPost = event.post;
+    newPost.likes?.add(StaticVariable.myData?.userId ?? '');
+    emit(OnLikedPostState(newPost));
     await fireStore
         .collection(AppConfig.instance.cUser)
         .doc(event.post.userId)
@@ -202,9 +205,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         .collection(AppConfig.instance.cPostLikes)
         .doc(StaticVariable.myData?.userId)
         .set({}, SetOptions(merge: true)).then((value) {
-      var newPost = event.post;
-      newPost.likes?.add(StaticVariable.myData?.userId ?? '');
-      emit(OnLikedPostState(newPost));
     });
   }
 
@@ -213,6 +213,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(InitHomeState());
+    var newPost = event.post;
+    newPost.likes?.remove(StaticVariable.myData?.userId);
+    emit(OnDisLikedPostState(newPost));
     await fireStore
         .collection(AppConfig.instance.cUser)
         .doc(event.post.userId)
@@ -222,9 +225,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         .doc(StaticVariable.myData?.userId)
         .delete()
         .then((value) {
-      var newPost = event.post;
-      newPost.likes?.remove(StaticVariable.myData?.userId);
-      emit(OnDisLikedPostState(newPost));
     });
   }
 

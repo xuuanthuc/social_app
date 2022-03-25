@@ -68,7 +68,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
             .collection(AppConfig.instance.cProfile)
             .doc(AppConfig.instance.cBasicProfile)
             .get()
-            .then((DocumentSnapshot documentSnapshot) {
+            .then((DocumentSnapshot documentSnapshot) async {
           if (documentSnapshot.exists) {
             var data = documentSnapshot.data();
             LoggerUtils.d(documentSnapshot.data());
@@ -77,6 +77,16 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
             user.following = _listFollowing;
             user.follower = _listFollower;
             StaticVariable.myData = user;
+            var firebaseToken = await AppPreference().firebaseToken;
+            await fireStore
+                .collection(AppConfig.instance.cUser)
+                .doc(user.userId)
+                .collection(AppConfig.instance.cProfile)
+                .doc(AppConfig.instance.cBasicProfile)
+                .set(
+              {"firebase_token": firebaseToken},
+              SetOptions(merge: true),
+            ).then((value) {});
             emit(GotoHomeState());
           } else {
             emit(GoToLoginState());

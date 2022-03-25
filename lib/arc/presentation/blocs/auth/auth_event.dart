@@ -42,6 +42,7 @@ class SubmitUpdateProfileEvent extends AuthEvent {
   final String? imageUrl;
   final String? userId;
   final String? bio;
+  final String? firebaseToken;
   final String? createAt;
   final String? updateAt;
 
@@ -56,6 +57,7 @@ class SubmitUpdateProfileEvent extends AuthEvent {
     this.fullName,
     this.email,
     this.phone,
+    this.firebaseToken,
     this.bio,
   });
 }

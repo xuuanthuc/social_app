@@ -10,6 +10,7 @@ class UserData {
   String? imageUrl;
   String? userId;
   String? bio;
+  String? firebaseToken;
   String? createAt;
   String? updateAt;
   List<String>? follower;
@@ -28,6 +29,7 @@ class UserData {
     this.password,
     this.updateAt,
     this.follower,
+    this.firebaseToken,
     this.following,
     this.tagName,
   });
@@ -59,6 +61,7 @@ class UserData {
     json['tag_name'] = tagName;
     json['image_url'] = imageUrl;
     json['update_at'] = updateAt;
+    json['firebase_token'] = firebaseToken;
     return json;
   }
 }

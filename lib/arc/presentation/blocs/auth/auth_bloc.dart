@@ -68,6 +68,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (avatar == '') {
       avatar = event.imageUrl;
     }
+    var _firebaseToken = await AppPreference().firebaseToken;
     var input = UserData(
       fullName: event.fullName,
       username: event.username,
@@ -78,6 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       imageUrl: avatar,
       userId: event.userId,
       bio: event.bio,
+      firebaseToken: _firebaseToken,
       createAt: event.createAt,
       updateAt: event.updateAt,
     );
