@@ -1,10 +1,12 @@
+import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
+
 import '../di/service_locator.dart';
 import '../network/api_provider.dart';
 
 class PushNoticeRepository {
   final ApiProvider _apiProvider = getIt.get<ApiProvider>();
 
-  Future<void> commentToPost({required String fullNameCommenter, required String token}) async {
+  Future<void> commentToPost({required String fullNameCommenter, required String token, required String postId}) async {
     await _apiProvider.post("https://fcm.googleapis.com/fcm/send", params: {
       "to": token,
       "notification": {
@@ -13,7 +15,8 @@ class PushNoticeRepository {
         "text": "Text"
       },
       "data": {
-        "body": "Body of Your Notification in Data",
+        "body": postId,
+        "notice_type" : "post",
         "title": "Title of Your Notification in Title",
         "key_1": "Value for key_1",
         "key_2": "Value for key_2"
@@ -21,7 +24,7 @@ class PushNoticeRepository {
     });
   }
 
-  Future<void> reactedToPost({required String fullNameCommenter, required String token}) async {
+  Future<void> reactedToPost({required String fullNameCommenter, required String token, required String postId}) async {
     await _apiProvider.post("https://fcm.googleapis.com/fcm/send", params: {
       "to": token,
       "notification": {
@@ -30,7 +33,8 @@ class PushNoticeRepository {
         "text": "Text"
       },
       "data": {
-        "body": "Body of Your Notification in Data",
+        "body": postId,
+        "notice_type" : "post",
         "title": "Title of Your Notification in Title",
         "key_1": "Value for key_1",
         "key_2": "Value for key_2"
@@ -38,16 +42,17 @@ class PushNoticeRepository {
     });
   }
 
-  Future<void> followedYou({required String fullNameCommenter, required String token}) async {
+  Future<void> followedYou({required UserData userFollowYou, required String token}) async {
     await _apiProvider.post("https://fcm.googleapis.com/fcm/send", params: {
       "to": token,
       "notification": {
         "title": "KiuPet",
-        "body": "$fullNameCommenter started following you.",
+        "body": "${userFollowYou.fullName} started following you.",
         "text": "Text"
       },
       "data": {
-        "body": "Body of Your Notification in Data",
+        "body": userFollowYou.userId,
+        "notice_type" : "follow",
         "title": "Title of Your Notification in Title",
         "key_1": "Value for key_1",
         "key_2": "Value for key_2"
@@ -55,17 +60,18 @@ class PushNoticeRepository {
     });
   }
 
-  Future<void> chatNotice({required String fullNameSendChat, required String token, required String chatText}) async {
+  Future<void> chatNotice({required UserData userSendMsg, required String token, required String chatText}) async {
     await _apiProvider.post("https://fcm.googleapis.com/fcm/send", params: {
       "to": token,
       "notification": {
-        "title": fullNameSendChat,
+        "title": userSendMsg.fullName,
         "body": chatText,
         "text": "Text"
       },
       "data": {
-        "body": "Body of Your Notification in Data",
-        "title": "Title of Your Notification in Title",
+        "body": userSendMsg.userId,
+        "notice_type" : "message",
+        "title" : "Title of Your Notification in Title",
         "key_1": "Value for key_1",
         "key_2": "Value for key_2"
       }

@@ -61,6 +61,7 @@ dependencies:
   pretty_dio_logger: ^1.2.0-beta-1
   firebase_messaging: ^11.2.11
   flutter_local_notifications: ^9.2.0
+  event_bus: ^2.0.0
 
 dev_dependencies:
   flutter_test:

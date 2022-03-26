@@ -31,7 +31,7 @@ class ApiEndpoints {
       _licoriceBaseUrl + 'api/flashjob/payments/see_payment';
   static String getTikTokFollower = _webApiBaseUrl + 'tiktok/';
   static String getYoutubeSubscriber = _webApiBaseUrl + 'youtube/me/followers?url=';
-  static Licorice licorice = Licorice();
+  static Licorice licorice = const Licorice();
 }
 
 class Licorice {

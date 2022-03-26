@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:hii_xuu_social/src/service/event_bus.dart';
 
 import '../preferences/app_preference.dart';
 import '../utilities/logger.dart';
@@ -31,12 +31,12 @@ class PushNotificationsManager {
       _firebaseMessaging.setForegroundNotificationPresentationOptions();
       _refreshTokenStreamSubscription =
           _firebaseMessaging.onTokenRefresh.listen((newToken) {
-            LoggerUtils.d("FirebaseMessaging newToken: $newToken");
+        LoggerUtils.d("FirebaseMessaging newToken: $newToken");
         _saveFirebaseToken(newToken);
       });
       _onMessageStreamSubscription =
           FirebaseMessaging.onMessage.listen((remoteMessage) {
-            LoggerUtils.d('onMessage = remoteMessage ${remoteMessage.data}');
+        LoggerUtils.d('onMessage = remoteMessage ${remoteMessage.data}');
         // String screenName = MyRouteObserver.currentScreenName;
         // PrefManager.saveReadNotice(false);
         // if (screenName == RouteConstants.flashJob.chatDetailScreen) return;
@@ -44,15 +44,13 @@ class PushNotificationsManager {
       });
       _onMessageOpenedAppStreamSubscription =
           FirebaseMessaging.onMessageOpenedApp.listen((remoteMessage) {
-        // PrefManager.saveReadNotice(false);
-            LoggerUtils.d('onMessageOpenedApp = remoteMessage ${remoteMessage.data}');
-        // String payload = json.encode(remoteMessage.data);
-        // eventBus.fire(HandleWhenUserClickNotificationEvent(payload));
-        // if (remoteMessage.data['reasonable_type'] == 'Survey') {
-        //   eventBus.fire(NavigateWhenClickSurveyEvent(payload));
-        // } else {
-        //   eventBus.fire(NavigateWhenClickNotificationEvent(payload));
-        // }
+        if (remoteMessage.data["notice_type"] == "message") {
+          eventBus.fire(OnMessageNoticeClickedEvent(remoteMessage.data));
+        } else if (remoteMessage.data["notice_type"] == "post") {
+          eventBus.fire(OnPostNoticeClickedEvent(remoteMessage.data));
+        } else if (remoteMessage.data["notice_type"] == "follow") {
+          eventBus.fire(OnFollowNoticeClickedEvent(remoteMessage.data));
+        }
       });
 
       String token = await _firebaseMessaging.getToken() ?? '';
@@ -82,14 +80,14 @@ class PushNotificationsManager {
       await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
           onSelectNotification: (String? payload) async {
         if (payload != null) {
-          LoggerUtils.d('notification local payload: $payload');
-          // Map<String, dynamic> data = json.decode(payload);
-          // if (data['reasonable_type'] == 'Survey') {
-          //   eventBus.fire(NavigateWhenClickSurveyEvent(payload));
-          // } else {
-          //   eventBus.fire(NavigateWhenClickNotificationEvent(payload));
-          // }
-          // eventBus.fire(HandleWhenUserClickNotificationEvent(payload));
+          Map<String, dynamic> data = json.decode(payload);
+          if (data["notice_type"] == "message") {
+            eventBus.fire(OnMessageNoticeClickedEvent(data));
+          } else if (data["notice_type"] == "post") {
+            eventBus.fire(OnPostNoticeClickedEvent(data));
+          } else if (data["notice_type"] == "follow") {
+            eventBus.fire(OnFollowNoticeClickedEvent(data));
+          }
         }
       });
       _initialized = true;
@@ -104,8 +102,7 @@ class PushNotificationsManager {
     Map<String, dynamic> customData = remoteMessage.data;
     String id = customData['id'] ?? '1';
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-            'your_channel_id', 'your_channel_name',
+        AndroidNotificationDetails('your_channel_id', 'your_channel_name',
             channelDescription: 'your_channel_description',
             importance: Importance.max,
             priority: Priority.high,

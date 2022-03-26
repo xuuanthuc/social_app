@@ -4,11 +4,8 @@ import 'package:hii_xuu_social/arc/presentation/screens/search/widget/loading_li
 
 import '../../../../src/styles/dimens.dart';
 import '../../../../src/styles/images.dart';
-import '../../../../src/validators/constants.dart';
 import '../../../data/models/data_models/user.dart';
-import '../../blocs/main/main_bloc.dart';
 import '../../blocs/search/search_bloc.dart';
-import '../profile/user_profile.dart';
 
 class ListFollowUserScreen extends StatefulWidget {
   final List<String> listUserId;

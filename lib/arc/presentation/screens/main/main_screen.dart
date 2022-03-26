@@ -3,17 +3,28 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/chat/chat_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/profile_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/search/search_screen.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
 import '../../../../arc/presentation/blocs/main/main_bloc.dart';
 import '../../../../arc/presentation/screens/home/home_screen.dart';
 import '../../../../arc/presentation/screens/upload/upload_screen.dart';
+import '../../../../src/service/event_bus.dart';
 import '../../../../src/styles/dimens.dart';
 import '../../../../src/styles/images.dart';
+import '../../../../src/utilities/navigation_service.dart';
 import '../../../../src/utilities/showtoast.dart';
+import '../../../../src/validators/static_variable.dart';
 import '../../../../src/validators/translation_key.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import '../../../data/models/data_models/user.dart';
+import '../../blocs/notice/notice_bloc.dart';
+import '../chat/child/box_chat_screen.dart';
+import '../home/child/detail_post.dart';
+import '../profile/user_profile.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -51,30 +62,88 @@ class _MainScreenState extends State<MainScreen> {
 
   void _handleMessageOnBackground() {
     FirebaseMessaging.instance.getInitialMessage().then(
-          (remoteMessage) {
-        // if (remoteMessage != null) {
-        //   String payload = json.encode(remoteMessage.data);
-        //   eventBus.fire(HandleWhenUserClickNotificationEvent(payload));
-        //   if (remoteMessage.data['reasonable_type'] == 'Survey') {
-        //     eventBus.fire(NavigateWhenClickSurveyEvent(payload));
-        //   } else {
-        //     eventBus.fire(NavigateWhenClickNotificationEvent(payload));
-        //   }
-        // }
+      (remoteMessage) {
+        if (remoteMessage != null) {
+          if (remoteMessage.data["notice_type"] == "message") {
+            eventBus.fire(OnMessageNoticeClickedEvent(remoteMessage.data));
+          } else if (remoteMessage.data["notice_type"] == "post") {
+            eventBus.fire(OnPostNoticeClickedEvent(remoteMessage.data));
+          } else if (remoteMessage.data["notice_type"] == "follow") {
+            eventBus.fire(OnFollowNoticeClickedEvent(remoteMessage.data));
+          }
+        }
       },
     );
   }
 
+  void goToBoxChat(UserData user) {
+    navService.push(
+      MaterialPageRoute(
+        builder: (context) => BoxChatScreen(
+          userId: user.userId ?? '',
+          username: user.fullName ?? '',
+          imageUser: user.imageUrl,
+        ),
+      ),
+    );
+  }
+
+  void goToDetailPost(PostData post) {
+    navService.push(
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (_, __, ___) => DetailPostScreen(post: post),
+      ),
+    );
+  }
+
+  void goToUserInfo(String userId) {
+    if (userId == StaticVariable.myData?.userId) {
+      context.read<MainBloc>().add(OnChangePageEvent(Constants.page.profile));
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return UserProfile(userId: userId);
+          },
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MainBloc, MainState>(
-      listener: (context, state) {
-        if (state is OnChangedPageState) {
-          // _controller.animateToPage(state.index,
-          //     duration: const Duration(milliseconds: 200), curve: Curves.ease);
-          _controller.jumpToPage(state.index);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<MainBloc, MainState>(
+          listener: (context, state) {
+            if (state is OnChangedPageState) {
+              // _controller.animateToPage(state.index,
+              //     duration: const Duration(milliseconds: 200), curve: Curves.ease);
+              _controller.jumpToPage(state.index);
+            }
+          },
+        ),
+        BlocListener<NoticeBloc, NoticeState>(
+          listener: (context, state) {
+            if (state is OnClickMessageNoticeState) {
+              // _controller.jumpToPage(Constants.page.chat);
+              // navService.push(
+              //   MaterialPageRoute(
+              //     builder: (context) => const ChatScreen(),
+              //   ),
+              // );
+              goToBoxChat(state.user);
+            }
+            if (state is OnClickPostNoticeState) {
+              goToDetailPost(state.post);
+            }
+            if (state is OnClickFollowNoticeState) {
+              goToUserInfo(state.userId);
+            }
+          },
+        ),
+      ],
       child: BlocBuilder<MainBloc, MainState>(
         builder: (context, state) {
           return WillPopScope(

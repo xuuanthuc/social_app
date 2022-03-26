@@ -123,6 +123,7 @@ class _BodyState extends State<CommentSheet> {
           if(widget.postItem.userId != StaticVariable.myData?.userId) {
             context.read<NoticeBloc>().add(CommentPostNoticeEvent(
                 authId: widget.postItem.userId ?? '',
+                postId: widget.postItem.postId ?? '',
                 userCommentedId: StaticVariable.myData?.userId ?? ''));
           }
           context.read<HomeBloc>().add(ReloadListComment(widget.postItem));

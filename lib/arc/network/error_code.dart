@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class ErrorCode {
   static const int HTTP_OK = 200;
   static const int HTTP_BAD_REQUEST = 400;

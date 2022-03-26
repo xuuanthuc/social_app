@@ -1,9 +1,10 @@
+// ignore_for_file: invalid_return_type_for_catch_error
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/data/models/request_models/post_comment.dart';
-import 'package:hii_xuu_social/arc/repository/push_noti_repository.dart';
 import 'package:hii_xuu_social/src/config/app_config.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
 import 'package:hii_xuu_social/src/utilities/generate.dart';
@@ -16,7 +17,6 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
-  final PushNoticeRepository _repository = PushNoticeRepository();
   List<PostData> _listPost = [];
   // List<String> _listStory = [];
   String comment = '';

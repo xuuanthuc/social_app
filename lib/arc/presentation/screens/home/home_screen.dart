@@ -43,16 +43,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) {
-        if (state is HomeLoadingState) {}
-        if (state is HomeLoadedState) {
-          _listPost = state.listPost ?? [];
-        }
-        if (state is DeletePostSuccessState) {
-          _listPost.removeWhere((element) => element.postId == state.postId);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            if (state is HomeLoadingState) {}
+            if (state is HomeLoadedState) {
+              _listPost = state.listPost ?? [];
+            }
+            if (state is DeletePostSuccessState) {
+              _listPost.removeWhere((element) =>
+              element.postId == state.postId);
+            }
+          },
+        ),
+        BlocListener<NoticeBloc, NoticeState>(
+          listener: (context, state) {
+
+          },
+        ),
+      ],
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is HomeLoadingState) {
@@ -100,35 +110,35 @@ class _HomeScreenState extends State<HomeScreen> {
                         physics: const BouncingScrollPhysics(),
                         child: _listPost.isEmpty
                             ? EmptyHome(
-                                onFindPeople: () {
-                                  context.read<MainBloc>().add(
-                                      OnChangePageEvent(Constants.page.search));
-                                },
-                              )
+                          onFindPeople: () {
+                            context.read<MainBloc>().add(
+                                OnChangePageEvent(Constants.page.search));
+                          },
+                        )
                             : Column(
-                                children: [
-                                  const StoryList(),
-                                  Container(
-                                    color: theme.scaffoldBackgroundColor,
-                                    child: ListView.builder(
-                                      physics: const BouncingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) {
-                                        if ((_listPost[index].images ?? [])
-                                                .isEmpty &&
-                                            (_listPost[index].content ?? '')
-                                                .isEmpty) {
-                                          return Container();
-                                        } else {
-                                          return PostItem(
-                                              item: _listPost[index]);
-                                        }
-                                      },
-                                      itemCount: _listPost.length,
-                                    ),
-                                  )
-                                ],
+                          children: [
+                            const StoryList(),
+                            Container(
+                              color: theme.scaffoldBackgroundColor,
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  if ((_listPost[index].images ?? [])
+                                      .isEmpty &&
+                                      (_listPost[index].content ?? '')
+                                          .isEmpty) {
+                                    return Container();
+                                  } else {
+                                    return PostItem(
+                                        item: _listPost[index]);
+                                  }
+                                },
+                                itemCount: _listPost.length,
                               ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );

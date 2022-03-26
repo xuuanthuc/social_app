@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
-import 'package:hii_xuu_social/arc/presentation/widgets/appbar_custom.dart';
 import 'package:hii_xuu_social/arc/presentation/widgets/shimmer_widget.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
-import 'package:hii_xuu_social/src/validators/constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoadingListUserScreen extends StatefulWidget {
 

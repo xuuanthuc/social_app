@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,6 +115,7 @@ class _PostItemState extends State<PostItem> {
     if(widget.item.userId != StaticVariable.myData?.userId) {
       context.read<NoticeBloc>().add(ReactedPostNoticeEvent(
           authId: widget.item.userId ?? '',
+          postId: widget.item.postId ?? '',
           userCommentedId: StaticVariable.myData?.userId ?? ''));
     }
     context.read<HomeBloc>().add(OnLikePostEvent(widget.item));

@@ -11,14 +11,16 @@ class InitNoticeEvent extends NoticeEvent {}
 
 class CommentPostNoticeEvent extends NoticeEvent {
   final String authId;
+  final String postId;
   final String userCommentedId;
-  const CommentPostNoticeEvent({required this.authId, required this.userCommentedId});
+  const CommentPostNoticeEvent({required this.authId, required this.userCommentedId, required this.postId});
 }
 
 class ReactedPostNoticeEvent extends NoticeEvent {
   final String authId;
+  final String postId;
   final String userCommentedId;
-  const ReactedPostNoticeEvent({required this.authId, required this.userCommentedId});
+  const ReactedPostNoticeEvent({required this.authId, required this.userCommentedId, required this.postId});
 }
 
 class ChatMessageNoticeEvent extends NoticeEvent {
@@ -32,4 +34,19 @@ class FollowedNoticeEvent extends NoticeEvent {
   final String authId;
   final String userFollowedId;
   const FollowedNoticeEvent({required this.authId, required this.userFollowedId});
+}
+
+class OnClickMessageNoticeEvent extends NoticeEvent {
+  final Map<String, dynamic> data;
+  const OnClickMessageNoticeEvent(this.data);
+}
+
+class OnClickPostNoticeEvent extends NoticeEvent {
+  final Map<String, dynamic> data;
+  const OnClickPostNoticeEvent(this.data);
+}
+
+class OnClickFollowNoticeEvent extends NoticeEvent {
+  final Map<String, dynamic> data;
+  const OnClickFollowNoticeEvent(this.data);
 }
