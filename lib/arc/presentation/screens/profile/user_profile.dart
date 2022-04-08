@@ -35,6 +35,27 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ProfileBloc>(
+      create: (context) => ProfileBloc(),
+      child: _Body(
+        userId: widget.userId,
+      ),
+    );
+  }
+}
+
+class _Body extends StatefulWidget {
+  final String userId;
+
+  const _Body({Key? key, required this.userId}) : super(key: key);
+
+  @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
   UserData _user = UserData();
   bool _isFollowing = false;
   List<PostData> _listPhotos = [];
@@ -364,8 +385,8 @@ class _UserProfileState extends State<UserProfile> {
                       navService.push(
                         PageRouteBuilder(
                           opaque: false,
-                          pageBuilder: (_, __, ___) => DetailPostScreen(
-                              post: _listPhotos[index]),
+                          pageBuilder: (_, __, ___) =>
+                              DetailPostScreen(post: _listPhotos[index]),
                         ),
                       );
                     },

@@ -246,7 +246,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         .collection(AppConfig.instance.cUser)
         .doc(StaticVariable.myData?.userId)
         .collection(AppConfig.instance.cMedia)
-        .orderBy("create_at", descending: true)
+        .orderBy("create_at", descending: true).limit(10)
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
@@ -366,14 +366,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           .collection(AppConfig.instance.cUser)
           .doc(_userId)
           .collection(AppConfig.instance.cMedia)
-          .orderBy("create_at", descending: true)
+          .orderBy("create_at", descending: true).limit(30)
           .get()
           .then((QuerySnapshot querySnapshot) {
         for (var doc in querySnapshot.docs) {
           _listPostId.add(doc.id);
         }
       });
-
       //init post
       for (var _postId in _listPostId) {
         PostData post = PostData();

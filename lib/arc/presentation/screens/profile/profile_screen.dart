@@ -157,11 +157,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         BlocListener<ProfileBloc, ProfileState>(
           listener: (context, state) {
             if (state is InitProfileSuccessState) {
-              _user = state.user;
-
-              for (PostData post in state.user.posts ?? []) {
-                if (post.images!.isNotEmpty) {
-                  _listPhotos.add(post);
+              if(StaticVariable.myData?.userId == state.user.userId){
+                _user = state.user;
+                for (PostData post in state.user.posts ?? []) {
+                  if (post.images!.isNotEmpty) {
+                    _listPhotos.add(post);
+                  }
                 }
               }
             }
