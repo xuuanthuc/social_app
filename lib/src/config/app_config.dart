@@ -11,6 +11,7 @@ class AppConfig {
   String get apiGGMapKey => 'AIzaSyCFnQ3D-vZzZlDeQ-ikBIFwWHduVKlgt_s';
 
   String get cUser => 'users';
+  String get cShop => 'store';
   String get cProfile => 'profile';
   String get cUserData => 'user_data';
   String get cBasicProfile => 'basic_profile';

@@ -54,4 +54,19 @@ class TranslationKey {
   static const onBroad1 = 'on_broad1';
   static const onBroad2 = 'on_broad2';
   static const onBroad3 = 'on_broad3';
+  static const itemTitle = 'item_title';
+  static const itemDescription = 'item_description';
+  static const itemPrice = 'item_price';
+  static const itemQuantity = 'item_quantity';
+  static const itemAddress = 'item_address';
+  static const itemContact = 'item_contact';
+  static const details = 'details';
+  static const address = 'address';
+  static const imagesEmpty = 'images_empty';
+  static const categoryEmpty = 'category_empty';
+  static const category1 = 'category_pets';
+  static const category2= 'category_foods_drinks';
+  static const category3 = 'category_hygiene_and_care';
+  static const category4 = 'category_utensils_and_accessories';
+  static const category5 = 'category_house_barn_mattress';
 }

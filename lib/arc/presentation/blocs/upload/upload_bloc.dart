@@ -22,9 +22,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
   UploadBloc() : super(InitUploadState()) {
     on<InitUploadEvent>(_onInitData);
-    on<OnPickImageEvent>(_onPickImage);
     on<OnPickStoryImageEvent>(_onStoryImagePicked);
     on<OnDeleteImageEvent>(_onDeleteImage);
+    on<OnPickImageEvent>(_onPickImage);
     on<OnSubmitSharePostEvent>(_onShare);
     on<OnSubmitUploadStory>(_uploadStory);
   }

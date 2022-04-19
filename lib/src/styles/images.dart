@@ -35,6 +35,9 @@ class MyImages{
   static const imgTopOnBoarding1 = assetImage + 'img_top_on_broading_1.png';
   static const imgTopOnBoarding2 = assetImage + 'img_top_on_broading_2.png';
   static const imgTopOnBoarding3 = assetImage + 'img_top_on_broading_3.png';
+  static const icShopSelected = assetImage + 'ic_shop_selected.png';
+  static const icShopUnSelected = assetImage + 'ic_shop_unselected.png';
+  static const icSellNewItem = assetImage + 'ic_sell_new_item.png';
 
 
   //svgs

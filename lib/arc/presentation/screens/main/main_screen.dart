@@ -7,6 +7,7 @@ import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/chat/chat_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/profile/profile_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/search/search_screen.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/shop/shop_screen.dart';
 import 'package:hii_xuu_social/src/validators/constants.dart';
 import '../../../../arc/presentation/blocs/main/main_bloc.dart';
 import '../../../../arc/presentation/screens/home/home_screen.dart';
@@ -153,7 +154,7 @@ class _MainScreenState extends State<MainScreen> {
                 controller: _controller,
                 children: const [
                   HomeScreen(),
-                  ChatScreen(),
+                  ShopScreen(),
                   UploadScreen(),
                   SearchScreen(),
                   ProfileScreen()
@@ -176,12 +177,12 @@ class _MainScreenState extends State<MainScreen> {
                     activeIcon: SizedBox(
                         width: Dimens.size20,
                         height: Dimens.size20,
-                        child: Image.asset(MyImages.icChatSelected)),
+                        child: Image.asset(MyImages.icShopSelected)),
                     icon: SizedBox(
                         width: Dimens.size20,
                         height: Dimens.size20,
-                        child: Image.asset(MyImages.icChatUnSelected)),
-                    label: 'Chat',
+                        child: Image.asset(MyImages.icShopUnSelected)),
+                    label: 'Shop',
                   ),
                   BottomNavigationBarItem(
                     activeIcon: SizedBox(

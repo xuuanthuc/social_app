@@ -57,25 +57,36 @@ class _ChatScreenState extends State<ChatScreen> {
             return const LoadingChatScreen();
           }
           return Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: theme.backgroundColor,
+              leading: Padding(
+                padding: const EdgeInsets.all(Dimens.size8),
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.primaryColorLight,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(Dimens.size12),
+                      child: Image.asset(MyImages.icBack),
+                    ),
+                  ),
+                ),
+              ),
+              title: Text(
+                TranslationKey.message.tr(),
+                style: theme.textTheme.headline2,
+              ),
+              centerTitle: true,
+            ),
             body: Container(
               height: MediaQuery.of(context).size.height,
               color: theme.backgroundColor,
               child: Column(
                 children: [
-                  Container(height: 50),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: Dimens.size15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          TranslationKey.message.tr(),
-                          style: theme.primaryTextTheme.headline1,
-                        ),
-                      ],
-                    ),
-                  ),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: Dimens.size15),

@@ -54,7 +54,7 @@ class _AppBarDesignState extends State<AppBarDesign> {
                 child: Image.asset(MyImages.logoText),
               ),
             ),
-        elevation: 0.5,
+        elevation: 0.2,
         shadowColor: Colors.lightBlue,
         automaticallyImplyLeading: widget.hasLeading ?? false,
         leading: widget.hasLeading == true

@@ -4,6 +4,7 @@ import 'package:hii_xuu_social/arc/data/models/data_models/post.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/home/home_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/main/main_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/notice/notice_bloc.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/chat/chat_screen.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/empty_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/loading_home.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/home/widget/post_item.dart';
@@ -13,6 +14,8 @@ import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/validators/constants.dart';
 import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../../../src/utilities/navigation_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -94,9 +97,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             .add(OnChangePageEvent(Constants.page.camera));
                       },
                       onTapAction2: () {
-                        context
-                            .read<MainBloc>()
-                            .add(OnChangePageEvent(Constants.page.chat));
+                        navService.push(
+                          MaterialPageRoute(
+                            builder: (context) => const ChatScreen(),
+                          ),
+                        );
                       },
                     ),
                     body: SmartRefresher(
