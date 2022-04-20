@@ -25,3 +25,15 @@ class OnChatTextChangedState extends ChatState{
   final String? text;
   const OnChatTextChangedState(this.text);
 }
+
+class OnFocusChangedState extends ChatState {
+  final bool hasFocus;
+  const OnFocusChangedState(this.hasFocus);
+}
+
+class ImagePickedState extends ChatState{
+  final File? imageFiles;
+  const ImagePickedState({this.imageFiles});
+}
+
+class OnDeleteImageState extends ChatState{}

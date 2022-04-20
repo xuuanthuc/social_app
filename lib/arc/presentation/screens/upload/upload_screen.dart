@@ -98,7 +98,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
               },
               onTapAction2: () {
-                context.read<MainBloc>().add(OnChangePageEvent(Constants.page.chat));
+                context.read<MainBloc>().add(OnChangePageEvent(Constants.page.store));
               },
             ),
             body: SingleChildScrollView(

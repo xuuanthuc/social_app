@@ -10,6 +10,7 @@ class Constants {
     Locale('vi'),
   ];
   static const PageIndex page = PageIndex();
+  static const MessageType msgType = MessageType();
   static const CategoryStore categoryStore = CategoryStore();
   static const String fullNameDefault = 'Cutepet User';
 }
@@ -19,13 +20,22 @@ class PageIndex {
 
   int get home => 0;
 
-  int get chat => 1;
+  int get store => 1;
 
   int get camera => 2;
 
   int get search => 3;
 
   int get profile => 4;
+}
+
+class MessageType {
+  const MessageType();
+
+  int get text => 0;
+
+  int get image => 1;
+
 }
 
 class PreferenceKeys {

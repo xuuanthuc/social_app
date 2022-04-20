@@ -5,6 +5,7 @@ import 'package:hii_xuu_social/arc/presentation/screens/profile/user_profile.dar
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/utilities/format.dart';
+import 'package:hii_xuu_social/src/validators/constants.dart';
 
 class ItemMyChat extends StatefulWidget {
   final ChatData chat;
@@ -46,6 +47,25 @@ class _ItemMyChatState extends State<ItemMyChat> {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
+            widget.chat.messageType == Constants.msgType.image ? Padding(
+              padding: const EdgeInsets.only(
+                  left: Dimens.size80, top: Dimens.size12, right: Dimens.size12),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
+                  child: FadeInImage.assetNetwork(
+                    placeholder: MyImages.icChatPlaceHolder,
+                    fit: BoxFit.cover,
+                    image: widget.chat.message ?? '',
+                  ),
+                ),
+              ),
+            ) :
             Flexible(
               child: GestureDetector(
                 onTap: () {
@@ -140,6 +160,27 @@ class _ItemOtherChatState extends State<ItemOtherChat> {
           children: [
             const SizedBox(width: Dimens.size12),
             _buildImageUser(widget.imageUser),
+            widget.chat.messageType == Constants.msgType.image ? Padding(
+              padding: const EdgeInsets.only(
+                  right: Dimens.size80,
+                  top: Dimens.size12,
+                  left: Dimens.size8),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  child: FadeInImage.assetNetwork(
+                    placeholder: MyImages.icChatPlaceHolder,
+                    fit: BoxFit.cover,
+                    image: widget.chat.message ?? '',
+                  ),
+                ),
+              ),
+            ) :
             Flexible(
               child: GestureDetector(
                 onTap: () {

@@ -19,3 +19,8 @@ class UploadNewSellItemEvent extends ShopEvent{
   final ShopItem item;
   const UploadNewSellItemEvent(this.item);
 }
+
+class InitProfileSellerEvent extends ShopEvent {
+  final String userId;
+  const InitProfileSellerEvent(this.userId);
+}

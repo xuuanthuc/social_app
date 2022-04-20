@@ -38,6 +38,7 @@ class MyImages{
   static const icShopSelected = assetImage + 'ic_shop_selected.png';
   static const icShopUnSelected = assetImage + 'ic_shop_unselected.png';
   static const icSellNewItem = assetImage + 'ic_sell_new_item.png';
+  static const icChatPlaceHolder = assetImage + 'ic_chat_placeholder.png';
 
 
   //svgs

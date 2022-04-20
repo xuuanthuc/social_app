@@ -6,6 +6,9 @@ import 'package:hii_xuu_social/src/styles/dimens.dart';
 import 'package:hii_xuu_social/src/styles/images.dart';
 import 'package:hii_xuu_social/src/validators/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../src/utilities/navigation_service.dart';
+import '../../chat/chat_screen.dart';
 class LoadingHome extends StatelessWidget {
   const LoadingHome({Key? key}) : super(key: key);
 
@@ -29,7 +32,11 @@ class LoadingHome extends StatelessWidget {
           context.read<MainBloc>().add(OnChangePageEvent(Constants.page.camera));
         },
         onTapAction2: () {
-          context.read<MainBloc>().add(OnChangePageEvent(Constants.page.chat));
+          navService.push(
+            MaterialPageRoute(
+              builder: (context) => const ChatScreen(),
+            ),
+          );
         },
       ),
       body: SingleChildScrollView(

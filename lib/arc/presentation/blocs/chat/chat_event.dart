@@ -9,9 +9,10 @@ abstract class ChatEvent extends Equatable {
 class SendMessageEvent extends ChatEvent {
   final String message;
   final String userId;
+  final int msgType;
   // final String? username;
   // final String? imageUser;
-  const SendMessageEvent({required this.message, required this.userId});
+  const SendMessageEvent({required this.message, required this.userId, required this.msgType});
 }
 
 class OnChatTextChangedEvent extends ChatEvent{
@@ -20,3 +21,15 @@ class OnChatTextChangedEvent extends ChatEvent{
 }
 
 class LoadListRoomChatEvent extends ChatEvent {}
+
+class OnFocusChangeEvent extends ChatEvent {
+  final bool hasFocus;
+  const OnFocusChangeEvent(this.hasFocus);
+}
+
+class OnPickImageEvent extends ChatEvent{
+  final bool isOpenCamera;
+  const OnPickImageEvent(this.isOpenCamera);
+}
+
+class OnDeleteImageEvent extends ChatEvent{}

@@ -29,6 +29,7 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     on<OnDeleteImageEvent>(_onDeleteImage);
     on<OnPickImageEvent>(_onPickImage);
     on<UploadNewSellItemEvent>(_onUpload);
+    on<InitProfileSellerEvent>(_onInit);
   }
 
   void _onLoadListUser(
@@ -136,5 +137,27 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     } catch (e) {
       return [];
     }
+  }
+
+  void _onInit(
+      InitProfileSellerEvent event,
+      Emitter<ShopState> emit,
+      ) async {
+    var user = UserData();
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .doc(event.userId)
+        .collection(AppConfig.instance.cProfile)
+        .doc(AppConfig.instance.cBasicProfile)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        var data = documentSnapshot.data();
+        var res = data as Map<String, dynamic>;
+        LoggerUtils.d(res);
+        user = UserData.fromJson(res);
+      }
+    });
+    emit(InitProfileSuccessState(user));
   }
 }

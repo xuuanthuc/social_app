@@ -4,6 +4,7 @@ class ChatData {
   String? authName;
   String? authAvatar;
   String? message;
+  int? messageType;
   String? createAt;
 
   ChatData({
@@ -13,6 +14,7 @@ class ChatData {
     this.chatId,
     this.authName,
     this.message,
+    this.messageType
   });
 
   ChatData.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class ChatData {
     authName = json['auth_name'];
     createAt = json['create_at'];
     authAvatar = json['auth_avatar'];
+    messageType = json['message_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +35,7 @@ class ChatData {
     json['create_at'] = createAt;
     json['message'] = message;
     json['chat_id'] = chatId;
+    json['message_type'] = messageType;
     return json;
   }
 }

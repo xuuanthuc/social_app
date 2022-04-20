@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/shop.dart';
 import 'package:hii_xuu_social/arc/presentation/blocs/shop/shop_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/shop/child/sell_new_item.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/shop/child/shop_detail_item.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
+import 'package:hii_xuu_social/src/validators/static_variable.dart';
 
 import '../../../../src/config/app_config.dart';
 import '../../../../src/styles/images.dart';
@@ -19,24 +21,18 @@ class ShopScreen extends StatefulWidget {
 }
 
 class _ShopScreenState extends State<ShopScreen> {
-  List<ShopItem> _listItem = [];
   final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    // context.read<ShopBloc>().add(LoadListItemEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocListener<ShopBloc, ShopState>(
-      listener: (context, state) {
-        if (state is LoadListItemSuccessState) {
-          _listItem = state.listItem ?? [];
-        }
-      },
+      listener: (context, state) {},
       child: BlocBuilder<ShopBloc, ShopState>(
         builder: (context, state) {
           return Scaffold(
@@ -101,7 +97,22 @@ class _ShopScreenState extends State<ShopScreen> {
                           Map<String, dynamic> data =
                               document.data()! as Map<String, dynamic>;
                           var _item = ShopItem.fromJson(data);
-                          return Image.network(_item.images?.first ?? '');
+                          return GestureDetector(
+                              onTap: () {
+                                if (_item.shopKeeperId !=
+                                    StaticVariable.myData?.userId) {
+                                  navService.push(
+                                    MaterialPageRoute(
+                                      builder: (context) => ShopDetailItem(
+                                        item: _item,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Hero(
+                                  tag: _item.images?.first ?? '',
+                                  child: Image.network(_item.images?.first ?? '')));
                         }).toList(),
                       );
                     },
