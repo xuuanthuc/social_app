@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/shop/child/shop_detail_my_item.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
 
 import '../../../../../src/utilities/navigation_service.dart';
@@ -18,15 +19,18 @@ class ShopItemWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return GestureDetector(
       onTap: () {
-        if (item.shopKeeperId != StaticVariable.myData?.userId) {
-          navService.push(
-            MaterialPageRoute(
-              builder: (context) => ShopDetailItem(
-                item: item,
-              ),
-            ),
-          );
-        }
+        navService.push(
+          MaterialPageRoute(
+            builder: (context) =>
+                item.shopKeeperId != StaticVariable.myData?.userId
+                    ? ShopDetailItem(
+                        item: item,
+                      )
+                    : ShopDetailMyItem(
+                        item: item,
+                      ),
+          ),
+        );
       },
       child: Container(
         height: MediaQuery.of(context).size.width / 2 * 3,
@@ -77,7 +81,7 @@ class ShopItemWidget extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    "₫" + item.price.toString() ,
+                    "₫" + item.price.toString(),
                     style: theme.primaryTextTheme.headline6,
                   ),
                   const SizedBox(height: Dimens.size8),

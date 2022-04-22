@@ -14,16 +14,16 @@ import '../../../blocs/shop/shop_bloc.dart';
 import '../../chat/child/box_chat_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ShopDetailItem extends StatefulWidget {
+class ShopDetailMyItem extends StatefulWidget {
   final ShopItem item;
 
-  const ShopDetailItem({Key? key, required this.item}) : super(key: key);
+  const ShopDetailMyItem({Key? key, required this.item}) : super(key: key);
 
   @override
-  State<ShopDetailItem> createState() => _ShopDetailItemState();
+  State<ShopDetailMyItem> createState() => _ShopDetailMyItemState();
 }
 
-class _ShopDetailItemState extends State<ShopDetailItem> {
+class _ShopDetailMyItemState extends State<ShopDetailMyItem> {
   UserData? _seller;
   List<String> _listImageFile = [];
   final PageController _pageListImageController = PageController();
