@@ -69,4 +69,5 @@ class TranslationKey {
   static const category3 = 'category_hygiene_and_care';
   static const category4 = 'category_utensils_and_accessories';
   static const category5 = 'category_house_barn_mattress';
+  static const all = 'all';
 }

@@ -225,7 +225,8 @@ class _SellNewItemScreenState extends State<SellNewItemScreen> {
                           CustomTextField(
                             textInputAction: TextInputAction.done,
                             controller: _itemContactTextController,
-                            validator: TextFieldValidator.notEmptyValidator,
+                            textInputType: TextInputType.phone,
+                            validator: TextFieldValidator.phoneValidator,
                             onChanged: (value) {},
                             hintText: TranslationKey.itemContact.tr(),
                           ),

@@ -67,7 +67,8 @@
     "category_pets": "Pets",
     "category_foods_drinks" : "Foods & Drinks",
     "category_hygiene_and_care" : "Hygiene & Care",
-    "category_utensils_and_accessories" : "Utensils & Accessories",
-    "category_house_barn_mattress" : "House, Barn & Mattress",
+    "category_utensils_and_accessories" : "Accessories",
+    "category_house_barn_mattress" : "House & Barn",
+    "all" : "All",
     "end_json": ""
 }

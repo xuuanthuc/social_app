@@ -39,6 +39,11 @@ class MyImages{
   static const icShopUnSelected = assetImage + 'ic_shop_unselected.png';
   static const icSellNewItem = assetImage + 'ic_sell_new_item.png';
   static const icChatPlaceHolder = assetImage + 'ic_chat_placeholder.png';
+  static const icCategory1 = assetImage + 'ic_catogery_1.png';
+  static const icCategory2 = assetImage + 'ic_catogery_2.png';
+  static const icCategory3 = assetImage + 'ic_catogery_3.png';
+  static const icCategory4 = assetImage + 'ic_catogery_4.png';
+  static const icCategory5 = assetImage + 'ic_catogery_5.png';
 
 
   //svgs
