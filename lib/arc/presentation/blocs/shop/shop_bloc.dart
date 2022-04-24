@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
-import 'package:hii_xuu_social/arc/presentation/blocs/search/search_bloc.dart';
 import 'package:hii_xuu_social/src/config/app_config.dart';
 import 'package:hii_xuu_social/src/utilities/logger.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +31,7 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     on<InitProfileSellerEvent>(_onInit);
     on<GetDetailItem>(_getDetail);
     on<UpdateSellItemEvent>(_onUpdate);
+    on<OnDeleteProduct>(_onDelete);
   }
 
   void _onLoadListUser(
@@ -87,6 +87,18 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
         emit(GetDetailItemSuccessState(item));
       }
     });
+  }
+
+  void _onDelete(
+      OnDeleteProduct event,
+      Emitter<ShopState> emit,
+      ) async {
+    emit(InitState());
+    await fireStore
+        .collection(AppConfig.instance.cShop)
+        .doc(event.id)
+        .delete()
+        .then((value) => emit(OnDeleteProductSuccessState())).catchError((error) => LoggerUtils.d('Delete post failed'));
   }
 
   void _onPickImage(

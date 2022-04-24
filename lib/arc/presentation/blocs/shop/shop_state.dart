@@ -45,3 +45,5 @@ class GetDetailItemSuccessState extends ShopState{
   final ShopItem item;
   const GetDetailItemSuccessState(this.item);
 }
+
+class OnDeleteProductSuccessState extends ShopState{}

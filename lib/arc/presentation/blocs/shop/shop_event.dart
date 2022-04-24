@@ -35,3 +35,8 @@ class UpdateSellItemEvent extends ShopEvent{
   final List<File>? listImageFile;
   const UpdateSellItemEvent(this.item, this.listImageFile);
 }
+
+class OnDeleteProduct extends ShopEvent {
+  final String id;
+  const OnDeleteProduct(this.id);
+}

@@ -116,6 +116,9 @@ class _UpdateSellItemScreenState extends State<UpdateSellItemScreen> {
           EasyLoading.dismiss();
           ToastView.withBottom(TranslationKey.success.tr());
         }
+        if(state is OnDeleteProductSuccessState){
+          Navigator.of(context)..pop()..pop();
+        }
       },
       child: BlocBuilder<ShopBloc, ShopState>(
         builder: (context, state) {
@@ -257,7 +260,30 @@ class _UpdateSellItemScreenState extends State<UpdateSellItemScreen> {
                             onTap: submitUpload,
                             label: TranslationKey.update.tr(),
                           ),
-                          const SizedBox(height: Dimens.size40),
+                          const SizedBox(height: Dimens.size20),
+                          GestureDetector(
+                            onTap: () {
+                              context.read<ShopBloc>().add(OnDeleteProduct(widget.id));
+                            },
+                            child: Container(
+                              height: Dimens.size45,
+                              // width: Dimens.size150,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      width: 1, color: theme.primaryColor)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    TranslationKey.delete.tr(),
+                                    style: theme.textTheme.headline2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: Dimens.size20),
                         ],
                       ),
                     ),
