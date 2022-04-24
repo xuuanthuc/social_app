@@ -30,6 +30,8 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     on<OnPickImageEvent>(_onPickImage);
     on<UploadNewSellItemEvent>(_onUpload);
     on<InitProfileSellerEvent>(_onInit);
+    on<GetDetailItem>(_getDetail);
+    on<UpdateSellItemEvent>(_onUpdate);
   }
 
   void _onLoadListUser(
@@ -66,6 +68,25 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
       });
     }
     emit(LoadListItemSuccessState(_listItem));
+  }
+
+  void _getDetail(
+      GetDetailItem event,
+      Emitter<ShopState> emit,
+      ) async {
+    await fireStore
+        .collection(AppConfig.instance.cShop)
+        .doc(event.id)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        var data = documentSnapshot.data();
+        var res = data as Map<String, dynamic>;
+        LoggerUtils.d(res);
+        var item = ShopItem.fromJson(res);
+        emit(GetDetailItemSuccessState(item));
+      }
+    });
   }
 
   void _onPickImage(
@@ -117,6 +138,29 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     );
   }
 
+  void _onUpdate(
+      UpdateSellItemEvent event,
+      Emitter<ShopState> emit,
+      ) async {
+    emit(LoadingUploadNewItemState());
+    List<String> _listImageUrl = [];
+    if((event.listImageFile ?? []).isEmpty){
+      _listImageUrl = event.item.images ?? [];
+    } else {
+      _listImageUrl = await uploadImageToFirebase() ?? [];
+    }
+    event.item.images = _listImageUrl;
+    await fireStore
+        .collection(AppConfig.instance.cShop)
+        .doc(event.item.itemId)
+        .set(event.item.toJson(), SetOptions(merge: true))
+        .then((value) {
+      return emit(UpdateNewSellItemSuccessState());
+    }).catchError(
+          (error) => debugPrint('Failed'),
+    );
+  }
+
   Future<List<String>?> uploadImageToFirebase() async {
     var user = StaticVariable.myData!;
     List<String> _listImagePath = [];
@@ -156,8 +200,8 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
         var res = data as Map<String, dynamic>;
         LoggerUtils.d(res);
         user = UserData.fromJson(res);
+        emit(InitProfileSuccessState(user));
       }
     });
-    emit(InitProfileSuccessState(user));
   }
 }

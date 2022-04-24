@@ -33,8 +33,15 @@ class OnDeleteImageState extends ShopState {
 
 class UploadNewSellItemSuccessState extends ShopState {}
 
+class UpdateNewSellItemSuccessState extends ShopState {}
+
 class InitProfileSuccessState extends ShopState {
   final UserData user;
 
   const InitProfileSuccessState(this.user);
+}
+
+class GetDetailItemSuccessState extends ShopState{
+  final ShopItem item;
+  const GetDetailItemSuccessState(this.item);
 }

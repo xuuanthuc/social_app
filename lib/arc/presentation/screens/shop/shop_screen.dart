@@ -6,6 +6,7 @@ import 'package:hii_xuu_social/arc/presentation/blocs/shop/shop_bloc.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/shop/child/sell_new_item.dart';
 import 'package:hii_xuu_social/arc/presentation/screens/shop/widgets/shop_item.dart';
 import 'package:hii_xuu_social/src/styles/dimens.dart';
+import 'package:hii_xuu_social/src/validators/static_variable.dart';
 import 'package:hii_xuu_social/src/validators/translation_key.dart';
 
 import '../../../../src/config/app_config.dart';
@@ -35,6 +36,11 @@ class _ShopScreenState extends State<ShopScreen> {
       yield* FirebaseFirestore.instance
           .collection(AppConfig.instance.cShop)
           .orderBy('created_at', descending: true)
+          .snapshots();
+    } else if(_currentIndex == -2){
+      yield* FirebaseFirestore.instance
+          .collection(AppConfig.instance.cShop)
+          .where('shop_keeper_id', isEqualTo: StaticVariable.myData?.userId)
           .snapshots();
     } else {
       yield* FirebaseFirestore.instance
@@ -121,6 +127,12 @@ class _ShopScreenState extends State<ShopScreen> {
                           _currentIndex = 4;
                         });
                       }),
+                      _itemCategories(MyImages.icSmile, 6,
+                          'My store', () {
+                            setState(() {
+                              _currentIndex = -2;
+                            });
+                          }),
                     ],
                   ),
                 ),
@@ -208,7 +220,7 @@ Color switchType(int type) {
   var color = Colors.white;
   switch (type) {
     case 0:
-      color = Colors.grey;
+      color = Colors.blueGrey;
       break;
     case 1:
       color = Colors.teal;
@@ -224,6 +236,9 @@ Color switchType(int type) {
       break;
     case 5:
       color = Colors.blue;
+      break;
+    case 6:
+      color = Colors.greenAccent;
       break;
   }
   return color.withOpacity(0.2);

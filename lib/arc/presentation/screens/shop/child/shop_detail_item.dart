@@ -14,10 +14,13 @@ import '../../../blocs/shop/shop_bloc.dart';
 import '../../chat/child/box_chat_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ShopDetailItem extends StatefulWidget {
-  final ShopItem item;
+import '../../profile/widget/full_image.dart';
 
-  const ShopDetailItem({Key? key, required this.item}) : super(key: key);
+
+class ShopDetailItem extends StatefulWidget {
+  ShopItem item;
+
+  ShopDetailItem({Key? key, required this.item}) : super(key: key);
 
   @override
   State<ShopDetailItem> createState() => _ShopDetailItemState();
@@ -33,9 +36,7 @@ class _ShopDetailItemState extends State<ShopDetailItem> {
   void initState() {
     super.initState();
     _listImageFile = widget.item.images ?? [];
-    context
-        .read<ShopBloc>()
-        .add(InitProfileSellerEvent(widget.item.shopKeeperId ?? ''));
+    context.read<ShopBloc>().add(GetDetailItem(widget.item.itemId ?? ''));
   }
 
   @override
@@ -48,6 +49,12 @@ class _ShopDetailItemState extends State<ShopDetailItem> {
         builder: (context, state) {
           if (state is InitProfileSuccessState) {
             _seller = state.user;
+          }
+          if(state is GetDetailItemSuccessState){
+            widget.item = state.item;
+            context
+                .read<ShopBloc>()
+                .add(InitProfileSellerEvent(widget.item.shopKeeperId ?? ''));
           }
           return Scaffold(
             backgroundColor: theme.backgroundColor,
@@ -282,8 +289,13 @@ class _ShopDetailItemState extends State<ShopDetailItem> {
                         width: size.width - Dimens.size30,
                         child: GestureDetector(
                           onTap: () {
-                            navService.pushNamed(RouteKey.fullImageFile,
-                                args: _listImageFile[index]);
+                            navService.push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (_, __, ___) =>
+                                    FullImageScreen(image: _listImageFile),
+                              ),
+                            );
                           },
                           child: Hero(
                             tag: _listImageFile.first,

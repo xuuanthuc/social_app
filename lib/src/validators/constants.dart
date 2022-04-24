@@ -60,7 +60,7 @@ class CategoryStore {
     CategoryShop(value: 0, label: TranslationKey.category1.tr()),
     CategoryShop(value: 1, label: TranslationKey.category2.tr()),
     CategoryShop(value: 2, label: TranslationKey.category3.tr()),
-    CategoryShop(value: 2, label: TranslationKey.category4.tr()),
-    CategoryShop(value: 3, label: TranslationKey.category5.tr()),
+    CategoryShop(value: 3, label: TranslationKey.category4.tr()),
+    CategoryShop(value: 4, label: TranslationKey.category5.tr()),
   ];
 }

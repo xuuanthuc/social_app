@@ -24,3 +24,14 @@ class InitProfileSellerEvent extends ShopEvent {
   final String userId;
   const InitProfileSellerEvent(this.userId);
 }
+
+class GetDetailItem extends ShopEvent {
+  final String id;
+  const GetDetailItem(this.id);
+}
+
+class UpdateSellItemEvent extends ShopEvent{
+  final ShopItem item;
+  final List<File>? listImageFile;
+  const UpdateSellItemEvent(this.item, this.listImageFile);
+}

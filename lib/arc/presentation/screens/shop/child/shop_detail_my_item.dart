@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/shop.dart';
 import 'package:hii_xuu_social/arc/data/models/data_models/user.dart';
+import 'package:hii_xuu_social/arc/presentation/screens/shop/child/sell_update_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../src/config/config.dart';
@@ -14,10 +15,11 @@ import '../../../blocs/shop/shop_bloc.dart';
 import '../../chat/child/box_chat_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class ShopDetailMyItem extends StatefulWidget {
-  final ShopItem item;
+import '../../profile/widget/full_image.dart';
 
-  const ShopDetailMyItem({Key? key, required this.item}) : super(key: key);
+class ShopDetailMyItem extends StatefulWidget {
+  ShopItem item;
+  ShopDetailMyItem({Key? key, required this.item}) : super(key: key);
 
   @override
   State<ShopDetailMyItem> createState() => _ShopDetailMyItemState();
@@ -43,11 +45,18 @@ class _ShopDetailMyItemState extends State<ShopDetailMyItem> {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
     return BlocListener<ShopBloc, ShopState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is UpdateNewSellItemSuccessState){
+          context.read<ShopBloc>().add(GetDetailItem(widget.item.itemId ?? ''));
+        }
+      },
       child: BlocBuilder<ShopBloc, ShopState>(
         builder: (context, state) {
           if (state is InitProfileSuccessState) {
             _seller = state.user;
+          }
+          if(state is GetDetailItemSuccessState){
+            widget.item = state.item;
           }
           return Scaffold(
             backgroundColor: theme.backgroundColor,
@@ -121,56 +130,12 @@ class _ShopDetailMyItemState extends State<ShopDetailMyItem> {
                   _seller == null
                       ? Container()
                       : Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimens.size20),
-                          child: GestureDetector(
-                            onTap: () async {
-                              var url = "tel:${widget.item.contact ?? ''}";
-                              if (await canLaunch(url)) {
-                                await launch(url);
-                              } else {
-                                throw 'Could not launch $url';
-                              }
-                            },
-                            child: Container(
-                              height: Dimens.size40,
-                              // width: Dimens.size150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: theme.primaryColor,
-                                  border: Border.all(
-                                      width: 1, color: theme.primaryColor)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    CupertinoIcons.phone_circle,
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(width: Dimens.size10),
-                                  Text(
-                                    widget.item.contact ?? '',
-                                    style: theme.primaryTextTheme.button,
-                                  ),
-                                  const SizedBox(width: Dimens.size10)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                  _seller == null
-                      ? Container()
-                      : Padding(
                           padding: const EdgeInsets.all(Dimens.size20),
                           child: GestureDetector(
                             onTap: () {
                               navService.push(
                                 MaterialPageRoute(
-                                  builder: (context) => BoxChatScreen(
-                                    userId: _seller?.userId ?? '',
-                                    username: _seller?.fullName ?? '',
-                                    imageUser: _seller?.imageUrl,
-                                  ),
+                                  builder: (context) => UpdateSellItemScreen(id: widget.item.itemId ?? ""),
                                 ),
                               );
                             },
@@ -186,10 +151,10 @@ class _ShopDetailMyItemState extends State<ShopDetailMyItem> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(Dimens.size10),
-                                    child: Image.asset(MyImages.icFlightSelected),
+                                    child: Image.asset(MyImages.icSettingSelected),
                                   ),
                                   Text(
-                                    'Nhan tin ngay',
+                                    'Edit information',
                                     style: theme.textTheme.headline2,
                                   ),
                                   const SizedBox(width: Dimens.size10)
@@ -282,8 +247,13 @@ class _ShopDetailMyItemState extends State<ShopDetailMyItem> {
                         width: size.width - Dimens.size30,
                         child: GestureDetector(
                           onTap: () {
-                            navService.pushNamed(RouteKey.fullImageFile,
-                                args: _listImageFile[index]);
+                            navService.push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (_, __, ___) =>
+                                    FullImageScreen(image: _listImageFile),
+                              ),
+                            );
                           },
                           child: Hero(
                             tag: _listImageFile.first,
