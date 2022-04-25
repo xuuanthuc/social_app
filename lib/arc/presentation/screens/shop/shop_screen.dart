@@ -81,64 +81,75 @@ class _ShopScreenState extends State<ShopScreen> {
                 );
               },
             ),
-            body: Column(
-              children: [
-                const SizedBox(height: Dimens.size10),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: Dimens.size8),
-                  height: size.width * 0.2 + 40,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      _itemCategories(MyImages.splashText, 0,
-                          TranslationKey.all.tr(), () {
-                            setState(() {
-                              _currentIndex = -1;
-                            });
-                          }),
-                      _itemCategories(MyImages.icCategory1, 1,
-                          TranslationKey.category1.tr(), () {
-                        setState(() {
-                          _currentIndex = 0;
-                        });
-                      }),
-                      _itemCategories(MyImages.icCategory2, 2,
-                          TranslationKey.category2.tr(), () {
-                        setState(() {
-                          _currentIndex = 1;
-                        });
-                      }),
-                      _itemCategories(MyImages.icCategory3, 3,
-                          TranslationKey.category3.tr(), () {
-                        setState(() {
-                          _currentIndex = 2;
-                        });
-                      }),
-                      _itemCategories(MyImages.icCategory4, 4,
-                          TranslationKey.category4.tr(), () {
-                        setState(() {
-                          _currentIndex = 3;
-                        });
-                      }),
-                      _itemCategories(MyImages.icCategory5, 5,
-                          TranslationKey.category5.tr(), () {
-                        setState(() {
-                          _currentIndex = 4;
-                        });
-                      }),
-                      _itemCategories(MyImages.icSmile, 6,
-                          'My store', () {
-                            setState(() {
-                              _currentIndex = -2;
-                            });
-                          }),
-                    ],
+            body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  const SizedBox(height: Dimens.size10),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: Dimens.size8),
+                    height: size.width * 0.2 + 40,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        _itemCategories(MyImages.splashText, 0,
+                            TranslationKey.all.tr(), () {
+                              setState(() {
+                                _currentIndex = -1;
+                              });
+                            }),
+                        _itemCategories(MyImages.icCategory1, 1,
+                            TranslationKey.category1.tr(), () {
+                          setState(() {
+                            _currentIndex = 0;
+                          });
+                        }),
+                        _itemCategories(MyImages.icCategory2, 2,
+                            TranslationKey.category2.tr(), () {
+                          setState(() {
+                            _currentIndex = 1;
+                          });
+                        }),
+                        _itemCategories(MyImages.icCategory3, 3,
+                            TranslationKey.category3.tr(), () {
+                          setState(() {
+                            _currentIndex = 2;
+                          });
+                        }),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: Dimens.size10),
-                Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: Dimens.size8),
+                    height: size.width * 0.2 + 40,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        _itemCategories(MyImages.icCategory4, 4,
+                            TranslationKey.category4.tr(), () {
+                              setState(() {
+                                _currentIndex = 3;
+                              });
+                            }),
+                        _itemCategories(MyImages.icCategory5, 5,
+                            TranslationKey.category5.tr(), () {
+                              setState(() {
+                                _currentIndex = 4;
+                              });
+                            }),
+                        _itemCategories(MyImages.icSmile, 6,
+                            'My store', () {
+                              setState(() {
+                                _currentIndex = -2;
+                              });
+                            }),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: Dimens.size10),
+                  StreamBuilder<QuerySnapshot>(
                     stream: getListItem(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> chatSnapshot) {
@@ -150,7 +161,8 @@ class _ShopScreenState extends State<ShopScreen> {
                       }
                       return GridView.count(
                         primary: false,
-                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         controller: _controller,
                         padding: const EdgeInsets.symmetric(
                             horizontal: Dimens.size20),
@@ -170,8 +182,8 @@ class _ShopScreenState extends State<ShopScreen> {
                       );
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
