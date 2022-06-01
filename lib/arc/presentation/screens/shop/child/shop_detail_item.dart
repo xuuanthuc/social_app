@@ -60,152 +60,158 @@ class _ShopDetailItemState extends State<ShopDetailItem> {
             backgroundColor: theme.backgroundColor,
             appBar: _buildAppBar(theme, context),
             body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: Dimens.size10),
-                  _pageViewBigImage(size),
-                  const SizedBox(height: Dimens.size10),
-                  _listSmallImage(theme),
-                  const SizedBox(height: Dimens.size20),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: Dimens.size20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        switchMarkerItem(widget.item.itemType ?? 0, context),
-                        const SizedBox(width: Dimens.size10),
-                        Text(
-                          widget.item.itemLabel ?? '',
-                          style: theme.primaryTextTheme.headline2,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: Dimens.size10),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: Dimens.size20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "₫" + widget.item.price.toString(),
-                          style: theme.textTheme.headline2,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: Dimens.size10),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: Dimens.size20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.item.itemDescription.toString(),
-                          style: theme.textTheme.bodyText1,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: Dimens.size10),
-                  Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: Dimens.size20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.item.address.toString(),
-                          style: theme.textTheme.subtitle2,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: Dimens.size20),
-                  _seller == null
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimens.size20),
-                          child: GestureDetector(
-                            onTap: () async {
-                              var url = "tel:${widget.item.contact ?? ''}";
-                              if (await canLaunch(url)) {
-                                await launch(url);
-                              } else {
-                                throw 'Could not launch $url';
-                              }
-                            },
-                            child: Container(
-                              height: Dimens.size40,
-                              // width: Dimens.size150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: theme.primaryColor,
-                                  border: Border.all(
-                                      width: 1, color: theme.primaryColor)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    CupertinoIcons.phone_circle,
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(width: Dimens.size10),
-                                  Text(
-                                    widget.item.contact ?? '',
-                                    style: theme.primaryTextTheme.button,
-                                  ),
-                                  const SizedBox(width: Dimens.size10)
-                                ],
-                              ),
+              child: Container(
+                child: Column(
+                  children: [
+                    const SizedBox(height: Dimens.size10),
+                    _pageViewBigImage(size),
+                    const SizedBox(height: Dimens.size10),
+                    _listSmallImage(theme),
+                    const SizedBox(height: Dimens.size20),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: Dimens.size20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          switchMarkerItem(widget.item.itemType ?? 0, context),
+                          const SizedBox(width: Dimens.size10),
+                          Expanded(
+                            child: Text(
+                              widget.item.itemLabel ?? '',
+                              style: theme.primaryTextTheme.headline2,
                             ),
                           ),
-                        ),
-                  _seller == null
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.all(Dimens.size20),
-                          child: GestureDetector(
-                            onTap: () {
-                              navService.push(
-                                MaterialPageRoute(
-                                  builder: (context) => BoxChatScreen(
-                                    userId: _seller?.userId ?? '',
-                                    username: _seller?.fullName ?? '',
-                                    imageUser: _seller?.imageUrl,
-                                  ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: Dimens.size10),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: Dimens.size20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "₫" + widget.item.price.toString(),
+                            style: theme.textTheme.headline2,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: Dimens.size10),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: Dimens.size20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              widget.item.itemDescription.toString(),
+                              style: theme.textTheme.bodyText1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: Dimens.size10),
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: Dimens.size20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.item.address.toString(),
+                            style: theme.textTheme.subtitle2,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: Dimens.size20),
+                    _seller == null
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Dimens.size20),
+                            child: GestureDetector(
+                              onTap: () async {
+                                var url = "tel:${widget.item.contact ?? ''}";
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
+                              },
+                              child: Container(
+                                height: Dimens.size40,
+                                // width: Dimens.size150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: theme.primaryColor,
+                                    border: Border.all(
+                                        width: 1, color: theme.primaryColor)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      CupertinoIcons.phone_circle,
+                                      color: Colors.white,
+                                    ),
+                                    const SizedBox(width: Dimens.size10),
+                                    Text(
+                                      widget.item.contact ?? '',
+                                      style: theme.primaryTextTheme.button,
+                                    ),
+                                    const SizedBox(width: Dimens.size10)
+                                  ],
                                 ),
-                              );
-                            },
-                            child: Container(
-                              height: Dimens.size40,
-                              // width: Dimens.size150,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      width: 1, color: theme.primaryColor)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(Dimens.size10),
-                                    child: Image.asset(MyImages.icFlightSelected),
-                                  ),
-                                  Text(
-                                    'Nhan tin ngay',
-                                    style: theme.textTheme.headline2,
-                                  ),
-                                  const SizedBox(width: Dimens.size10)
-                                ],
                               ),
                             ),
                           ),
-                        ),
-                ],
+                    _seller == null
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.all(Dimens.size20),
+                            child: GestureDetector(
+                              onTap: () {
+                                navService.push(
+                                  MaterialPageRoute(
+                                    builder: (context) => BoxChatScreen(
+                                      userId: _seller?.userId ?? '',
+                                      username: _seller?.fullName ?? '',
+                                      imageUser: _seller?.imageUrl,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                height: Dimens.size40,
+                                // width: Dimens.size150,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(
+                                        width: 1, color: theme.primaryColor)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(Dimens.size10),
+                                      child: Image.asset(MyImages.icFlightSelected),
+                                    ),
+                                    Text(
+                                      'Nhan tin ngay',
+                                      style: theme.textTheme.headline2,
+                                    ),
+                                    const SizedBox(width: Dimens.size10)
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                  ],
+                ),
               ),
             ),
           );

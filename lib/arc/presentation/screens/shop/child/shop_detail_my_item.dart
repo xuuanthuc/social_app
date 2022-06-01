@@ -77,9 +77,11 @@ class _ShopDetailMyItemState extends State<ShopDetailMyItem> {
                       children: [
                         switchMarkerItem(widget.item.itemType ?? 0, context),
                         const SizedBox(width: Dimens.size10),
-                        Text(
-                          widget.item.itemLabel ?? '',
-                          style: theme.primaryTextTheme.headline2,
+                        Expanded(
+                          child: Text(
+                            widget.item.itemLabel ?? '',
+                            style: theme.primaryTextTheme.headline2,
+                          ),
                         ),
                       ],
                     ),
@@ -105,9 +107,11 @@ class _ShopDetailMyItemState extends State<ShopDetailMyItem> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.item.itemDescription.toString(),
-                          style: theme.textTheme.bodyText1,
+                        Expanded(
+                          child: Text(
+                            widget.item.itemDescription.toString(),
+                            style: theme.textTheme.bodyText1,
+                          ),
                         ),
                       ],
                     ),
