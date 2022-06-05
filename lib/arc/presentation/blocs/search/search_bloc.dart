@@ -25,7 +25,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   ) async {
     emit(LoadingSearchState());
     bool isUsername = false;
-    List<String> listUserId = StaticVariable.listUserId ?? [];
+    List<String> listUserId = [];
+    await fireStore
+        .collection(AppConfig.instance.cUser)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        listUserId.add(doc.id);
+      }
+    });
+    StaticVariable.listUserId = listUserId;
     List<String> _listFindId = [];
     _listUser = [];
     if (event.keyword.contains('@')) {
