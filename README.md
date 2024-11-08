@@ -6,3 +6,5 @@
 
 
 Flutter: 3.7.12
+Java SDK: Java 17
+Android Studio Koala
