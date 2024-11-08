@@ -16,7 +16,14 @@ void main() async {
   eventBus.on().listen((event) {
     debugPrint('eventBus - event => ${event.runtimeType}');
   });
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyDs-ii2Rfdg0fJOxm3bJ-mVYTCbem0hBns',
+      appId: '1:641930232253:android:d9232901d384da2853d2d4',
+      messagingSenderId: '641930232253',
+      projectId: 'hiixuu-aa7cd',
+    ),
+  );
   setupLocator();
   runApp(
     EasyLocalization(
@@ -24,7 +31,8 @@ void main() async {
       supportedLocales: Constants.languages,
       startLocale: Constants.languages[0],
       fallbackLocale: Constants.languages[0],
-      child: BlocOverrides.runZoned( ()=> const MyApp(),
+      child: BlocOverrides.runZoned(
+        () => const MyApp(),
         blocObserver: AppBlocObserver(),
       ),
     ),
